@@ -40,6 +40,9 @@ public:
 	void LoadXML();
 	void Print();
 	void Save();
+	string ConvertRGBtoHex(int num);
+	string ConvertRGBtoHex(int r, int g, int b);
+	void Render();
 };
 
 #include "CSOM.cpp"
