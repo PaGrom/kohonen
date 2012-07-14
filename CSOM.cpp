@@ -6,6 +6,7 @@ CSOM::CSOM() {
 	m_dev_emails = new vector<string>;
 
 	m_som_nodes = new vector<CSOMNode*>;
+	images = new vector<Image>;
 }
 
 CSOM::~CSOM() {
@@ -43,6 +44,37 @@ void CSOM::InitParameters(int iterations,int xcells,int ycells,int bmpwidth,int 
 		m_map_radius=m_ysize/2.0;
 	//printf("m_map_radius = %f\n",m_map_radius);
 	m_time_constant=1.0*m_iterations/log(m_map_radius);
+
+	for (int i = 0; i < m_dimension + 1; ++i) {
+		images->push_back(Image(Geometry(ImageXSize,ImageYSize), Color("black")));
+	}
+
+	Blend(0,255,0,0,0,255,0,0);
+
+	Blend(0,1*64-1,98,98,255,98,255,255);
+	Blend(1*64,2*64-1,98,255,255,98,255,98);
+	Blend(2*64,3*64-1,98,255,98,255,255,98);
+	Blend(3*64,4*64-1,255,255,98,255,98,98);
+}
+
+void CSOM::Blend(int c1, int c2, int r1, int g1, int b1, int r2, int g2, int b2) {
+	int n = (c2-c1);
+	for(int i=0; i<=n; i++) {
+		if((c1+i+2) < 768) {
+			Palette[3*(c1+i)+0] = round(1*(r1*(n-i) + r2*i) * 1.0 / n);
+			Palette[3*(c1+i)+1] = round(1*(g1*(n-i) + g2*i) * 1.0 / n);
+			Palette[3*(c1+i)+2] = round(1*(b1*(n-i) + b2*i) * 1.0 / n);
+		}
+	}
+}
+
+string CSOM::GetPalColor(int ind) {
+	if(ind<=0)
+		ind=0;
+	int r=Palette[3*(ind)];
+	int g=Palette[3*(ind)+1];
+	int b=Palette[3*(ind)+2];
+	return(ConvertRGBtoHex(r,g,b));
 }
 
 void CSOM::Train() {
@@ -201,66 +233,80 @@ string CSOM::ConvertRGBtoHex(int r, int g, int b) {
 
 void CSOM::Render() {
 
-	Image image( Geometry(ImageXSize,ImageYSize), Color("black") ); 
-
 	int ind=0;
 	for(int i=0; i<m_xcells; i++) {
 		//printf("%2.2f\n", m_som_nodes->at(i)->GetWeight(0));
 		for(int j=0; j<m_ycells; j++) {
-			int x1,y1,x2,y2;
-			m_som_nodes->at(ind)->GetCoordinates(x1,y1,x2,y2);
+
+			for(int k=0; k < m_dimension; k++) {
+				//m_som_nodes[ind].GetCoordinates(x1,y1,x2,y2);
+				double range = m_max_values[k] - m_min_values[k];
+				double avg = 255*(m_som_nodes->at(ind)->GetWeight(k)-m_min_values[k])/range;
+				string col = GetPalColor(avg);
+				RenderCell(k,col,ind,(j%2==0));
+			}
+
 			int r = (255*(m_som_nodes->at(ind)->GetWeight(0)-m_min_values[0])/(m_max_values[0]-m_min_values[0]));
 			int g = (255*(m_som_nodes->at(ind)->GetWeight(1)-m_min_values[1])/(m_max_values[1]-m_min_values[1]));
 			int b = (255*(m_som_nodes->at(ind)->GetWeight(2)-m_min_values[2])/(m_max_values[2]-m_min_values[2]));
 			string col=ConvertRGBtoHex(r,g,b);
-
-			//printf("%2.2f %d %d %d\n", m_som_nodes->at(i)->GetWeight(0),r,m_min_values[0],m_max_values[0]);
-
-			//printf("1: %d %d 2: %d %d\n", x1,y1,x2,y2);
-
-			int x_size=abs(x2-x1);
-			int y_size=abs(y2-y1);
-			
-			if(j%2==0) {
-				x1=x1+x_size/2;
-				x2=x2+x_size/2;
-			}
-
-			y1=y1+y_size/4;
-			y2=y2+y_size/4;
-
-			image.fillColor(col);
-			if (!ShowBorders)
-				image.strokeColor(col);
-			else
-				image.strokeColor("black");
-
-			image.strokeWidth(0.005);
-			image.strokeLineJoin(RoundJoin);
-			image.strokeLineCap(RoundCap);
-			image.strokeAntiAlias(true);
-
-			list<Coordinate> coords_of_hexagon;
-
-			coords_of_hexagon.push_back(Coordinate(x1,y1+y_size/4));
-			coords_of_hexagon.push_back(Coordinate(x1+x_size/2,y1-y_size/4));
-			coords_of_hexagon.push_back(Coordinate(x2,y1+y_size/4));
-			coords_of_hexagon.push_back(Coordinate(x2,y2-y_size/4));
-			coords_of_hexagon.push_back(Coordinate(x1+x_size/2,y2+y_size/4));
-			coords_of_hexagon.push_back(Coordinate(x1,y2-y_size/4));
-			//coords_of_hexagon.push_back(Coordinate(x1,y1+y_size/4));
-
-			image.draw(DrawablePolygon(coords_of_hexagon));
-
+			RenderCell(3, col, ind, (j%2==0));
 			
 			ind++;
 		}
 	}
 
-	if (ShowTitles)
-		ShowPattern(&image);
+	for(int k=0; k < m_dimension + 1; k++) {
+		if (ShowTitles)
+			ShowPattern(&(images->at(k)));
 
-	image.display();
+		images->at(k).display();
+	}
+}
+
+void CSOM::RenderCell(int img, string col, int ind, bool cell_even) {
+
+	int x1,y1,x2,y2;
+	m_som_nodes->at(ind)->GetCoordinates(x1,y1,x2,y2);
+	
+
+	//printf("%2.2f %d %d %d\n", m_som_nodes->at(i)->GetWeight(0),r,m_min_values[0],m_max_values[0]);
+
+	//printf("1: %d %d 2: %d %d\n", x1,y1,x2,y2);
+
+	int x_size=abs(x2-x1);
+	int y_size=abs(y2-y1);
+	
+	if(cell_even) {
+		x1=x1+x_size/2;
+		x2=x2+x_size/2;
+	}
+
+	y1=y1+y_size/4;
+	y2=y2+y_size/4;
+
+	images->at(img).fillColor(col);
+	if (!ShowBorders)
+		images->at(img).strokeColor(col);
+	else
+		images->at(img).strokeColor("black");
+
+	images->at(img).strokeWidth(0.005);
+	images->at(img).strokeLineJoin(RoundJoin);
+	images->at(img).strokeLineCap(RoundCap);
+	images->at(img).strokeAntiAlias(true);
+
+	list<Coordinate> coords_of_hexagon;
+
+	coords_of_hexagon.push_back(Coordinate(x1,y1+y_size/4));
+	coords_of_hexagon.push_back(Coordinate(x1+x_size/2,y1-y_size/4));
+	coords_of_hexagon.push_back(Coordinate(x2,y1+y_size/4));
+	coords_of_hexagon.push_back(Coordinate(x2,y2-y_size/4));
+	coords_of_hexagon.push_back(Coordinate(x1+x_size/2,y2+y_size/4));
+	coords_of_hexagon.push_back(Coordinate(x1,y2-y_size/4));
+	//coords_of_hexagon.push_back(Coordinate(x1,y1+y_size/4));
+
+	images->at(img).draw(DrawablePolygon(coords_of_hexagon));
 }
 
 void CSOM::ShowPattern(Image *image) {
@@ -282,11 +328,17 @@ void CSOM::ShowPattern(Image *image) {
 			int b = (255*(m_som_nodes->at(ind)->GetWeight(2)-m_min_values[2])/(m_max_values[2]-m_min_values[2]));
 
 			//
-			image->strokeWidth(0.1);
+			//image->strokeWidth(0.1);
 
 			//image->fillColor("black");
 			//image->draw(DrawableText(m_som_nodes->at(ind)->X() + 1,m_som_nodes->at(ind)->Y() + 1, m_dev_emails->at(i)) );
 			image->strokeColor("white");
+
+			image->strokeWidth(0.005);
+			image->strokeLineJoin(RoundJoin);
+			image->strokeLineCap(RoundCap);
+			image->strokeAntiAlias(true);
+
 			image->fillColor("white");
 			image->draw(DrawableText(m_som_nodes->at(ind)->X(),m_som_nodes->at(ind)->Y(), m_dev_emails->at(i)) );
 	}

@@ -31,12 +31,18 @@ class CSOM
 	double m_initial_learning_rate;
 	//---кол-во параметров в паттерне
 	int m_dimension;
+	//---вектор с картинками
+	vector<Image> *images;
+	//---палитра для отрисовки компонентных плоскостей
+	int Palette[768];
 
 public:
 	CSOM();
 	~CSOM();
 
 	void InitParameters(int iterations,int xcells,int ycells,int bmpwidth,int bmpheight);
+	void Blend(int c1, int c2, int r1, int g1, int b1, int r2, int g2, int b2);
+	string GetPalColor(int ind);
 	void Train();
 	int BestMatchingNode(vector<double> *vec);
 	void LoadXML();
@@ -45,6 +51,7 @@ public:
 	string ConvertRGBtoHex(int num);
 	string ConvertRGBtoHex(int r, int g, int b);
 	void Render();
+	void RenderCell(int img, string col, int ind, bool cell_even);
 	void ShowPattern(Image *image);
 };
 

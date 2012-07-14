@@ -8,6 +8,7 @@
 #include <vector>
 #include <iterator>
 #include <math.h>
+#include <cmath>
 #include <Magick++.h>
 #include "tinyxml/tinyxml.h"
 
