@@ -54,9 +54,9 @@ for key in d_list.keys():
 		sum+=d_list[key][k]
 	if sum == 0:
 		continue
-	st = """\t<Developer Email=" """ + key + """" """
+	st = """\t<Developer Email=\"""" + key + """" """
 	for k in parameters:
-		st += k + """=" """ + str(d_list[key][k]) + """" """
+		st += k + """=\"""" + str(d_list[key][k]) + """" """
 	st += "/>\n"
 
 	xml_file.write(st)

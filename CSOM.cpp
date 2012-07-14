@@ -3,6 +3,7 @@ CSOM::CSOM() {
 	m_initial_learning_rate = 0.1;
 	m_training_sets_array = new vector<int>; //m_training_sets_array = new vector< vector<int> >;
 	m_train_titles = new vector<string>;
+	m_dev_emails = new vector<string>;
 
 	m_som_nodes = new vector<CSOMNode*>;
 }
@@ -11,6 +12,7 @@ CSOM::~CSOM() {
 	delete m_training_sets_array;
 	delete m_train_titles;
 	delete m_som_nodes;
+	delete m_dev_emails;
 }
 
 void CSOM::InitParameters(int iterations,int xcells,int ycells,int bmpwidth,int bmpheight) {
@@ -63,7 +65,7 @@ void CSOM::Train() {
 
 		m_max_values.push_back(maxv);
 		m_min_values.push_back(minv);
-		printf("Par: %s\tm_min_value=%d\tm_max_value=%d\n",m_train_titles->at(j).c_str(), minv, maxv);
+		//printf("Par: %s\tm_min_value=%d\tm_max_value=%d\n",m_train_titles->at(j).c_str(), minv, maxv);
 	}
 
 	int total_nodes = m_som_nodes->size();
@@ -154,6 +156,8 @@ void CSOM::LoadXML() {
 			m_training_sets_array->push_back(atoi(developer->Attribute(it->c_str())));
 		}
 
+		m_dev_emails->push_back(developer->Attribute("Email"));
+
 		//m_training_sets_array->push_back(v);
 
 		developer = developer->NextSiblingElement("Developer");
@@ -197,7 +201,7 @@ string CSOM::ConvertRGBtoHex(int r, int g, int b) {
 
 void CSOM::Render() {
 
-	Image image( Geometry(ImageXSize,ImageYSize), Color("white") ); 
+	Image image( Geometry(ImageXSize,ImageYSize), Color("black") ); 
 
 	int ind=0;
 	for(int i=0; i<m_xcells; i++) {
@@ -226,7 +230,7 @@ void CSOM::Render() {
 			y2=y2+y_size/4;
 
 			image.fillColor(col);
-			if (ShowBorders)
+			if (!ShowBorders)
 				image.strokeColor(col);
 			else
 				image.strokeColor("black");
@@ -253,7 +257,39 @@ void CSOM::Render() {
 		}
 	}
 
+	if (ShowTitles)
+		ShowPattern(&image);
+
 	image.display();
+}
+
+void CSOM::ShowPattern(Image *image) {
+
+	vector<double> datavector(m_dimension);
+
+	//printf("%d\n", (int)m_train_titles->size());
+
+	for (int i = 0; i < m_total_training_sets; i++) {
+		//printf("i = %d\n", i);
+
+			for(int j = 0; j < m_dimension; j++) 
+				datavector.at(j) = m_training_sets_array->at(m_dimension*(i)+j);
+
+			int ind = BestMatchingNode(&datavector);
+
+			int r = (255*(m_som_nodes->at(ind)->GetWeight(0)-m_min_values[0])/(m_max_values[0]-m_min_values[0]));
+			int g = (255*(m_som_nodes->at(ind)->GetWeight(1)-m_min_values[1])/(m_max_values[1]-m_min_values[1]));
+			int b = (255*(m_som_nodes->at(ind)->GetWeight(2)-m_min_values[2])/(m_max_values[2]-m_min_values[2]));
+
+			//
+			image->strokeWidth(0.1);
+
+			//image->fillColor("black");
+			//image->draw(DrawableText(m_som_nodes->at(ind)->X() + 1,m_som_nodes->at(ind)->Y() + 1, m_dev_emails->at(i)) );
+			image->strokeColor("white");
+			image->fillColor("white");
+			image->draw(DrawableText(m_som_nodes->at(ind)->X(),m_som_nodes->at(ind)->Y(), m_dev_emails->at(i)) );
+	}
 }
 
 void CSOM::Print() {

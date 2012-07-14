@@ -6,7 +6,7 @@ int main(int argc, char const *argv[])
 {
 	CSOM som;
 	som.LoadXML();
-	som.InitParameters(1000,CellsX,CellsY,ImageXSize,ImageYSize);
+	som.InitParameters(7000,CellsX,CellsY,ImageXSize,ImageYSize);
 	som.Train();
 	//som.Print();
 	som.Render();

@@ -21,13 +21,15 @@ class CSOM
 	int m_total_training_sets;
 	//--- вектор с названиями обучающих паттернов
 	vector<string> *m_train_titles;
+	//--- вектор с имейлами разработчиков
+	vector<string> *m_dev_emails;
 	//--- кол-во обучающих итераций
 	int m_iterations;
 	double m_map_radius;
 	double m_time_constant;
 	//---коэффициент обучения
 	double m_initial_learning_rate;
-
+	//---кол-во параметров в паттерне
 	int m_dimension;
 
 public:
@@ -43,6 +45,7 @@ public:
 	string ConvertRGBtoHex(int num);
 	string ConvertRGBtoHex(int r, int g, int b);
 	void Render();
+	void ShowPattern(Image *image);
 };
 
 #include "CSOM.cpp"
