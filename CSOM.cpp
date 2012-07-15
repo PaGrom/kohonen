@@ -29,11 +29,38 @@ void CSOM::InitParameters(int iterations,int xcells,int ycells,int bmpwidth,int 
 	int cellwidth=m_xsize/m_xcells;
 	int cellheight=m_ysize/m_ycells;
 
+	//--- находим максимальные и минимальные значения компонент обучающего набора
+	for(int j=0; j<m_dimension; j++) {
+		int maxv = m_training_sets_array->at(j);
+		int minv = m_training_sets_array->at(j);
+
+		for(int i=1; i<m_total_training_sets; i++) {
+			int v = m_training_sets_array->at(m_dimension*i+j);
+			if (v>maxv)
+				maxv=v;
+			if(v<minv)
+				minv=v;
+		}
+
+		m_max_values.push_back(maxv);
+		m_min_values.push_back(minv);
+		//printf("Par: %s\tm_min_value=%d\tm_max_value=%d\n",m_train_titles->at(j).c_str(), minv, maxv);
+	}
+
+	//--- находим максимальное значение параметров для расчета диапазона случайного веса нейрона
+	int maximum = m_max_values.at(0);
+
+	for (int i = 1; i < m_max_values.size(); ++i) {
+		if (m_max_values.at(i) > maximum) {
+			maximum = m_max_values.at(i);
+		}
+	}
+
 	//--- инициализируем узлы
 	for(int i=0; i<m_xcells; i++) {
 		for(int j=0; j<m_ycells; j++) {
 			CSOMNode *node = new CSOMNode(m_dimension);
-			node->InitNode(i*cellwidth,j*cellheight,(i+1)*cellwidth,(j+1)*cellheight);
+			node->InitNode(i*cellwidth,j*cellheight,(i+1)*cellwidth,(j+1)*cellheight, maximum);
 			m_som_nodes->push_back(node);
 		}
 	}
@@ -69,11 +96,13 @@ void CSOM::Blend(int c1, int c2, int r1, int g1, int b1, int r2, int g2, int b2)
 }
 
 string CSOM::GetPalColor(int ind) {
+
 	if(ind<=0)
 		ind=0;
 	int r=Palette[3*(ind)];
 	int g=Palette[3*(ind)+1];
 	int b=Palette[3*(ind)+2];
+
 	return(ConvertRGBtoHex(r,g,b));
 }
 
@@ -81,24 +110,6 @@ void CSOM::Train() {
 	double learning_rate = m_initial_learning_rate;
 	int iter=0;
 	vector<double> datavector(m_dimension);
-
-	//--- находим максимальные и минимальные значения компонент обучающего набора
-	for(int j=0; j<m_dimension; j++) {
-		int maxv = m_training_sets_array->at(j);
-		int minv = m_training_sets_array->at(j);
-
-		for(int i=1; i<m_total_training_sets; i++) {
-			int v = m_training_sets_array->at(m_dimension*i+j);
-			if (v>maxv)
-				maxv=v;
-			if(v<minv)
-				minv=v;
-		}
-
-		m_max_values.push_back(maxv);
-		m_min_values.push_back(minv);
-		//printf("Par: %s\tm_min_value=%d\tm_max_value=%d\n",m_train_titles->at(j).c_str(), minv, maxv);
-	}
 
 	int total_nodes = m_som_nodes->size();
 
@@ -240,9 +251,10 @@ void CSOM::Render() {
 
 			for(int k=0; k < m_dimension; k++) {
 				//m_som_nodes[ind].GetCoordinates(x1,y1,x2,y2);
+				//printf("i = %d j = %d k = %d\n", i, j, k);
 				double range = m_max_values[k] - m_min_values[k];
-				double avg = 255*(m_som_nodes->at(ind)->GetWeight(k)-m_min_values[k])/range;
-				string col = GetPalColor(avg);
+				double avg = 255*(m_som_nodes->at(ind)->GetWeight(k)-m_min_values[k])/range; 
+				string col = GetPalColor(avg); 
 				RenderCell(k,col,ind,(j%2==0));
 			}
 

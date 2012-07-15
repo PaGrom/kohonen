@@ -22,7 +22,7 @@ public:
    //--- деструктор класса
                     ~CSOMNode();
    //--- функция инициализации узла сети
-   void              InitNode(int x1,int y1,int x2,int y2);
+   void              InitNode(int x1,int y1,int x2,int y2, int max);
    //--- функции возвращают координаты центра узла
    double            X()  const { return(m_x);}
    double            Y()  const { return(m_y);}

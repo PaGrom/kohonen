@@ -25,7 +25,7 @@ CSOMNode::~CSOMNode() {
 //+------------------------------------------------------------------+
 //| Инициализация параметров узла                                    |
 //+------------------------------------------------------------------+
-void CSOMNode::InitNode(int x1,int y1,int x2,int y2) {
+void CSOMNode::InitNode(int x1,int y1,int x2,int y2, int max) {
 	
 	//--- устанавливаем координаты узла
 	m_x1 = x1;
@@ -41,7 +41,7 @@ void CSOMNode::InitNode(int x1,int y1,int x2,int y2) {
 	for(int i=0; i<m_dimension; i++) {
 		//m_weights.push_back(rand() % 255);
 		//srand(time(NULL));
-		m_weights[i] = rand() % 50;
+		m_weights[i] = rand() % (max/2);
 		//printf("wei = %f\n", m_weights[i]);
 	}
 	
