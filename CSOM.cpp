@@ -260,7 +260,13 @@ void CSOM::Render() {
 		if (ShowTitles)
 			ShowPattern(&(images->at(k)));
 
-		images->at(k).display();
+		//images->at(k).display();
+		string title;
+		if (k < m_dimension)
+			title = m_train_titles->at(k) + ".png";
+		else
+			title = "main.png";
+		images->at(k).write(title);
 	}
 }
 
