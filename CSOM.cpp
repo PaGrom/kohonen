@@ -268,6 +268,21 @@ void CSOM::Render() {
 		}
 	}
 
+	//--- рисуем градиентную полосу для каждой из компонентных плоскостей
+	for(int m=0; m<m_dimension; m++) {
+		for(int k=m_ysize - 15; k<m_ysize; k++) {
+			for(int l=0; l<m_xsize; l++) {
+				int colind=round(l*255.0/m_xsize);
+				string col=GetPalColor(colind);
+				images->at(m).fillColor(col);
+				images->at(m).draw(DrawablePoint(l,k));
+			}
+		}
+         //--- рисуем значения максимальных и минимальных значений на градиентной полосе
+         //m_bmp[m].TypeText(0,0,DoubleToString(m_min_values[m],2),clrBlack);
+         //m_bmp[m].TypeText(m_xsize-25,0,DoubleToString(m_max_values[m],2),clrBlack);
+	}
+
 	for(int k=0; k < m_dimension + 1; k++) {
 		if (ShowTitles)
 			ShowPattern(&(images->at(k)));
@@ -280,6 +295,8 @@ void CSOM::Render() {
 			title = "main.png";
 		images->at(k).write(title);
 	}
+
+	    
 }
 
 void CSOM::RenderCell(int img, string col, int ind, bool cell_even) {
