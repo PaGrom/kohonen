@@ -214,19 +214,6 @@ void CSOM::LoadXML() {
 	delete parameters;
 }
 
-void CSOM::Save() {
-	FILE * fo;
-	fo = fopen("rgb.ppm","wt");
-	fprintf(fo, "P3\n#Kohonen\n%d %d\n255\n", CellsX, CellsY); 
-	for (int i = 0; i < m_som_nodes->size(); ++i) {
-		int r = (int)(255*(m_som_nodes->at(i)->GetWeight(0)-m_min_values[0])/(m_max_values[0]-m_min_values[0]));
-		int g = (int)(255*(m_som_nodes->at(i)->GetWeight(1)-m_min_values[1])/(m_max_values[1]-m_min_values[1]));
-		int b = (int)(255*(m_som_nodes->at(i)->GetWeight(2)-m_min_values[2])/(m_max_values[2]-m_min_values[2]));
-		fprintf( fo, "%d %d %d \n", r, g, b);
-	}
-	fclose(fo); 
-}
-
 string CSOM::ConvertRGBtoHex(int num) {
 	static string hexDigits = "0123456789ABCDEF";
 	string rgb;
@@ -258,9 +245,9 @@ void CSOM::Render() {
 				RenderCell(k,col,ind,(j%2==0));
 			}
 
-			int r = (255*(m_som_nodes->at(ind)->GetWeight(0)-m_min_values[0])/(m_max_values[0]-m_min_values[0]));
-			int g = (255*(m_som_nodes->at(ind)->GetWeight(1)-m_min_values[1])/(m_max_values[1]-m_min_values[1]));
-			int b = (255*(m_som_nodes->at(ind)->GetWeight(2)-m_min_values[2])/(m_max_values[2]-m_min_values[2]));
+			int r = (255*m_som_nodes->at(ind)->GetWeight(0)/(m_max_values[0]-m_min_values[0]));
+			int g = (255*m_som_nodes->at(ind)->GetWeight(1)/(m_max_values[1]-m_min_values[1]));
+			int b = (255*m_som_nodes->at(ind)->GetWeight(2)/(m_max_values[2]-m_min_values[2]));
 			string col=ConvertRGBtoHex(r,g,b);
 			RenderCell(3, col, ind, (j%2==0));
 			
@@ -279,8 +266,21 @@ void CSOM::Render() {
 			}
 		}
          //--- рисуем значения максимальных и минимальных значений на градиентной полосе
-         //m_bmp[m].TypeText(0,0,DoubleToString(m_min_values[m],2),clrBlack);
-         //m_bmp[m].TypeText(m_xsize-25,0,DoubleToString(m_max_values[m],2),clrBlack);
+
+		images->at(m).strokeColor("white");
+
+		images->at(m).strokeWidth(0.005);
+		images->at(m).strokeLineJoin(RoundJoin);
+		images->at(m).strokeLineCap(RoundCap);
+		images->at(m).strokeAntiAlias(true);
+
+		images->at(m).fillColor("white");
+		char min[4];
+		char max[4];
+		sprintf(min, "%d", m_min_values.at(m));
+		sprintf(max, "%d", m_max_values.at(m));
+		images->at(m).draw(DrawableText(2, m_ysize - 5, min));
+		images->at(m).draw(DrawableText(m_xsize - 20, m_ysize - 5, max));
 	}
 
 	for(int k=0; k < m_dimension + 1; k++) {
@@ -304,11 +304,6 @@ void CSOM::RenderCell(int img, string col, int ind, bool cell_even) {
 	int x1,y1,x2,y2;
 	m_som_nodes->at(ind)->GetCoordinates(x1,y1,x2,y2);
 	
-
-	//printf("%2.2f %d %d %d\n", m_som_nodes->at(i)->GetWeight(0),r,m_min_values[0],m_max_values[0]);
-
-	//printf("1: %d %d 2: %d %d\n", x1,y1,x2,y2);
-
 	int x_size=abs(x2-x1);
 	int y_size=abs(y2-y1);
 	
@@ -339,7 +334,6 @@ void CSOM::RenderCell(int img, string col, int ind, bool cell_even) {
 	coords_of_hexagon.push_back(Coordinate(x2,y2-y_size/4));
 	coords_of_hexagon.push_back(Coordinate(x1+x_size/2,y2+y_size/4));
 	coords_of_hexagon.push_back(Coordinate(x1,y2-y_size/4));
-	//coords_of_hexagon.push_back(Coordinate(x1,y1+y_size/4));
 
 	images->at(img).draw(DrawablePolygon(coords_of_hexagon));
 }
@@ -348,25 +342,13 @@ void CSOM::ShowPattern(Image *image) {
 
 	vector<double> datavector(m_dimension);
 
-	//printf("%d\n", (int)m_train_titles->size());
-
 	for (int i = 0; i < m_total_training_sets; i++) {
-		//printf("i = %d\n", i);
 
 			for(int j = 0; j < m_dimension; j++) 
 				datavector.at(j) = m_training_sets_array->at(m_dimension*(i)+j);
 
 			int ind = BestMatchingNode(&datavector);
 
-			int r = (255*(m_som_nodes->at(ind)->GetWeight(0)-m_min_values[0])/(m_max_values[0]-m_min_values[0]));
-			int g = (255*(m_som_nodes->at(ind)->GetWeight(1)-m_min_values[1])/(m_max_values[1]-m_min_values[1]));
-			int b = (255*(m_som_nodes->at(ind)->GetWeight(2)-m_min_values[2])/(m_max_values[2]-m_min_values[2]));
-
-			//
-			//image->strokeWidth(0.1);
-
-			//image->fillColor("black");
-			//image->draw(DrawableText(m_som_nodes->at(ind)->X() + 1,m_som_nodes->at(ind)->Y() + 1, m_dev_emails->at(i)) );
 			image->strokeColor("white");
 
 			image->strokeWidth(0.005);
@@ -376,15 +358,5 @@ void CSOM::ShowPattern(Image *image) {
 
 			image->fillColor("white");
 			image->draw(DrawableText(m_som_nodes->at(ind)->X(),m_som_nodes->at(ind)->Y(), m_dev_emails->at(i)) );
-	}
-}
-
-void CSOM::Print() {
-	for (int i = 0; i<m_som_nodes->size(); i++) {
-		if (i % CellsX == 0) {
-			printf("%2.2f ", m_som_nodes->at(i)->GetWeight(0));
-		}
-
-		
 	}
 }

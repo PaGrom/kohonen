@@ -46,8 +46,6 @@ public:
 	void Train();
 	int BestMatchingNode(vector<double> *vec);
 	void LoadXML();
-	void Print();
-	void Save();
 	string ConvertRGBtoHex(int num);
 	string ConvertRGBtoHex(int r, int g, int b);
 	void Render();

@@ -8,7 +8,6 @@ int main(int argc, char const *argv[])
 	som.LoadXML();
 	som.InitParameters(10000,CellsX,CellsY,ImageXSize,ImageYSize);
 	som.Train();
-	//som.Print();
 	som.Render();
 	return 0;
 }
