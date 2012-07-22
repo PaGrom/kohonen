@@ -263,22 +263,22 @@ void CSOM::Render() {
 
 	images->at(m_dimension).strokeColor("red");
 	images->at(m_dimension).fillColor("red");
-	images->at(m_dimension).draw(DrawableText(10, m_ysize - 20, "R"));	
+	images->at(m_dimension).draw(DrawableText(10 + 0 * m_xsize/4, m_ysize - 20, "R"));	
 
 	images->at(m_dimension).strokeColor("green");
 	images->at(m_dimension).fillColor("green");
-	images->at(m_dimension).draw(DrawableText(160, m_ysize - 20, "G"));	
+	images->at(m_dimension).draw(DrawableText(10 + 1 * m_xsize/4, m_ysize - 20, "G"));	
 
 	images->at(m_dimension).strokeColor("blue");
 	images->at(m_dimension).fillColor("blue");
-	images->at(m_dimension).draw(DrawableText(310, m_ysize - 20, "B"));
+	images->at(m_dimension).draw(DrawableText(10 + 2 * m_xsize/4, m_ysize - 20, "B"));
 
 	images->at(m_dimension).strokeColor("white");
 	images->at(m_dimension).fillColor("white");
-	
-	images->at(m_dimension).draw(DrawableText(25, m_ysize - 20, "= " + m_train_titles->at(0)));
-	images->at(m_dimension).draw(DrawableText(175, m_ysize - 20, "= " + m_train_titles->at(1)));
-	images->at(m_dimension).draw(DrawableText(325, m_ysize - 20, "= " + m_train_titles->at(2)));
+
+	images->at(m_dimension).draw(DrawableText(25 + 0 * m_xsize/4, m_ysize - 20, "= " + m_train_titles->at(0)));
+	images->at(m_dimension).draw(DrawableText(25 + 1 * m_xsize/4, m_ysize - 20, "= " + m_train_titles->at(1)));
+	images->at(m_dimension).draw(DrawableText(25 + 2 * m_xsize/4, m_ysize - 20, "= " + m_train_titles->at(2)));
 
 	//--- рисуем градиентную полосу для каждой из компонентных плоскостей
 	for(int m=0; m<m_dimension; m++) {
