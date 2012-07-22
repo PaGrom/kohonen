@@ -267,20 +267,22 @@ void CSOM::Render() {
 		}
          //--- рисуем значения максимальных и минимальных значений на градиентной полосе
 
-		images->at(m).strokeColor("white");
+		images->at(m).strokeColor("black");
 
 		images->at(m).strokeWidth(0.005);
 		images->at(m).strokeLineJoin(RoundJoin);
 		images->at(m).strokeLineCap(RoundCap);
 		images->at(m).strokeAntiAlias(true);
 
-		images->at(m).fillColor("white");
+		images->at(m).fillColor("black");
 		char min[4];
 		char max[4];
 		sprintf(min, "%d", m_min_values.at(m));
 		sprintf(max, "%d", m_max_values.at(m));
 		images->at(m).draw(DrawableText(2, m_ysize - 5, min));
 		images->at(m).draw(DrawableText(m_xsize - 20, m_ysize - 5, max));
+
+		images->at(m).draw(DrawableText((m_xsize/2) - 5*(m_train_titles->at(m).size()/2), m_ysize - 5, m_train_titles->at(m)));
 	}
 
 	for(int k=0; k < m_dimension + 1; k++) {
