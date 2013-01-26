@@ -153,6 +153,13 @@ void CSOM::Train() {
 	}
 	//--- продолжаем цикл до тех пор, пока не будет выполнено заданное число итераций
 	while(iter<m_iterations);
+
+	for (int i = 0; i < total_nodes; ++i) {
+		for (int j = 0; j < m_dimension; ++j) {
+			printf("%d: %f\n", i+1, m_som_nodes->at(i)->GetWeight(j));
+		}
+		printf("\n");
+	}
 }
 
 int CSOM::BestMatchingNode(vector<double> *vec) {
@@ -162,6 +169,7 @@ int CSOM::BestMatchingNode(vector<double> *vec) {
 	//printf("303\n");
 	int total_nodes = m_som_nodes->size();
 	for(int i=0; i<total_nodes; i++) {
+		//printf("%d: %f\n", i, m_som_nodes->at(i)->CalculateDistance(vec));
 		if(m_som_nodes->at(i)->CalculateDistance(vec)<min_dist) {
 			min_dist=m_som_nodes->at(i)->CalculateDistance(vec);
 			min_ind=i;
