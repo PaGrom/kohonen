@@ -8,11 +8,11 @@ using namespace std;
 
 vector<string> split_string(string source)
 {    
-	std::vector<std::string> array;
+	vector<string> array;
 
-	std::istringstream is(source);
-	std::string s;
-	while (std::getline(is, s, ' '))
+	istringstream is(source);
+	string s;
+	while (getline(is, s, ' '))
 		array.push_back(s);
 
 	for (vector<string>::iterator i = array.begin(); i < array.end(); ++i)
