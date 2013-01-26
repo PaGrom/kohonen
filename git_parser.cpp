@@ -6,13 +6,13 @@
 
 using namespace std;
 
-vector<string> split_string(string source)
+vector<string> split_string(string source, char split_char)
 {    
 	vector<string> array;
 
 	istringstream is(source);
 	string s;
-	while (getline(is, s, ' '))
+	while (getline(is, s, split_char))
 		array.push_back(s);
 
 	for (vector<string>::iterator i = array.begin(); i < array.end(); ++i)
@@ -27,6 +27,6 @@ int main(int argc, char const *argv[])
 						 "in memory and capable of being processed as a "
 						 "single entity";
 
-	split_string(source);
+	split_string(source,' ');
 	return 0;
 }
