@@ -1,6 +1,4 @@
-Need imagemagick library.
-
-Ubuntu:
+Dependencies:
 	sudo apt-get install imagemagick libmagick++-dev
 
 1. python git-parser.py /path/to/linuxgit
