@@ -1,17 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
-#include <vector>
-#include <sstream>
+#include "GitParser.hpp"
 
-#define FILE_NAME "cmd_output"
-#define GIT_PATH "~/Dropbox/Work/realclear/linux/"
-#define GIT_LOG "--pretty=tformat:'%cE %H'"
-#define NUM_OF_COMMITS 1000
+GitParser::GitParser() {
 
-using namespace std;
+}
 
-vector<string> split_string(string source, char split_char) {    
+GitParser::~GitParser() {
+	
+}
+
+vector<string> GitParser::split_string(string source, char split_char) {    
 	vector<string> array;
 
 	istringstream is(source);
@@ -25,7 +22,7 @@ vector<string> split_string(string source, char split_char) {
 	return array;
 }
 
-void create_commit_file() {
+void GitParser::create_commit_file() {
 	char command[200];
 	sprintf(command, "cd %s && git log -n %d %s >> %s", GIT_PATH, NUM_OF_COMMITS, GIT_LOG, FILE_NAME);
 	printf("Launch:\n");
@@ -39,9 +36,11 @@ int main(int argc, char const *argv[]) {
 						 "in memory and capable of being processed as a "
 						 "single entity";
 
-	split_string(source,' ');
+	GitParser git;
 
-	create_commit_file();
+	git.split_string(source,' ');
+
+	git.create_commit_file();
 
 	return 0;
 }
