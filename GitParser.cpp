@@ -30,6 +30,23 @@ void GitParser::create_commit_file() {
 	system(command);
 }
 
+void GitParser::read_file() {
+	char command[200];
+	sprintf(command, "cd %s", GIT_PATH);
+	system(command);
+
+	string out_s;
+	ifstream i(FILE_NAME);
+
+	while(true) {
+		getline(i, out_s);
+		if (!i.eof())
+			printf("%s\n", out_s.c_str());
+		else
+			break;
+	}
+}
+
 int main(int argc, char const *argv[]) {
 
 	string source = "A sequence of characters stored consecutively "
@@ -40,7 +57,9 @@ int main(int argc, char const *argv[]) {
 
 	git.split_string(source,' ');
 
-	git.create_commit_file();
+	// git.create_commit_file();
+
+	git.read_file();
 
 	return 0;
 }

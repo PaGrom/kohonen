@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -22,6 +23,7 @@ public:
 
 	vector<string> split_string(string source, char split_char);
 	void create_commit_file();
+	void read_file();
 };
 
 #endif
