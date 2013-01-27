@@ -28,13 +28,14 @@ void GitParser::create_commit_file() {
 	printf("Launch:\n");
 	printf("%s\n", command);
 	system(command);
+
+	sprintf(command, "cp %s%s ./%s && rm %s%s", GIT_PATH, FILE_NAME, FILE_NAME, GIT_PATH, FILE_NAME);
+	printf("Launch:\n");
+	printf("%s\n", command);
+	system(command);
 }
 
 void GitParser::read_file() {
-	char command[200];
-	sprintf(command, "cd %s", GIT_PATH);
-	system(command);
-
 	string out_s;
 	ifstream i(FILE_NAME);
 
@@ -57,7 +58,7 @@ int main(int argc, char const *argv[]) {
 
 	git.split_string(source,' ');
 
-	// git.create_commit_file();
+	git.create_commit_file();
 
 	git.read_file();
 
