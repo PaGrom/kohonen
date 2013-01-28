@@ -53,22 +53,15 @@ void GitParser::remove_file(string file_name) {
 	system(command);
 }
 
-void GitParser::find_parameters(string file_name) {
+string GitParser::find_parameters(string file_name) {
 	string line;
 	ifstream is(SOURCE_FILE);
-	
+
 	while(true) {
 		getline(is, line);
 		if (!is.eof()) {
-			printf("%s %d\n", line.c_str(), line.length());
-			if (line.length()) {
-				for (int i = 0; i < 3; ++i) {
-					if (line.find(parameters[i]) != -1)
-						printf("%s\n", line.c_str());
-					break;
-				}
-				
-			}
+			if (line.length())
+				return line;
 		}
 		else
 			break;
@@ -90,7 +83,7 @@ void GitParser::read_file() {
 			printf("%s\n", commit_list.back().back().c_str());
 
 			create_source_file(commit_list.back().back());
-			find_parameters(commit_list.back().back());
+			commit_list.back().back() = find_parameters(commit_list.back().back());
 		}
 		else
 			break;

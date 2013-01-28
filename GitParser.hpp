@@ -29,7 +29,7 @@ public:
 	void create_commit_file();
 	void create_source_file(string commit);
 	void remove_file(string file_name);
-	void find_parameters(string file_name);
+	string find_parameters(string file_name);
 	void read_file();
 	
 };
