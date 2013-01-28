@@ -1,7 +1,9 @@
 #include "GitParser.hpp"
 
 GitParser::GitParser() {
-
+	parameters[0] = "arm";
+	parameters[1] = "x86";
+	parameters[2] = "drivers";
 }
 
 GitParser::~GitParser() {
@@ -15,9 +17,6 @@ vector<string> GitParser::split_string(string source, char split_char) {
 	string s;
 	while (getline(is, s, split_char))
 		array.push_back(s);
-
-	for (vector<string>::iterator i = array.begin(); i < array.end(); ++i)
-		cout << *i << endl;
 
 	return array;
 }
@@ -35,14 +34,64 @@ void GitParser::create_commit_file() {
 	system(command);
 }
 
+void GitParser::create_source_file(string commit) {
+	char command[200];
+	sprintf(command, "cd %s && git show %s %s >> %s", GIT_PATH, commit.c_str(), GIT_SHOW, SOURCE_FILE);
+	printf("Launch:\n");
+	printf("%s\n", command);
+	system(command);
+
+	sprintf(command, "cp %s%s ./%s && rm %s%s", GIT_PATH, SOURCE_FILE, SOURCE_FILE, GIT_PATH, SOURCE_FILE);
+	printf("Launch:\n");
+	printf("%s\n", command);
+	system(command);
+}
+
+void GitParser::remove_file(string file_name) {
+	char command[200];
+	sprintf(command, "rm %s", file_name.c_str());
+	system(command);
+}
+
+void GitParser::find_parameters(string file_name) {
+	string line;
+	ifstream is(SOURCE_FILE);
+	
+	while(true) {
+		getline(is, line);
+		if (!is.eof()) {
+			printf("%s %d\n", line.c_str(), line.length());
+			if (line.length()) {
+				for (int i = 0; i < 3; ++i) {
+					if (line.find(parameters[i]) != -1)
+						printf("%s\n", line.c_str());
+					break;
+				}
+				
+			}
+		}
+		else
+			break;
+	}
+}
+
 void GitParser::read_file() {
-	string out_s;
+	string line;
 	ifstream i(FILE_NAME);
 
+	vector< vector<string> > commit_list;
+
 	while(true) {
-		getline(i, out_s);
-		if (!i.eof())
-			printf("%s\n", out_s.c_str());
+		getline(i, line);
+		if (!i.eof()) {
+			printf("%s\n", line.c_str());
+			commit_list.push_back(split_string(line, ' '));
+
+			printf("%s\n", commit_list.back().back().c_str());
+
+			create_source_file(commit_list.back().back());
+			find_parameters(commit_list.back().back());
+		}
 		else
 			break;
 	}
@@ -55,8 +104,6 @@ int main(int argc, char const *argv[]) {
 						 "single entity";
 
 	GitParser git;
-
-	git.split_string(source,' ');
 
 	git.create_commit_file();
 

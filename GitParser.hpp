@@ -11,11 +11,15 @@
 using namespace std;
 
 #define FILE_NAME "cmd_output"
+#define SOURCE_FILE "source_file"
 #define GIT_PATH "~/Dropbox/Work/realclear/linux/"
 #define GIT_LOG "--pretty=tformat:'%cE %H'"
+#define GIT_SHOW "--raw --name-only --pretty=tformat:''"
 #define NUM_OF_COMMITS 1000
 
 class GitParser {
+private:
+	string parameters[3];
 
 public:
 	GitParser();
@@ -23,7 +27,11 @@ public:
 
 	vector<string> split_string(string source, char split_char);
 	void create_commit_file();
+	void create_source_file(string commit);
+	void remove_file(string file_name);
+	void find_parameters(string file_name);
 	void read_file();
+	
 };
 
 #endif
