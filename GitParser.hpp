@@ -26,8 +26,8 @@ public:
 	~GitParser();
 
 	vector<string> split_string(string source, char split_char);
-	void create_commit_file();
-	void create_source_file(string commit);
+	FILE* create_commit_file();
+	FILE* create_source_file(string commit);
 	void remove_file(string file_name);
 	string find_parameters(string file_name);
 	void read_file();

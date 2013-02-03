@@ -21,30 +21,20 @@ vector<string> GitParser::split_string(string source, char split_char) {
 	return array;
 }
 
-void GitParser::create_commit_file() {
+FILE* GitParser::create_commit_file() {
 	char command[200];
-	sprintf(command, "cd %s && git log -n %d %s >> %s", GIT_PATH, NUM_OF_COMMITS, GIT_LOG, FILE_NAME);
+	sprintf(command, "cd %s && git log -n %d %s", GIT_PATH, NUM_OF_COMMITS, GIT_LOG);
 	printf("Launch:\n");
 	printf("%s\n", command);
-	system(command);
-
-	sprintf(command, "cp %s%s ./%s && rm %s%s", GIT_PATH, FILE_NAME, FILE_NAME, GIT_PATH, FILE_NAME);
-	printf("Launch:\n");
-	printf("%s\n", command);
-	system(command);
+	return popen(command, "r");
 }
 
-void GitParser::create_source_file(string commit) {
+FILE* GitParser::create_source_file(string commit) {
 	char command[200];
-	sprintf(command, "cd %s && git show %s %s >> %s", GIT_PATH, commit.c_str(), GIT_SHOW, SOURCE_FILE);
+	sprintf(command, "cd %s && git show %s %s", GIT_PATH, commit.c_str(), GIT_SHOW);
 	printf("Launch:\n");
 	printf("%s\n", command);
-	system(command);
-
-	sprintf(command, "cp %s%s ./%s && rm %s%s", GIT_PATH, SOURCE_FILE, SOURCE_FILE, GIT_PATH, SOURCE_FILE);
-	printf("Launch:\n");
-	printf("%s\n", command);
-	system(command);
+	return popen(command, "r");
 }
 
 void GitParser::remove_file(string file_name) {
