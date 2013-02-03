@@ -14,9 +14,11 @@ vector<string> GitParser::split_string(string source, char split_char) {
 	vector<string> array;
 
 	istringstream is(source);
-	string s;
-	while (getline(is, s, split_char))
-		array.push_back(s);
+	string str;
+	while (getline(is, str, split_char)) {
+		str.erase (remove(str.begin(), str.end(), '\n'), str.end()); // remove '\n' from strings
+		array.push_back(str);
+	}
 
 	return array;
 }
