@@ -39,7 +39,7 @@ FILE* GitParser::create_source_file(string commit) {
 	return popen(command, "r");
 }
 
-string GitParser::find_parameters(FILE* source_file) {
+string GitParser::find_path(FILE* source_file) {
 	if (source_file == NULL) {
 		printf("Error opening soure_file\n");
 		exit(EXIT_FAILURE);
@@ -74,7 +74,7 @@ void GitParser::read_file(FILE* pFile) {
 			fputs(line, stdout);
 			commit_list.push_back(split_string((char*)line, ' '));
 			FILE* source_file = create_source_file(commit_list.back().back());
-			commit_list.back().back() = find_parameters(source_file); // change commit number to path
+			commit_list.back().back() = find_path(source_file); // change commit number to path
 			fclose(source_file);
 		}
 	fclose(pFile);
