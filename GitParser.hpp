@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -29,7 +30,7 @@ public:
 	vector<string> split_string(string source, char split_char);
 	FILE* create_commit_file();
 	FILE* create_source_file(string commit);
-	string find_parameters(string file_name);
+	string find_parameters(FILE* source_file);
 	void read_file(FILE* pFile);
 	
 };

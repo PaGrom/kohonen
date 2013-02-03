@@ -16,7 +16,7 @@ vector<string> GitParser::split_string(string source, char split_char) {
 	istringstream is(source);
 	string str;
 	while (getline(is, str, split_char)) {
-		str.erase (remove(str.begin(), str.end(), '\n'), str.end()); // remove '\n' from strings
+		str.erase(remove(str.begin(), str.end(), '\n'), str.end()); // remove '\n' from strings
 		array.push_back(str);
 	}
 
@@ -39,15 +39,21 @@ FILE* GitParser::create_source_file(string commit) {
 	return popen(command, "r");
 }
 
-string GitParser::find_parameters(string file_name) {
-	string line;
-	ifstream is(SOURCE_FILE);
+string GitParser::find_parameters(FILE* source_file) {
+	if (source_file == NULL) {
+		printf("Error opening soure_file\n");
+    	exit(EXIT_FAILURE);
+    }
 
-	while(true) {
-		getline(is, line);
-		if (!is.eof()) {
-			if (line.length())
-				return line;
+	char line[200];
+
+	while (!feof(source_file)) {
+		if (fgets(line, 200, source_file) != NULL ) {
+			string str = (char*) line;
+			str.erase(remove(str.begin(), str.end(), '\n'), str.end());
+
+			if (str.length())
+				return str;
 		}
 		else
 			break;
@@ -63,14 +69,15 @@ void GitParser::read_file(FILE* pFile) {
 		perror("Error opening file");
 	else {
 		while (!feof(pFile)) {
-			if (fgets(line, 200, pFile) != NULL ){
+			if (fgets(line, 200, pFile) != NULL ) {
 				fputs(line, stdout);
 				commit_list.push_back(split_string((char*)line, ' '));
-				create_source_file(commit_list.back().back());
-				commit_list.back().back() = find_parameters(commit_list.back().back());
+				FILE* source_file = create_source_file(commit_list.back().back());
+				commit_list.back().back() = find_parameters(source_file); // change commit number to path
+				fclose(source_file);
 			}
 		}
-		fclose (pFile);
+		fclose(pFile);
 	}
 }
 
