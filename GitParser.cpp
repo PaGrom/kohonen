@@ -42,8 +42,8 @@ FILE* GitParser::create_source_file(string commit) {
 string GitParser::find_parameters(FILE* source_file) {
 	if (source_file == NULL) {
 		printf("Error opening soure_file\n");
-    	exit(EXIT_FAILURE);
-    }
+		exit(EXIT_FAILURE);
+	}
 
 	char line[200];
 
@@ -61,24 +61,23 @@ string GitParser::find_parameters(FILE* source_file) {
 }
 
 void GitParser::read_file(FILE* pFile) {
+	if (pFile == NULL) {
+		printf("Error opening file\n");
+		exit(EXIT_FAILURE);
+	}
 
 	vector< vector<string> > commit_list;
-
 	char line[200];
-	if (pFile == NULL)
-		perror("Error opening file");
-	else {
-		while (!feof(pFile)) {
-			if (fgets(line, 200, pFile) != NULL ) {
-				fputs(line, stdout);
-				commit_list.push_back(split_string((char*)line, ' '));
-				FILE* source_file = create_source_file(commit_list.back().back());
-				commit_list.back().back() = find_parameters(source_file); // change commit number to path
-				fclose(source_file);
-			}
+
+	while (!feof(pFile))
+		if (fgets(line, 200, pFile) != NULL ) {
+			fputs(line, stdout);
+			commit_list.push_back(split_string((char*)line, ' '));
+			FILE* source_file = create_source_file(commit_list.back().back());
+			commit_list.back().back() = find_parameters(source_file); // change commit number to path
+			fclose(source_file);
 		}
-		fclose(pFile);
-	}
+	fclose(pFile);
 }
 
 int main(int argc, char const *argv[]) {
