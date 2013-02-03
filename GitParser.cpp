@@ -39,12 +39,6 @@ FILE* GitParser::create_source_file(string commit) {
 	return popen(command, "r");
 }
 
-void GitParser::remove_file(string file_name) {
-	char command[200];
-	sprintf(command, "rm %s", file_name.c_str());
-	system(command);
-}
-
 string GitParser::find_parameters(string file_name) {
 	string line;
 	ifstream is(SOURCE_FILE);
