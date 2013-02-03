@@ -58,25 +58,23 @@ string GitParser::find_parameters(string file_name) {
 	}
 }
 
-void GitParser::read_file() {
-	string line;
-	ifstream i(FILE_NAME);
+void GitParser::read_file(FILE* pFile) {
 
 	vector< vector<string> > commit_list;
 
-	while(true) {
-		getline(i, line);
-		if (!i.eof()) {
-			printf("%s\n", line.c_str());
-			commit_list.push_back(split_string(line, ' '));
-
-			printf("%s\n", commit_list.back().back().c_str());
-
-			create_source_file(commit_list.back().back());
-			commit_list.back().back() = find_parameters(commit_list.back().back());
+	char line[200];
+	if (pFile == NULL)
+		perror("Error opening file");
+	else {
+		while (!feof(pFile)) {
+			if (fgets(line, 200, pFile) != NULL ){
+				fputs(line, stdout);
+				commit_list.push_back(split_string((char*)line, ' '));
+				create_source_file(commit_list.back().back());
+				commit_list.back().back() = find_parameters(commit_list.back().back());
+			}
 		}
-		else
-			break;
+		fclose (pFile);
 	}
 }
 
@@ -88,9 +86,9 @@ int main(int argc, char const *argv[]) {
 
 	GitParser git;
 
-	git.create_commit_file();
+	FILE* pFile = git.create_commit_file();
 
-	git.read_file();
+	git.read_file(pFile);
 
 	return 0;
 }

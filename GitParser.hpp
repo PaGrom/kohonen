@@ -30,7 +30,7 @@ public:
 	FILE* create_source_file(string commit);
 	void remove_file(string file_name);
 	string find_parameters(string file_name);
-	void read_file();
+	void read_file(FILE* pFile);
 	
 };
 
