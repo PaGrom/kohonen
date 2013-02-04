@@ -66,18 +66,36 @@ void GitParser::read_file(FILE* pFile) {
 		exit(EXIT_FAILURE);
 	}
 
-	vector< vector<string> > commit_list;
 	char line[200];
 
 	while (!feof(pFile))
 		if (fgets(line, 200, pFile) != NULL ) {
-			fputs(line, stdout);
-			commit_list.push_back(split_string((char*)line, ' '));
-			FILE* source_file = create_source_file(commit_list.back().back());
-			commit_list.back().back() = find_path(source_file); // change commit number to path
+
+			vector<string> vec = split_string((char*)line, ' ');
+
+			if (!maintainers.count(vec.at(0))) { // Add new Maintainer if no item with current name
+				Maintainer* mnt = new Maintainer(vec.at(1));
+				maintainers[vec.at(0)] = mnt;
+			}
+
+			maintainers[vec.at(0)]->add_commit(vec.at(1));
+		}
+
+	fclose(pFile);
+
+	// for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it)
+	// 	cout << it->first << " => " << it->second->commits_size() << " => " << it->second->files_size() << '\n';
+
+	for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it) {
+		while (it->second->commits_size()) {
+			FILE* source_file = create_source_file(it->second->pop_commit());
+			it->second->add_file(find_path(source_file));
 			fclose(source_file);
 		}
-	fclose(pFile);
+	}
+
+	// for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it)
+	// 	cout << it->first << " => " << it->second->commits_size() << " => " << it->second->files_size() << '\n';
 }
 
 int main(int argc, char const *argv[]) {

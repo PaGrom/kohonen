@@ -6,9 +6,12 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
+#include <map>
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+
+#include "Maintainer.hpp"
 
 using namespace std;
 
@@ -22,7 +25,7 @@ using namespace std;
 class GitParser {
 private:
 	string parameters[3];
-
+	map<string, Maintainer*> maintainers;
 public:
 	GitParser();
 	~GitParser();
