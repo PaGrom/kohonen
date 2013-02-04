@@ -15,14 +15,17 @@ private:
 	vector<string> commits;
 	vector<string> files;
 public:
+	Maintainer();
 	Maintainer(string my_name);
 	~Maintainer();
 
 	void add_commit(string commit);
 	void pop_commit();
+	int commits_size();
 
 	void add_file(string file);
 	void pop_file();
+	int files_size();
 };
 
 #endif
