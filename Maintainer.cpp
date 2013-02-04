@@ -17,8 +17,10 @@ void Maintainer::add_commit(string commit) {
 	commits.push_back(commit);
 }
 
-void Maintainer::pop_commit() {
+string Maintainer::pop_commit() {
+	string back = commits.back();
 	commits.pop_back();
+	return back;
 }
 
 int Maintainer::commits_size() {
@@ -29,8 +31,10 @@ void Maintainer::add_file(string file) {
 	files.push_back(file);
 }
 
-void Maintainer::pop_file() {
+string Maintainer::pop_file() {
+	string back = files.back();
 	files.pop_back();
+	return back;
 }
 
 int Maintainer::files_size() {

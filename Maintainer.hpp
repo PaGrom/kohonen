@@ -20,11 +20,11 @@ public:
 	~Maintainer();
 
 	void add_commit(string commit);
-	void pop_commit();
+	string pop_commit();
 	int commits_size();
 
 	void add_file(string file);
-	void pop_file();
+	string pop_file();
 	int files_size();
 };
 
