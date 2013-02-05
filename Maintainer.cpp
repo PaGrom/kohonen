@@ -11,6 +11,7 @@ Maintainer::Maintainer(string my_name) {
 Maintainer::~Maintainer() {
 	delete &commits;
 	delete &files;
+	delete &num_of_parameters;
 }
 
 void Maintainer::add_commit(string commit) {

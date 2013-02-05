@@ -6,7 +6,8 @@ GitParser::GitParser() {
 }
 
 GitParser::~GitParser() {
-	
+	delete &parameters;
+	delete &maintainers;
 }
 
 vector<string> GitParser::split_string(string source, char split_char) {    
