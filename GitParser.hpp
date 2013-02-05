@@ -24,7 +24,7 @@ using namespace std;
 
 class GitParser {
 private:
-	string parameters[3];
+	vector<string> parameters;
 	map<string, Maintainer*> maintainers;
 public:
 	GitParser();

@@ -1,9 +1,8 @@
 #include "GitParser.hpp"
 
 GitParser::GitParser() {
-	parameters[0] = "arm";
-	parameters[1] = "x86";
-	parameters[2] = "drivers";
+	const char *vinit[] = {"arm", "x86", "drivers"};
+	parameters = vector<string>(vinit, vinit + sizeof(vinit)/sizeof(char*));
 }
 
 GitParser::~GitParser() {
