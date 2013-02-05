@@ -98,6 +98,10 @@ void GitParser::read_file(FILE* pFile) {
 
 	// for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it)
 	// 	cout << it->first << " => " << it->second->commits_size() << " => " << it->second->files_size() << '\n';
+
+	for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it) {
+		it->second->calculate(parameters);
+	}
 }
 
 int main(int argc, char const *argv[]) {

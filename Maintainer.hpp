@@ -6,6 +6,7 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -14,6 +15,7 @@ private:
 	string name;
 	vector<string> commits;
 	vector<string> files;
+	map<string, int> num_of_parameters;
 public:
 	Maintainer();
 	Maintainer(string my_name);
@@ -27,6 +29,8 @@ public:
 	void add_file(vector<string> paths);
 	string pop_file();
 	int files_size();
+
+	void calculate(vector<string> parameters);
 };
 
 #endif
