@@ -12,9 +12,9 @@ GitParser::~GitParser() {
 
 vector<string> GitParser::split_string(string source, char split_char) {    
 	vector<string> array;
-
 	istringstream is(source);
 	string str;
+
 	while (getline(is, str, split_char)) {
 		str.erase(remove(str.begin(), str.end(), '\n'), str.end()); // remove '\n' from strings
 		array.push_back(str);
@@ -39,13 +39,14 @@ FILE* GitParser::create_source_file(string commit) {
 	return popen(command, "r");
 }
 
-string GitParser::find_path(FILE* source_file) {
+vector<string> GitParser::find_path(FILE* source_file) {
 	if (source_file == NULL) {
 		printf("Error opening soure_file\n");
 		exit(EXIT_FAILURE);
 	}
 
 	char line[200];
+	vector<string> paths;
 
 	while (!feof(source_file)) {
 		if (fgets(line, 200, source_file) != NULL ) {
@@ -53,11 +54,13 @@ string GitParser::find_path(FILE* source_file) {
 			str.erase(remove(str.begin(), str.end(), '\n'), str.end());
 
 			if (str.length())
-				return str;
+				paths.push_back(str);
 		}
 		else
 			break;
 	}
+
+	return paths;
 }
 
 void GitParser::read_file(FILE* pFile) {

@@ -24,6 +24,7 @@ public:
 	int commits_size();
 
 	void add_file(string file);
+	void add_file(vector<string> paths);
 	string pop_file();
 	int files_size();
 };
