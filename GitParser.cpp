@@ -25,16 +25,12 @@ vector<string> GitParser::split_string(string source, char split_char) {
 FILE* GitParser::create_commit_file() {
 	char command[200];
 	sprintf(command, "cd %s && git log -n %d %s", GIT_PATH, NUM_OF_COMMITS, GIT_LOG);
-	printf("Launch:\n");
-	printf("%s\n", command);
 	return popen(command, "r");
 }
 
 FILE* GitParser::create_source_file(string commit) {
 	char command[200];
 	sprintf(command, "cd %s && git show %s %s", GIT_PATH, commit.c_str(), GIT_SHOW);
-	printf("Launch:\n");
-	printf("%s\n", command);
 	return popen(command, "r");
 }
 
@@ -76,7 +72,7 @@ void GitParser::read_file(FILE* pFile) {
 			vector<string> vec = split_string((char*)line, ' ');
 
 			if (!maintainers.count(vec.at(0))) { // Add new Maintainer if no item with current name
-				Maintainer* mnt = new Maintainer(vec.at(1));
+				Maintainer* mnt = new Maintainer(vec.at(0));
 				maintainers[vec.at(0)] = mnt;
 			}
 
