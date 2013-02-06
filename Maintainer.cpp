@@ -15,6 +15,10 @@ Maintainer::~Maintainer() {
 	delete &num_of_parameters;
 }
 
+string Maintainer::get_name() {
+	return name;
+}
+
 void Maintainer::add_commit(string commit) {
 	commits.push_back(commit);
 }
@@ -50,7 +54,8 @@ int Maintainer::files_size() {
 	return files.size();
 }
 
-void Maintainer::calculate(vector<string> parameters) {
+void Maintainer::calculate(vector<string> params) {
+	parameters = params;
 	for (vector<string>::iterator i = parameters.begin(); i < parameters.end(); ++i)
 		num_of_parameters[(*i)] = 0;
 
@@ -60,6 +65,13 @@ void Maintainer::calculate(vector<string> parameters) {
 				num_of_parameters[(*i)] += 1;
 
 	calc_sum();
+}
+
+vector<int> Maintainer::get_nums() {
+	vector<int> nums;
+	for (vector<string>::iterator i = parameters.begin(); i < parameters.end(); ++i)
+		nums.push_back(num_of_parameters[(*i)]);
+	return nums;
 }
 
 void Maintainer::calc_sum() {
