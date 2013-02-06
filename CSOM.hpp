@@ -2,6 +2,7 @@
 #define _CSOM_hpp
 
 #include "const.hpp"
+#include "GitParser.hpp"
 
 class CSOM
 {
@@ -46,6 +47,7 @@ public:
 	void Train();
 	int BestMatchingNode(vector<double> *vec);
 	void LoadXML();
+	void Load();
 	string ConvertRGBtoHex(int num);
 	string ConvertRGBtoHex(int r, int g, int b);
 	void Render();

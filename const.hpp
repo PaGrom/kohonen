@@ -16,14 +16,14 @@ using namespace std;
 using namespace Magick;
 
 // параметр, задает число узлов по X
-const int CellsX = 5;
+const int CellsX = 100;
 // параметр, задает число узлов по Y
-const int CellsY = 3;
+const int CellsY = 100;
 
 // параметр, задает ширину картинки
-const int ImageXSize = 350;
+const int ImageXSize = 750;
 // параметр, задает высоту картинки
-const int ImageYSize = 350;
+const int ImageYSize = 750;
 
 //параметр, задает показ границ ячеек
 bool ShowBorders = true;

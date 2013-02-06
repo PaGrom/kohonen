@@ -222,6 +222,23 @@ void CSOM::LoadXML() {
 	delete parameters;
 }
 
+void CSOM::Load() {
+	GitParser git;
+
+	FILE* pFile = git.create_commit_file();
+
+	git.read_file(pFile);
+
+	*m_train_titles = git.get_parameters();
+
+	*m_training_sets_array = git.calc_training_array();
+
+	*m_dev_emails = git.get_emails();
+
+	m_dimension = m_train_titles->size();
+	m_total_training_sets = m_training_sets_array->size() / m_dimension;
+}
+
 string CSOM::ConvertRGBtoHex(int num) {
 	static string hexDigits = "0123456789ABCDEF";
 	string rgb;
