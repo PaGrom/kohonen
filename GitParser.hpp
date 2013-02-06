@@ -35,7 +35,9 @@ public:
 	FILE* create_source_file(string commit);
 	vector<string> find_path(FILE* source_file);
 	void read_file(FILE* pFile);
-	
+	vector<string> get_parameters();
+	vector<string> get_emails();
+	vector<int> calc_training_array();
 };
 
 #endif

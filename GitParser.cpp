@@ -91,17 +91,31 @@ void GitParser::read_file(FILE* pFile) {
 		it->second->calculate(parameters);
 }
 
-int main(int argc, char const *argv[]) {
+vector<string> GitParser::get_parameters() {
+	return parameters;
+}
 
-	string source = "A sequence of characters stored consecutively "
-						 "in memory and capable of being processed as a "
-						 "single entity";
+vector<string> GitParser::get_emails() {
+	vector<string> emails;
 
-	GitParser git;
+	for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it) {
+		if ((*it).second->get_sum() == 0) // If maintainer doesn't have commits with our parametres, we skip him
+			continue;
+		emails.push_back((*it).second->get_name());
+	}
 
-	FILE* pFile = git.create_commit_file();
+	return emails;
+}
 
-	git.read_file(pFile);
+vector<int> GitParser::calc_training_array() {
+	vector<int> training_array;
+	for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it) {
+		if ((*it).second->get_sum() == 0) // If maintainer doesn't have commits with our parametres, we skip him
+			continue;
+		vector<int> nums = (*it).second->get_nums();
+		for (vector<int>::iterator i = nums.begin(); i < nums.end(); ++i)
+			training_array.push_back(*i);
+	}
 
-	return 0;
+	return training_array;
 }
