@@ -6,6 +6,7 @@ Maintainer::Maintainer() {
 
 Maintainer::Maintainer(string my_name) {
 	name = my_name;
+	sum = 0;
 }
 
 Maintainer::~Maintainer() {
@@ -50,20 +51,22 @@ int Maintainer::files_size() {
 }
 
 void Maintainer::calculate(vector<string> parameters) {
-	for (vector<string>::iterator i = parameters.begin(); i < parameters.end(); ++i) {
+	for (vector<string>::iterator i = parameters.begin(); i < parameters.end(); ++i)
 		num_of_parameters[(*i)] = 0;
-	}
 
-	for (vector<string>::iterator i = parameters.begin(); i < parameters.end(); ++i) {
-		for (vector<string>::iterator it = files.begin(); it < files.end(); ++it) {
+	for (vector<string>::iterator i = parameters.begin(); i < parameters.end(); ++i)
+		for (vector<string>::iterator it = files.begin(); it < files.end(); ++it)
 			if ((*it).find((*i)) != -1)
 				num_of_parameters[(*i)] += 1;
-		}
-	}
 
-	printf("\n%s\n", name.c_str());
+	calc_sum();
+}
+
+void Maintainer::calc_sum() {
 	for (map<string, int>::iterator i = num_of_parameters.begin(); i != num_of_parameters.end(); ++i)
-	{
-		printf("%s %d\n", i->first.c_str(), i->second);
-	}
+		sum += i->second;
+}
+
+int Maintainer::get_sum() {
+	return sum;
 }

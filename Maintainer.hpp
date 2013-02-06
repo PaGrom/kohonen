@@ -13,6 +13,7 @@ using namespace std;
 class Maintainer {
 private:
 	string name;
+	int sum;
 	vector<string> commits;
 	vector<string> files;
 	map<string, int> num_of_parameters;
@@ -31,6 +32,8 @@ public:
 	int files_size();
 
 	void calculate(vector<string> parameters);
+	void calc_sum();
+	int get_sum();
 };
 
 #endif
