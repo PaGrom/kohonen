@@ -1,6 +1,5 @@
 Dependencies:
 	sudo apt-get install imagemagick libmagick++-dev
 
-1. python git-parser.py /path/to/linuxgit
-2. make
-3. ./main
+1. make
+2. ./main
