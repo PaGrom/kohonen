@@ -26,10 +26,10 @@ const int ImageXSize = 750;
 const int ImageYSize = 750;
 
 //параметр, задает показ границ ячеек
-bool ShowBorders = true;
+const bool ShowBorders = true;
 
 //параметр, задает показ наименований в координатных плоскостях
-bool ShowTitles = true;
+const bool ShowTitles = true;
 
 const int weight_size = 100;
 

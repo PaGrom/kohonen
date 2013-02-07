@@ -3,6 +3,7 @@
 
 #include "const.hpp"
 #include "GitParser.hpp"
+#include "CSOMNode.hpp"
 
 class CSOM
 {
@@ -54,7 +55,5 @@ public:
 	void RenderCell(int img, string col, int ind, bool cell_even);
 	void ShowPattern(Image *image);
 };
-
-#include "CSOM.cpp"
 
 #endif

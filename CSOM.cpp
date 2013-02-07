@@ -1,3 +1,5 @@
+#include "CSOM.hpp"
+
 CSOM::CSOM() {
 	srand(time(NULL));
 	m_initial_learning_rate = 0.1;

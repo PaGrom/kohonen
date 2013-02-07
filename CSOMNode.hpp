@@ -39,6 +39,4 @@ public:
 
   };
 
-#include "CSOMNode.cpp"
-
 #endif

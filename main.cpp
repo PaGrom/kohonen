@@ -1,5 +1,3 @@
-#include "const.hpp"
-#include "CSOMNode.hpp"
 #include "CSOM.hpp"
 
 int main(int argc, char const *argv[])
