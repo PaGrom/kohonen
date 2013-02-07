@@ -10,7 +10,6 @@
 #include <math.h>
 #include <cmath>
 #include <Magick++.h>
-#include "tinyxml/tinyxml.h"
 
 using namespace std;
 using namespace Magick;
