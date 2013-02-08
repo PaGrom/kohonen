@@ -15,8 +15,6 @@
 
 using namespace std;
 
-#define NUM_OF_COMMITS 1000
-
 class GitParser {
 private:
 	string git_path;
