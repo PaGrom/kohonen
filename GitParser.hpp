@@ -15,15 +15,14 @@
 
 using namespace std;
 
-#define FILE_NAME "cmd_output"
-#define SOURCE_FILE "source_file"
-#define GIT_LOG "--pretty=tformat:'%cE %H'"
-#define GIT_SHOW "--raw --name-only --pretty=tformat:''"
 #define NUM_OF_COMMITS 1000
 
 class GitParser {
 private:
 	string git_path;
+	string git_log;
+	string git_show;
+	int num_of_commits;
 	vector<string> parameters;
 	map<string, Maintainer*> maintainers;
 public:

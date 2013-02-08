@@ -2,6 +2,9 @@
 
 GitParser::GitParser(string path_to_git) {
 	git_path = path_to_git;
+	git_log = "--pretty=tformat:'%cE %H'";
+	git_show = "--raw --name-only --pretty=tformat:''";
+	num_of_commits = 1000;
 	const char *vinit[] = {"arm", "x86", "drivers"};
 	parameters = vector<string>(vinit, vinit + sizeof(vinit)/sizeof(char*));
 }
@@ -25,13 +28,13 @@ vector<string> GitParser::split_string(string source, char split_char) {
 
 FILE* GitParser::create_commit_file() {
 	char command[200];
-	sprintf(command, "cd %s && git log -n %d %s", git_path.c_str(), NUM_OF_COMMITS, GIT_LOG);
+	sprintf(command, "cd %s && git log -n %d %s", git_path.c_str(), num_of_commits, git_log.c_str());
 	return popen(command, "r");
 }
 
 FILE* GitParser::create_source_file(string commit) {
 	char command[200];
-	sprintf(command, "cd %s && git show %s %s", git_path.c_str(), commit.c_str(), GIT_SHOW);
+	sprintf(command, "cd %s && git show %s %s", git_path.c_str(), commit.c_str(), git_show.c_str());
 	return popen(command, "r");
 }
 
