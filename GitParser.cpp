@@ -1,6 +1,7 @@
 #include "GitParser.hpp"
 
-GitParser::GitParser() {
+GitParser::GitParser(string path_to_git) {
+	git_path = path_to_git;
 	const char *vinit[] = {"arm", "x86", "drivers"};
 	parameters = vector<string>(vinit, vinit + sizeof(vinit)/sizeof(char*));
 }
@@ -24,13 +25,13 @@ vector<string> GitParser::split_string(string source, char split_char) {
 
 FILE* GitParser::create_commit_file() {
 	char command[200];
-	sprintf(command, "cd %s && git log -n %d %s", GIT_PATH, NUM_OF_COMMITS, GIT_LOG);
+	sprintf(command, "cd %s && git log -n %d %s", git_path.c_str(), NUM_OF_COMMITS, GIT_LOG);
 	return popen(command, "r");
 }
 
 FILE* GitParser::create_source_file(string commit) {
 	char command[200];
-	sprintf(command, "cd %s && git show %s %s", GIT_PATH, commit.c_str(), GIT_SHOW);
+	sprintf(command, "cd %s && git show %s %s", git_path.c_str(), commit.c_str(), GIT_SHOW);
 	return popen(command, "r");
 }
 

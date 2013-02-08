@@ -17,17 +17,17 @@ using namespace std;
 
 #define FILE_NAME "cmd_output"
 #define SOURCE_FILE "source_file"
-#define GIT_PATH "~/Dropbox/Work/realclear/linux/"
 #define GIT_LOG "--pretty=tformat:'%cE %H'"
 #define GIT_SHOW "--raw --name-only --pretty=tformat:''"
 #define NUM_OF_COMMITS 1000
 
 class GitParser {
 private:
+	string git_path;
 	vector<string> parameters;
 	map<string, Maintainer*> maintainers;
 public:
-	GitParser();
+	GitParser(string path_to_git);
 	~GitParser();
 
 	vector<string> split_string(string source, char split_char);
