@@ -2,4 +2,4 @@ Dependencies:
 	sudo apt-get install imagemagick libmagick++-dev
 
 1. make
-2. ./main
+2. ./main -p /path/to/git-folder -n number-of-last-commits

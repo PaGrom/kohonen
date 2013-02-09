@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 
 				if (!num_of_commits)	{
 					printf("Error: number-of-last-commits must be a number and greater than zero!\n");
-					printf("Usage: %s /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+					printf("Usage: %s -p /path/to/git-folder -n number-of-last-commits\n", argv[0]);
 					exit(1); 
 				}
 				break;
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 
 				if (system(command)) {
 					printf("Error: %s is not path to git repository!\n", pvalue);
-					printf("Usage: %s /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+					printf("Usage: %s - p /path/to/git-folder -n number-of-last-commits\n", argv[0]);
 					exit(1); 
 				}
 
