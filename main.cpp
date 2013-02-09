@@ -1,14 +1,65 @@
 #include "CSOM.hpp"
 
-int main(int argc, char const *argv[])
+int main(int argc, char **argv)
 {
-	if (argc < 2) { 
-		printf("Usage: %s /path/to/git-folder\n", argv[0]);
+	if (argc < 3) { 
+		printf("Usage: %s -p /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+		exit(1); 
+	}
+
+	char *nvalue = NULL;
+	char *pvalue = NULL;
+	int index;
+	int par;
+
+	string path_to_git;
+	opterr = 0;
+
+	while ((par = getopt (argc, argv, "n:p:")) != -1)
+		switch (par) {
+			case 'n':
+				nvalue = optarg;
+				break;
+
+			case 'p':
+				pvalue = optarg;
+				char command[200];
+				sprintf(command, "cd %s/.git", pvalue);
+
+				if (system(command)) {
+					printf("Error: %s is not path to git repository!\n", pvalue);
+					printf("Usage: %s /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+					exit(1); 
+				}
+
+				path_to_git = (char*)pvalue;
+				break;
+
+			case '?':
+				if (optopt == 'n')
+					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				else if (optopt == 'p')
+					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				else if (isprint (optopt))
+					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+				else
+					fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
+				return 1;
+
+			default:
+				abort();
+		}
+
+	for (index = optind; index < argc; index++)
+		printf ("Non-option argument %s\n", argv[index]);
+
+	if (!path_to_git.size()) { 
+		printf("Usage: %s -p /path/to/git-folder -n number-of-last-commits\n", argv[0]);
 		exit(1); 
 	}
 
 	CSOM som;
-	som.Load(argv[1]);
+	som.Load(path_to_git);
 	som.InitParameters(10000,CellsX,CellsY,ImageXSize,ImageYSize);
 	som.Train();
 	som.Render();
