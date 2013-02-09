@@ -13,12 +13,20 @@ int main(int argc, char **argv)
 	int par;
 
 	string path_to_git;
+	int num_of_commits;
 	opterr = 0;
 
 	while ((par = getopt (argc, argv, "n:p:")) != -1)
 		switch (par) {
 			case 'n':
 				nvalue = optarg;
+				num_of_commits = atoi(nvalue);
+
+				if (!num_of_commits)	{
+					printf("Error: number-of-last-commits must be a number and greater than zero!\n");
+					printf("Usage: %s /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+					exit(1); 
+				}
 				break;
 
 			case 'p':
@@ -59,7 +67,7 @@ int main(int argc, char **argv)
 	}
 
 	CSOM som;
-	som.Load(path_to_git);
+	som.Load(path_to_git, num_of_commits);
 	som.InitParameters(10000,CellsX,CellsY,ImageXSize,ImageYSize);
 	som.Train();
 	som.Render();

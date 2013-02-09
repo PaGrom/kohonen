@@ -24,7 +24,7 @@ private:
 	vector<string> parameters;
 	map<string, Maintainer*> maintainers;
 public:
-	GitParser(string path_to_git);
+	GitParser(string path_to_git, int number);
 	~GitParser();
 
 	vector<string> split_string(string source, char split_char);
