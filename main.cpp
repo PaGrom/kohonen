@@ -2,8 +2,11 @@
 
 int main(int argc, char **argv)
 {
+	char usage[200];
+	sprintf(usage, "Usage: %s -p /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+
 	if (argc < 3) { 
-		printf("Usage: %s -p /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+		printf("%s", usage);
 		exit(1); 
 	}
 
@@ -24,7 +27,7 @@ int main(int argc, char **argv)
 
 				if (!num_of_commits)	{
 					printf("Error: number-of-last-commits must be a number and greater than zero!\n");
-					printf("Usage: %s -p /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+					printf("%s", usage);
 					exit(1); 
 				}
 				break;
@@ -36,7 +39,7 @@ int main(int argc, char **argv)
 
 				if (system(command)) {
 					printf("Error: %s is not path to git repository!\n", pvalue);
-					printf("Usage: %s - p /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+					printf("%s", usage);
 					exit(1); 
 				}
 
@@ -62,7 +65,7 @@ int main(int argc, char **argv)
 		printf ("Non-option argument %s\n", argv[index]);
 
 	if (!path_to_git.size()) { 
-		printf("Usage: %s -p /path/to/git-folder -n number-of-last-commits\n", argv[0]);
+		printf("%s", usage);
 		exit(1); 
 	}
 
