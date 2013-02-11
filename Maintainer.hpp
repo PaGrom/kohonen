@@ -1,14 +1,7 @@
 #ifndef _Maintainer_hpp
 #define _Maintainer_hpp
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
-#include <map>
-
-using namespace std;
+#include "const.hpp"
 
 class Maintainer {
 private:

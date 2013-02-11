@@ -3,12 +3,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <iostream>
 #include <unistd.h>
 #include <ctype.h>
 #include <ctime>
 #include <string>
 #include <vector>
 #include <iterator>
+#include <map>
+#include <sstream>
+#include <fstream>
+#include <algorithm>
 #include <math.h>
 #include <cmath>
 #include <Magick++.h>
