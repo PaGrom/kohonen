@@ -87,7 +87,7 @@ void GitParser::read_file(FILE* pFile) {
 	for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it)
 		while (it->second->commits_size()) {
 			FILE* source_file = create_source_file(it->second->pop_commit());
-			it->second->add_file(find_path(source_file));
+			it->second->add_files(find_path(source_file));
 			fclose(source_file);
 		}
 

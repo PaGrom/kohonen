@@ -37,7 +37,7 @@ void Maintainer::add_file(string file) {
 	files.push_back(file);
 }
 
-void Maintainer::add_file(vector<string> paths) {
+void Maintainer::add_files(vector<string> paths) {
 	while (paths.size()) {
 		files.push_back(paths.back());
 		paths.pop_back();
