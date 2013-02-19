@@ -20,10 +20,10 @@ add_library(gitparser STATIC ${GITPARSER})
 
 add_library(maintainer STATIC ${MAINTAINER})
 
-add_executable(main ${SOURCE_EXE})
+add_executable(kohonen ${SOURCE_EXE})
 
 find_package(ImageMagick COMPONENTS Magick++)
 
 include_directories(${ImageMagick_INCLUDE_DIRS})
 
-target_link_libraries(main csom csomnode gitparser maintainer ${ImageMagick_LIBRARIES})
+target_link_libraries(kohonen csom csomnode gitparser maintainer ${ImageMagick_LIBRARIES})
