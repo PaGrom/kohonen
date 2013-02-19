@@ -1,5 +1,9 @@
 Dependencies:
 	sudo apt-get install imagemagick libmagick++-dev
 
-1. make
-2. ./main -p /path/to/git-folder -n number-of-last-commits
+Compile:
+	1. mkdir build
+	2. cd build
+	3. cmake ../
+	4. make
+	5. ./kohonen -p /path/to/git-folder -n number-of-last-commits
