@@ -22,4 +22,8 @@ add_library(maintainer STATIC ${MAINTAINER})
 
 add_executable(main ${SOURCE_EXE})
 
-target_link_libraries(main csom csomnode gitparser maintainer)
+find_package(ImageMagick COMPONENTS Magick++)
+
+include_directories(${ImageMagick_INCLUDE_DIRS})
+
+target_link_libraries(main csom csomnode gitparser maintainer ${ImageMagick_LIBRARIES})
