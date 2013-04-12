@@ -39,13 +39,12 @@ void CSOMNode::InitNode(int x1,int y1,int x2,int y2, int max) {
 	//--- расчет координат центра узла
 	m_x = x1 + abs((x2-x1))/2;
 	m_y = y1 + abs((y2-y1))/2;
-	//printf("m_dimension = %d\n", m_dimension);
+
 	//--- инициализация весов случайными значениями;
 	for(int i=0; i<m_dimension; i++) {
 		//m_weights.push_back(rand() % 255);
 		//srand(time(NULL));
 		m_weights[i] = rand() % (max/2);
-		//printf("wei%d = %f\n",i, m_weights[i]);
 	}
 	
 };
@@ -75,16 +74,12 @@ void CSOMNode::GetCoordinates(int &x1,int &y1,int &x2,int &y2) {
 //| Расчет квадрата расстояния между весами и заданным вектором      |
 //+------------------------------------------------------------------+
 double CSOMNode::CalculateDistance(vector<double> *vec) {
-	//printf("127\n");
+
 	double dist_sqr = 0;
-	//printf("size = %d\n", m_weights.size());
-	//printf("%d\n", m_dimension);
-	for(int i=0; i<m_dimension; i++) {
-		//printf("vec = %f\n", vec->at(i));
-		//printf("wei1 = %f\n", m_weights[i]);
+
+	for(int i=0; i<m_dimension; i++)
 		dist_sqr += pow(vec->at(i) - m_weights[i], 2);
-	}
-	//printf("142\n");
+
 	return pow(dist_sqr, 0.5); //возвращаем квадратный корень
 };
 //+------------------------------------------------------------------+
@@ -93,10 +88,7 @@ double CSOMNode::CalculateDistance(vector<double> *vec) {
 void CSOMNode::AdjustWeights(vector<double> *vec,double learning_rate,double influence) {
 	for(int i=0; i<m_dimension; i++) {
 		//m_weights.at(i)=m_weights.at(i)+learning_rate*influence*(vec->at(i)-m_weights.at(i));
-		//printf("old = %f\n", m_weights[i]);
-		//printf("vec-wei = %f\n", learning_rate);
 		m_weights[i] += learning_rate * influence * (vec->at(i) - m_weights[i]);
-		//printf("new = %f\n", m_weights[i]);
 	}
 }
 //+------------------------------------------------------------------+
