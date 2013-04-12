@@ -46,7 +46,6 @@ void CSOM::InitParameters(int iterations,int xcells,int ycells,int bmpwidth,int 
 
 		m_max_values.push_back(maxv);
 		m_min_values.push_back(minv);
-		//printf("Par: %s\tm_min_value=%d\tm_max_value=%d\n",m_train_titles->at(j).c_str(), minv, maxv);
 	}
 
 	//--- находим максимальное значение параметров для расчета диапазона случайного веса нейрона
@@ -71,7 +70,7 @@ void CSOM::InitParameters(int iterations,int xcells,int ycells,int bmpwidth,int 
 		m_map_radius=m_xsize/2.0;
 	else
 		m_map_radius=m_ysize/2.0;
-	//printf("m_map_radius = %f\n",m_map_radius);
+
 	m_time_constant=1.0*m_iterations/log(m_map_radius);
 
 	for (int i = 0; i < m_dimension + 1; ++i) {
@@ -119,18 +118,17 @@ void CSOM::Train() {
 	do {
 		//--- выбираем случайным образом индекс вектора из обучающего множества
 		int ind = rand() % m_total_training_sets;
-		//printf("ind = %d\n", ind);
-		//--- устанавливаем datavector его значениями
 
-		for(int k=0; k<m_dimension; k++) {
+		//--- устанавливаем datavector его значениями
+		for(int k=0; k<m_dimension; k++)
 			datavector.at(k) = m_training_sets_array->at(m_dimension*(ind)+k);
-		}
+
 		//--- находим индекс узла сети, наиболее близкого к datavector
 		int winningnode = BestMatchingNode(&datavector);
-		//printf("272\n");
+
 		//--- определяем текущий радиус окрестности
 		double neighbourhood_radius = m_map_radius*exp(-1.0*iter/m_time_constant);
-		//printf("286\n");
+
 		//--- цикл по всем узлам сети
 		for(int i=0; i<total_nodes; i++) {
 			//--- расчет квадрата расстояния до узла с индексом m_WinningNodeIndex
@@ -142,14 +140,14 @@ void CSOM::Train() {
 			if(DistToNodeSqr < WS) {
 				//--- расчет степени влияния на узел
 				double influence = exp(-DistToNodeSqr/(2 * WS));
-				//printf("influence = %f\n", influence);
+
 				//--- корректировка узлов в направлении выбранного обучающего вектора
 				m_som_nodes->at(i)->AdjustWeights(&datavector,learning_rate,influence);
 			}
 	    }
 		//--- экспоненциальное (по iter) уменьшение коэффициента обучения
 		learning_rate = m_initial_learning_rate * exp(-1.0 * iter/m_iterations);
-		//printf("learning_rate = %f\n", m_initial_learning_rate);
+
 		//--- увеличиваем счетчик итераций
 		iter++;
 	}
@@ -158,13 +156,12 @@ void CSOM::Train() {
 }
 
 int CSOM::BestMatchingNode(vector<double> *vec) {
-	//printf("300\n");
+
 	int min_ind=0;
 	double min_dist = m_som_nodes->at(min_ind)->CalculateDistance(vec);
-	//printf("303\n");
+
 	int total_nodes = m_som_nodes->size();
 	for(int i=0; i<total_nodes; i++) {
-		//printf("%d: %f\n", i, m_som_nodes->at(i)->CalculateDistance(vec));
 		if(m_som_nodes->at(i)->CalculateDistance(vec)<min_dist) {
 			min_dist=m_som_nodes->at(i)->CalculateDistance(vec);
 			min_ind=i;
@@ -209,9 +206,7 @@ void CSOM::Render() {
 
 	int ind=0;
 	for(int i=0; i<m_xcells; i++) {
-		//printf("%2.2f\n", m_som_nodes->at(i)->GetWeight(0));
 		for(int j=0; j<m_ycells; j++) {
-
 			for(int k=0; k < m_dimension; k++) {
 				//m_som_nodes[ind].GetCoordinates(x1,y1,x2,y2);
 				//printf("i = %d j = %d k = %d\n", i, j, k);
@@ -266,7 +261,8 @@ void CSOM::Render() {
 				images->at(m).draw(DrawablePoint(l,k));
 			}
 		}
-         //--- рисуем значения максимальных и минимальных значений на градиентной полосе
+        
+        //--- рисуем значения максимальных и минимальных значений на градиентной полосе
 
 		images->at(m).strokeWidth(0.005);
 		images->at(m).strokeLineJoin(RoundJoin);
