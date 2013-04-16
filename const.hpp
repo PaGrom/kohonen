@@ -21,12 +21,12 @@ const int CellsX = 100;
 const int CellsY = 100;
 
 // параметр, задает ширину картинки
-const int ImageXSize = 750;
+const int ImageXSize = 750; //750
 // параметр, задает высоту картинки
 const int ImageYSize = 750;
 
 //параметр, задает показ границ ячеек
-const bool ShowBorders = true;
+#define ShowBorders false
 
 //параметр, задает показ наименований в координатных плоскостях
 const bool ShowTitles = true;

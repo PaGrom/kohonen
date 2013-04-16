@@ -17,11 +17,12 @@ int main(int argc, char **argv)
 	int num_of_commits;
 	opterr = 0;
 
-	const char* short_options = "hn:p:";
+	const char* short_options = "hn:p:b";
 
 	const struct option long_options[] = {
 		{"help",no_argument,NULL,'h'},
 		{"path",optional_argument,NULL,'p'},
+		{"show_borders", no_argument, NULL, 'b'},
 		{NULL,0,NULL,0}
 	};
 
@@ -32,14 +33,17 @@ int main(int argc, char **argv)
 				printf("Usage: %s [options] [target] ...\n", argv[0]);
 				printf("Options:\n");
 				printf("   -n,\t\t\tNumber of last commits.\n");
-				printf("   -p,\t--path\t\tPath to git folder\n");
+				printf("   -p,\t--path\t\tPath to git folder.\n");
+				printf("   -b,\t--show_borders\tShow borders of hexagons.\n");
 				printf("   -h,\t--help\t\tPrint this message and exit.\n");
+				exit(0);
 				break;
+
 			case 'n':
 				nvalue = optarg;
 				num_of_commits = atoi(nvalue);
 
-				if (!num_of_commits)	{
+				if (!num_of_commits) {
 					printf("Error: number-of-last-commits must be a number and greater than zero!\n");
 					printf("%s", usage);
 					exit(1); 
@@ -58,6 +62,11 @@ int main(int argc, char **argv)
 				}
 
 				path_to_git = (char*)pvalue;
+				break;
+
+			case 'b':
+				#undef ShowBorders
+				#define ShowBorders true
 				break;
 
 			case '?':
