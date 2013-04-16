@@ -33,8 +33,8 @@ int main(int argc, char **argv)
 			case 'h':
 				printf("Usage: %s [options] [target] ...\n", argv[0]);
 				printf("Options:\n");
-				printf("   -n,\t\t\tNumber of last commits.\n");
-				printf("   -p,\t--path\t\tPath to git folder.\n");
+				printf("   -n\t<num>\t\tNumber of last commits.\n");
+				printf("   -p,\t--path <path>\tPath to git folder.\n");
 				printf("   -b,\t--show_borders\tShow borders of hexagons.\n");
 				printf("   -t,\t--show_titles\tShow titles on images.\n");
 				printf("   -h,\t--help\t\tPrint this message and exit.\n");
