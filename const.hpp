@@ -29,7 +29,8 @@ const int ImageYSize = 750;
 #define ShowBorders false
 
 //параметр, задает показ наименований в координатных плоскостях
-const bool ShowTitles = true;
+// const bool ShowTitles = true;
+#define ShowTitles false
 
 const int weight_size = 100;
 

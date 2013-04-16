@@ -17,12 +17,13 @@ int main(int argc, char **argv)
 	int num_of_commits;
 	opterr = 0;
 
-	const char* short_options = "hn:p:b";
+	const char* short_options = "hn:p:bt";
 
 	const struct option long_options[] = {
 		{"help",no_argument,NULL,'h'},
 		{"path",optional_argument,NULL,'p'},
 		{"show_borders", no_argument, NULL, 'b'},
+		{"show_titles", no_argument, NULL, 't'},
 		{NULL,0,NULL,0}
 	};
 
@@ -35,6 +36,7 @@ int main(int argc, char **argv)
 				printf("   -n,\t\t\tNumber of last commits.\n");
 				printf("   -p,\t--path\t\tPath to git folder.\n");
 				printf("   -b,\t--show_borders\tShow borders of hexagons.\n");
+				printf("   -t,\t--show_titles\tShow titles on images.\n");
 				printf("   -h,\t--help\t\tPrint this message and exit.\n");
 				exit(0);
 				break;
@@ -67,6 +69,11 @@ int main(int argc, char **argv)
 			case 'b':
 				#undef ShowBorders
 				#define ShowBorders true
+				break;
+
+			case 't':
+				#undef ShowTitles
+				#define ShowTitles true
 				break;
 
 			case '?':
