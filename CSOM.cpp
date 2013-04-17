@@ -18,7 +18,10 @@ CSOM::~CSOM() {
 	delete m_dev_emails;
 }
 
-void CSOM::InitParameters(int iterations,int xcells,int ycells,int bmpwidth,int bmpheight) {
+void CSOM::InitParameters(int iterations, bool borders, int titles, int xcells,int ycells,int bmpwidth,int bmpheight) {
+
+	ShowBorders = borders;
+	ShowTitles = titles;
 
 	m_xsize=bmpwidth;
 	m_ysize=bmpheight;

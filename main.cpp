@@ -27,6 +27,9 @@ int main(int argc, char **argv)
 		{NULL,0,NULL,0}
 	};
 
+	bool borders = false;
+	bool titles = false;
+
 	while ((par = getopt_long(argc,argv,short_options,
 		long_options,&option_index))!=-1)
 		switch (par) {
@@ -67,13 +70,11 @@ int main(int argc, char **argv)
 				break;
 
 			case 'b':
-				#undef ShowBorders
-				#define ShowBorders true
+				borders = true;
 				break;
 
 			case 't':
-				#undef ShowTitles
-				#define ShowTitles true
+				titles = true;
 				break;
 
 			case '?':
@@ -101,7 +102,7 @@ int main(int argc, char **argv)
 
 	CSOM som;
 	som.Load(path_to_git, num_of_commits);
-	som.InitParameters(10000,CellsX,CellsY,ImageXSize,ImageYSize);
+	som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize);
 	som.Train();
 	som.Render();
 	return 0;
