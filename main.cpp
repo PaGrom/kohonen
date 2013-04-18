@@ -3,6 +3,19 @@
 #include <getopt.h>
 #include "CSOM.hpp"
 
+vector<string> split(string s, char sym) {
+
+	stringstream sstr(s);
+	string segment;
+	vector<string> seglist;
+
+	while(std::getline(sstr, segment, sym)) {
+		seglist.push_back(segment);
+	}
+
+	return seglist;
+}
+
 int main(int argc, char **argv)
 {
 	char usage[200];
