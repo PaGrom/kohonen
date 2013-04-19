@@ -15,11 +15,6 @@
 using namespace std;
 using namespace Magick;
 
-// параметр, задает число узлов по X
-const int CellsX = 100;
-// параметр, задает число узлов по Y
-const int CellsY = 100;
-
 // параметр, задает ширину картинки
 const int ImageXSize = 750;
 // параметр, задает высоту картинки

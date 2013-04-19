@@ -9,19 +9,20 @@ vector<string> split(string s, char sym) {
 	string segment;
 	vector<string> seglist;
 
-	while(std::getline(sstr, segment, sym)) {
+	while(getline(sstr, segment, sym)) {
 		seglist.push_back(segment);
+		printf("%s\n", segment.c_str());
 	}
 
 	return seglist;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
 	char usage[200];
 
 	char *nvalue = NULL;
 	char *pvalue = NULL;
+	char *cvalue = NULL;
 	int index;
 	int par;
 	int option_index;
@@ -30,18 +31,25 @@ int main(int argc, char **argv)
 	int num_of_commits;
 	opterr = 0;
 
-	const char* short_options = "hn:p:bt";
+	const char* short_options = "hn:p:btc:i:";
 
 	const struct option long_options[] = {
-		{"help",no_argument,NULL,'h'},
-		{"path",optional_argument,NULL,'p'},
+		{"help", no_argument, NULL, 'h'},
+		{"path", optional_argument, NULL, 'p'},
 		{"show_borders", no_argument, NULL, 'b'},
 		{"show_titles", no_argument, NULL, 't'},
+		{"cells_xy", required_argument, NULL, 'c'},
 		{NULL,0,NULL,0}
 	};
 
 	bool borders = false;
 	bool titles = false;
+	// параметр, задает число узлов по X
+	int CellsX = 0;
+	// параметр, задает число узлов по Y
+	int CellsY = 0;
+
+	vector<string> v;
 
 	while ((par = getopt_long(argc,argv,short_options,
 		long_options,&option_index))!=-1)
@@ -90,10 +98,19 @@ int main(int argc, char **argv)
 				titles = true;
 				break;
 
+			case 'c':
+				cvalue = optarg;
+				v = split(cvalue, 'x');
+				CellsX = atoi(v.at(0).c_str());
+				CellsY = atoi(v.at(1).c_str());
+				break;
+
 			case '?':
 				if (optopt == 'n')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (optopt == 'p')
+					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				else if (optopt == 'c')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (isprint (optopt))
 					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
