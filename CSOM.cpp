@@ -77,7 +77,7 @@ void CSOM::InitParameters(int iterations, bool borders, int titles, int xcells,i
 	m_time_constant=1.0*m_iterations/log(m_map_radius);
 
 	for (int i = 0; i < m_dimension + 1; ++i) {
-		images->push_back(Image(Geometry(ImageXSize,ImageYSize), Color("black")));
+		images->push_back(Image(Geometry(m_xsize, m_ysize), Color("black")));
 	}
 
 	Blend(0,255,0,0,0,255,0,0);

@@ -9,20 +9,21 @@ vector<string> split(string s, char sym) {
 	string segment;
 	vector<string> seglist;
 
-	while(getline(sstr, segment, sym)) {
+	while(getline(sstr, segment, sym))
 		seglist.push_back(segment);
-		printf("%s\n", segment.c_str());
-	}
 
 	return seglist;
 }
 
 int main(int argc, char **argv) {
+
 	char usage[200];
 
 	char *nvalue = NULL;
 	char *pvalue = NULL;
 	char *cvalue = NULL;
+	char *ivalue = NULL;
+
 	int index;
 	int par;
 	int option_index;
@@ -39,6 +40,7 @@ int main(int argc, char **argv) {
 		{"show_borders", no_argument, NULL, 'b'},
 		{"show_titles", no_argument, NULL, 't'},
 		{"cells_xy", required_argument, NULL, 'c'},
+		{"image_xy", required_argument, NULL, 'i'},
 		{NULL,0,NULL,0}
 	};
 
@@ -48,6 +50,11 @@ int main(int argc, char **argv) {
 	int CellsX = 0;
 	// параметр, задает число узлов по Y
 	int CellsY = 0;
+
+	// параметр, задает ширину картинки
+	int ImageXSize = 0;
+	// параметр, задает высоту картинки
+	int ImageYSize = 0;
 
 	vector<string> v;
 
@@ -103,6 +110,13 @@ int main(int argc, char **argv) {
 				v = split(cvalue, 'x');
 				CellsX = atoi(v.at(0).c_str());
 				CellsY = atoi(v.at(1).c_str());
+				break;
+
+			case 'i':
+				ivalue = optarg;
+				v = split(ivalue, 'x');
+				ImageXSize = atoi(v.at(0).c_str());
+				ImageYSize = atoi(v.at(1).c_str());
 				break;
 
 			case '?':

@@ -15,11 +15,6 @@
 using namespace std;
 using namespace Magick;
 
-// параметр, задает ширину картинки
-const int ImageXSize = 750;
-// параметр, задает высоту картинки
-const int ImageYSize = 750;
-
 const int weight_size = 100;
 
 #endif
