@@ -15,7 +15,7 @@ protected:
    double            m_x;
    double            m_y;
    //vector<double> m_weights;
-   double m_weights[weight_size];
+   double m_weights[10];
 public:
    //--- конструктор класса
                      CSOMNode(int dimension);

@@ -15,6 +15,4 @@
 using namespace std;
 using namespace Magick;
 
-const int weight_size = 100;
-
 #endif
