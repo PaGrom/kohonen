@@ -64,11 +64,12 @@ int main(int argc, char **argv) {
 			case 'h':
 				printf("Usage: %s [options] [target] ...\n", argv[0]);
 				printf("Options:\n");
-				printf("   -n\t<num>\t\tNumber of last commits.\n");
-				printf("   -p,\t--path <path>\tPath to git folder.\n");
-				printf("   -b,\t--show_borders\tShow borders of hexagons.\n");
-				printf("   -t,\t--show_titles\tShow titles on images.\n");
-				printf("   -h,\t--help\t\tPrint this message and exit.\n");
+				printf("   -n\t<num>\t\t\tNumber of last commits.\n");
+				printf("   -p,\t--path <path>\t\tPath to git folder.\n");
+				printf("   -b,\t--show_borders\t\tShow borders of hexagons.\n");
+				printf("   -t,\t--show_titles\t\tShow titles on images.\n");
+				printf("   -c,\t--image_xy <x>x<y>\tSetup number of cells.\n");
+				printf("   -h,\t--help\t\t\tPrint this message and exit.\n");
 				exit(0);
 				break;
 
