@@ -68,7 +68,8 @@ int main(int argc, char **argv) {
 				printf("   -p,\t--path <path>\t\tPath to git folder.\n");
 				printf("   -b,\t--show_borders\t\tShow borders of hexagons.\n");
 				printf("   -t,\t--show_titles\t\tShow titles on images.\n");
-				printf("   -c,\t--image_xy <x>x<y>\tSetup number of cells.\n");
+				printf("   -i,\t--image_xy <x>x<y>\tSetup size of images.\n");
+				printf("   -c,\t--cells_xy <x>x<y>\tSetup number of cells.\n");
 				printf("   -h,\t--help\t\t\tPrint this message and exit.\n");
 				exit(0);
 				break;
