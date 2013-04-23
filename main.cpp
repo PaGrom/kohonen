@@ -1,7 +1,19 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string>
+#include <vector>
+#include <iterator>
+#include <map>
+#include <sstream>
+#include <cmath>
+#include <Magick++.h>
 #include <getopt.h>
+
 #include "CSOM.hpp"
+
+using namespace std;
+using namespace Magick;
 
 vector<string> split(string s, char sym) {
 
@@ -17,7 +29,7 @@ vector<string> split(string s, char sym) {
 
 int main(int argc, char **argv) {
 
-	char usage[200];
+	char usage[] = "1235455";
 
 	char *nvalue = NULL;
 	char *pvalue = NULL;

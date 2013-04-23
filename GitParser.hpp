@@ -1,8 +1,21 @@
 #ifndef _GitParser_hpp
 #define _GitParser_hpp
 
-#include "const.hpp"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string>
+#include <vector>
+#include <iterator>
+#include <map>
+#include <sstream>
+#include <cmath>
+#include <Magick++.h>
+
 #include "Maintainer.hpp"
+
+using namespace std;
+using namespace Magick;
 
 class GitParser {
 private:

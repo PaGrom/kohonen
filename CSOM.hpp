@@ -1,9 +1,22 @@
 #ifndef _CSOM_hpp
 #define _CSOM_hpp
 
-#include "const.hpp"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string>
+#include <vector>
+#include <iterator>
+#include <map>
+#include <sstream>
+#include <cmath>
+#include <Magick++.h>
+
 #include "GitParser.hpp"
 #include "CSOMNode.hpp"
+
+using namespace std;
+using namespace Magick;
 
 class CSOM
 {
