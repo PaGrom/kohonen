@@ -59,6 +59,11 @@ bool check_parameters() {
 		return false;
 	}
 
+	if (num_of_commits <= 0) {
+		printf("Error: wrong value of num_of_commits\n");
+		return false;
+	}
+
 	char command[200];
 	sprintf(command, "cd %s/.git", path_to_git.c_str());
 
