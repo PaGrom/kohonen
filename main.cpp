@@ -47,6 +47,10 @@ bool check_parameters() {
 		return false;
 	}
 
+	if (CellsY <= 0 || CellsY > 1080) {
+		return false;
+	}
+
 	return true;
 }
 
