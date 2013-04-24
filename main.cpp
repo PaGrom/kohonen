@@ -42,6 +42,10 @@ vector<string> split(string s, char sym) {
 	return seglist;
 }
 
+bool check_parametres() {
+	
+}
+
 int main(int argc, char **argv) {
 
 	char *nvalue = NULL;
