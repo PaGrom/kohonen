@@ -43,11 +43,7 @@ vector<string> split(string s, char sym) {
 }
 
 bool check_parameters() {
-	if (CellsX <= 0) {
-		return false;
-	}
-
-	if (CellsY <= 0) {
+	if (CellsX <= 0 && CellsY <= 0) {
 		return false;
 	}
 
