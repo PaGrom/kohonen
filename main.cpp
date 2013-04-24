@@ -59,6 +59,14 @@ bool check_parameters() {
 		return false;
 	}
 
+	char command[200];
+	sprintf(command, "cd %s/.git", path_to_git.c_str());
+
+	if (system(command)) {
+		printf("Error: %s is not path to git repository!\n", path_to_git.c_str());
+		return false;
+	}
+
 	return true;
 }
 
@@ -117,13 +125,6 @@ int main(int argc, char **argv) {
 
 			case 'p':
 				pvalue = optarg;
-				char command[200];
-				sprintf(command, "cd %s/.git", pvalue);
-
-				if (system(command)) {
-					printf("Error: %s is not path to git repository!\n", pvalue);
-					exit(1); 
-				}
 
 				path_to_git = (char*)pvalue;
 				break;
