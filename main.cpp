@@ -15,6 +15,21 @@
 using namespace std;
 using namespace Magick;
 
+// печатать контур ячеек
+bool borders = false;
+// печатать подписи
+bool titles = false;
+
+// параметр, задает число узлов по X
+int CellsX;
+// параметр, задает число узлов по Y
+int CellsY;
+
+// параметр, задает ширину картинки
+int ImageXSize;
+// параметр, задает высоту картинки
+int ImageYSize;
+
 vector<string> split(string s, char sym) {
 
 	stringstream sstr(s);
@@ -53,18 +68,6 @@ int main(int argc, char **argv) {
 		{"image_xy", required_argument, NULL, 'i'},
 		{NULL,0,NULL,0}
 	};
-
-	bool borders = false;
-	bool titles = false;
-	// параметр, задает число узлов по X
-	int CellsX = 0;
-	// параметр, задает число узлов по Y
-	int CellsY = 0;
-
-	// параметр, задает ширину картинки
-	int ImageXSize = 0;
-	// параметр, задает высоту картинки
-	int ImageYSize = 0;
 
 	vector<string> v;
 
