@@ -29,8 +29,6 @@ vector<string> split(string s, char sym) {
 
 int main(int argc, char **argv) {
 
-	char usage[] = "1235455";
-
 	char *nvalue = NULL;
 	char *pvalue = NULL;
 	char *cvalue = NULL;
@@ -92,7 +90,6 @@ int main(int argc, char **argv) {
 
 				if (!num_of_commits) {
 					printf("Error: number-of-last-commits must be a number and greater than zero!\n");
-					printf("%s", usage);
 					exit(1); 
 				}
 				break;
@@ -104,7 +101,6 @@ int main(int argc, char **argv) {
 
 				if (system(command)) {
 					printf("Error: %s is not path to git repository!\n", pvalue);
-					printf("%s", usage);
 					exit(1); 
 				}
 
@@ -154,11 +150,6 @@ int main(int argc, char **argv) {
 
 	for (index = optind; option_index < argc; option_index++)
 		printf ("Non-option argument %s\n", argv[index]);
-
-	if (!path_to_git.size()) { 
-		printf("%s", usage);
-		exit(1); 
-	}
 
 	CSOM som;
 	som.Load(path_to_git, num_of_commits);
