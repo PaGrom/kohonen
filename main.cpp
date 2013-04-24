@@ -51,6 +51,10 @@ bool check_parameters() {
 		return false;
 	}
 
+	if (ImageYSize <= 0 && ImageYSize > 1080) {
+		return false;
+	}
+
 	return true;
 }
 
