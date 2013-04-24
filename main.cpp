@@ -30,6 +30,11 @@ int ImageXSize;
 // параметр, задает высоту картинки
 int ImageYSize;
 
+// путь до git-репозитория
+string path_to_git;
+// количество последних коммитов для обработки
+int num_of_commits;
+
 vector<string> split(string s, char sym) {
 
 	stringstream sstr(s);
@@ -68,8 +73,6 @@ int main(int argc, char **argv) {
 	int par;
 	int option_index;
 
-	string path_to_git;
-	int num_of_commits;
 	opterr = 0;
 
 	const char* short_options = "hn:p:btc:i:";
