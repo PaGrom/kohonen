@@ -42,8 +42,12 @@ vector<string> split(string s, char sym) {
 	return seglist;
 }
 
-bool check_parametres() {
-	
+bool check_parameters() {
+	if (CellsX <= 0 || CellsX > 1920) {
+		return false;
+	}
+
+	return true;
 }
 
 int main(int argc, char **argv) {
