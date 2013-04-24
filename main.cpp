@@ -47,6 +47,10 @@ bool check_parameters() {
 		return false;
 	}
 
+	if (ImageXSize <= 0 && ImageXSize > 1920) {
+		return false;
+	}
+
 	return true;
 }
 
