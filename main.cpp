@@ -50,14 +50,14 @@ vector<string> split(string s, char sym) {
 bool check_parameters() {
 	int i = 0; // счетсик ошибок
 	// проверка количества узлов сети
-	if (CellsX <= 0 && CellsY <= 0) {
+	if (CellsX <= 0 || CellsY <= 0) {
 		printf("Error: wrong number of cells\n");
 		i++;
 	}
 
 	// проверка размера изображения
-	if (ImageXSize <= 0 && ImageXSize > 1920 &&
-		ImageYSize <= 0 && ImageYSize > 1080) {
+	if (ImageXSize <= 0 || ImageXSize > 1920 ||
+		ImageYSize <= 0 || ImageYSize > 1080) {
 		printf("Error: wrong image size\n");
 		i++;
 	}
