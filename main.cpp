@@ -183,9 +183,6 @@ int main(int argc, char **argv) {
 				abort();
 		}
 
-	for (index = optind; option_index < argc; option_index++)
-		printf ("Non-option argument %s\n", argv[index]);
-
 	// проверка параметров
 	if (!check_parameters())
 		exit(0);
