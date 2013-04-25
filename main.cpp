@@ -47,6 +47,10 @@ vector<string> split(string s, char sym) {
 	return seglist;
 }
 
+void load_from_config(char* config_file) {
+
+}
+
 bool check_parameters() {
 	int i = 0; // счетсик ошибок
 	// проверка количества узлов сети
@@ -89,6 +93,7 @@ int main(int argc, char **argv) {
 	char *pvalue = NULL;
 	char *cvalue = NULL;
 	char *ivalue = NULL;
+	char *Cvalue = NULL;
 
 	int index;
 	int par;
@@ -129,7 +134,8 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'C':
-				printf("ghfjhgfjhgf\n");
+				Cvalue = optarg;
+				load_from_config(Cvalue);
 				break;
 
 			case 'n':
@@ -199,6 +205,6 @@ int main(int argc, char **argv) {
 		som.Train();
 		som.Render();
 	}
-	
+
 	return 0;
 }
