@@ -96,9 +96,10 @@ int main(int argc, char **argv) {
 
 	opterr = 0;
 
-	const char* short_options = "hn:p:btc:i:";
+	const char* short_options = "C:hn:p:btc:i:";
 
 	const struct option long_options[] = {
+		{"config", no_argument, NULL, 'C'},
 		{"help", no_argument, NULL, 'h'},
 		{"path", optional_argument, NULL, 'p'},
 		{"show_borders", no_argument, NULL, 'b'},
@@ -116,6 +117,7 @@ int main(int argc, char **argv) {
 			case 'h':
 				printf("Usage: %s [options] [target] ...\n", argv[0]);
 				printf("Options:\n");
+				printf("   -C,\t--config <file>\t\tLoad parameters from config file.\n");
 				printf("   -n\t<num>\t\t\tNumber of last commits.\n");
 				printf("   -p,\t--path <path>\t\tPath to git folder.\n");
 				printf("   -b,\t--show_borders\t\tShow borders of hexagons.\n");
@@ -124,6 +126,10 @@ int main(int argc, char **argv) {
 				printf("   -c,\t--cells_xy <x>x<y>\tSetup number of cells.\n");
 				printf("   -h,\t--help\t\t\tPrint this message and exit.\n");
 				exit(0);
+				break;
+
+			case 'C':
+				printf("ghfjhgfjhgf\n");
 				break;
 
 			case 'n':
@@ -165,7 +171,9 @@ int main(int argc, char **argv) {
 				break;
 
 			case '?':
-				if (optopt == 'n')
+				if (optopt == 'C')
+					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				else if (optopt == 'n')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (optopt == 'p')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
