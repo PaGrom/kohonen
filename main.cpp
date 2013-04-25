@@ -192,13 +192,13 @@ int main(int argc, char **argv) {
 		}
 
 	// проверка параметров
-	if (!check_parameters())
-		exit(0);
-
-	CSOM som;
-	som.Load(path_to_git, num_of_commits);
-	som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize);
-	som.Train();
-	som.Render();
+	if (check_parameters()) {
+		CSOM som;
+		som.Load(path_to_git, num_of_commits);
+		som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize);
+		som.Train();
+		som.Render();
+	}
+	
 	return 0;
 }
