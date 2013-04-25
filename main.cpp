@@ -48,23 +48,24 @@ vector<string> split(string s, char sym) {
 }
 
 bool check_parameters() {
+	int i = 0; // счетсик ошибок
 	// проверка количества узлов сети
 	if (CellsX <= 0 && CellsY <= 0) {
 		printf("Error: wrong number of cells\n");
-		return false;
+		i++;
 	}
 
 	// проверка размера изображения
 	if (ImageXSize <= 0 && ImageXSize > 1920 &&
 		ImageYSize <= 0 && ImageYSize > 1080) {
 		printf("Error: wrong image size\n");
-		return false;
+		i++;
 	}
 
 	// проверка количества последних коммитов
 	if (num_of_commits <= 0) {
 		printf("Error: wrong value of num_of_commits\n");
-		return false;
+		i++;
 	}
 
 	// проверка git-репозитория
@@ -73,10 +74,13 @@ bool check_parameters() {
 
 	if (system(command)) {
 		printf("Error: %s is not path to git repository!\n", path_to_git.c_str());
-		return false;
+		i++;
 	}
 
-	return true;
+	if (i)
+		return false;
+	else
+		return true;
 }
 
 int main(int argc, char **argv) {
