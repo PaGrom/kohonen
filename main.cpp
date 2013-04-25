@@ -182,6 +182,10 @@ int main(int argc, char **argv) {
 	for (index = optind; option_index < argc; option_index++)
 		printf ("Non-option argument %s\n", argv[index]);
 
+	// проверка параметров
+	if (!check_parameters())
+		exit(0);
+
 	CSOM som;
 	som.Load(path_to_git, num_of_commits);
 	som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize);
