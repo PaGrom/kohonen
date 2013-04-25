@@ -48,22 +48,26 @@ vector<string> split(string s, char sym) {
 }
 
 bool check_parameters() {
+	// проверка количества узлов сети
 	if (CellsX <= 0 && CellsY <= 0) {
 		printf("Error: wrong number of cells\n");
 		return false;
 	}
 
+	// проверка размера изображения
 	if (ImageXSize <= 0 && ImageXSize > 1920 &&
 		ImageYSize <= 0 && ImageYSize > 1080) {
 		printf("Error: wrong image size\n");
 		return false;
 	}
 
+	// проверка количества последних коммитов
 	if (num_of_commits <= 0) {
 		printf("Error: wrong value of num_of_commits\n");
 		return false;
 	}
 
+	// проверка git-репозитория
 	char command[200];
 	sprintf(command, "cd %s/.git", path_to_git.c_str());
 
