@@ -5,6 +5,7 @@
 #include <vector>
 #include <iterator>
 #include <map>
+#include <fstream>
 #include <sstream>
 #include <cmath>
 #include <Magick++.h>
@@ -47,8 +48,39 @@ vector<string> split(string s, char sym) {
 	return seglist;
 }
 
-void load_from_config(char* config_file) {
+bool load_from_config(char* config_file) {
 
+	ifstream file(config_file);
+
+	stringstream is_file;
+
+	if (file) {
+		is_file << file.rdbuf();
+		file.close();
+	}
+	else
+		return false;
+
+	string line;
+	while (getline(is_file, line)) {
+		istringstream is_line(line);
+		string key;
+		if (getline(is_line, key, '=')) {
+			string value;
+			if (getline(is_line, value)) {
+				if (key == "borders") {
+					if (value == "true")
+						borders = true;
+					else if (value == "false")
+						borders = false;
+					else
+						printf("Config error: wrong value of borders. Must be true or false\n");
+				}
+			}
+		}
+	}
+
+	return true;
 }
 
 bool check_parameters() {
@@ -135,7 +167,8 @@ int main(int argc, char **argv) {
 
 			case 'C':
 				Cvalue = optarg;
-				load_from_config(Cvalue);
+				if (!load_from_config(Cvalue))
+					printf("Error: wrong config file.\n");
 				break;
 
 			case 'n':
