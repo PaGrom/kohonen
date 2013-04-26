@@ -84,6 +84,11 @@ bool load_from_config(char* config_file) {
 					else
 						printf("Config error: wrong value of titles. Must be true or false\n");
 				}
+				else if (key == "cells_xy") {
+					vector<string> v = split(value, 'x');
+					CellsX = atoi(v.at(0).c_str());
+					CellsY = atoi(v.at(1).c_str());
+				}
 			}
 		}
 	}
