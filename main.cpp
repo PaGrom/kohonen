@@ -89,6 +89,11 @@ bool load_from_config(char* config_file) {
 					CellsX = atoi(v.at(0).c_str());
 					CellsY = atoi(v.at(1).c_str());
 				}
+				else if (key == "image_xy") {
+					vector<string> v = split(value, 'x');
+					ImageXSize = atoi(v.at(0).c_str());
+					ImageYSize = atoi(v.at(1).c_str());
+				}
 			}
 		}
 	}
