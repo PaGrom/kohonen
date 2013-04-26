@@ -107,44 +107,7 @@ bool load_from_config(char* config_file) {
 	return true;
 }
 
-bool check_parameters() {
-	int i = 0; // счетсик ошибок
-	// проверка количества узлов сети
-	if (CellsX <= 0 || CellsY <= 0) {
-		printf("Error: wrong number of cells\n");
-		i++;
-	}
-
-	// проверка размера изображения
-	if (ImageXSize <= 0 || ImageXSize > 1920 ||
-		ImageYSize <= 0 || ImageYSize > 1080) {
-		printf("Error: wrong image size\n");
-		i++;
-	}
-
-	// проверка количества последних коммитов
-	if (num_of_commits <= 0) {
-		printf("Error: wrong value of num_of_commits\n");
-		i++;
-	}
-
-	// проверка git-репозитория
-	char command[200];
-	sprintf(command, "cd %s/.git", path_to_git.c_str());
-
-	if (system(command)) {
-		printf("Error: %s is not path to git repository!\n", path_to_git.c_str());
-		i++;
-	}
-
-	if (i)
-		return false;
-	else
-		return true;
-}
-
-int main(int argc, char **argv) {
-
+void parse_commandline(int argc, char **argv) {
 	char *nvalue = NULL;
 	char *pvalue = NULL;
 	char *cvalue = NULL;
@@ -248,11 +211,51 @@ int main(int argc, char **argv) {
 					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
 				else
 					fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
-				return 1;
 
 			default:
 				abort();
 		}
+}
+
+bool check_parameters() {
+	int i = 0; // счетсик ошибок
+	// проверка количества узлов сети
+	if (CellsX <= 0 || CellsY <= 0) {
+		printf("Error: wrong number of cells\n");
+		i++;
+	}
+
+	// проверка размера изображения
+	if (ImageXSize <= 0 || ImageXSize > 1920 ||
+		ImageYSize <= 0 || ImageYSize > 1080) {
+		printf("Error: wrong image size\n");
+		i++;
+	}
+
+	// проверка количества последних коммитов
+	if (num_of_commits <= 0) {
+		printf("Error: wrong value of num_of_commits\n");
+		i++;
+	}
+
+	// проверка git-репозитория
+	char command[200];
+	sprintf(command, "cd %s/.git", path_to_git.c_str());
+
+	if (system(command)) {
+		printf("Error: %s is not path to git repository!\n", path_to_git.c_str());
+		i++;
+	}
+
+	if (i)
+		return false;
+	else
+		return true;
+}
+
+int main(int argc, char **argv) {
+
+	parse_commandline(argc, argv);
 
 	// проверка параметров
 	if (check_parameters()) {
