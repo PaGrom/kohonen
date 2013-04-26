@@ -97,6 +97,9 @@ bool load_from_config(char* config_file) {
 				else if (key == "path_to_git") {
 					path_to_git = value;
 				}
+				else if (key == "num_of_commits") {
+					num_of_commits = atoi(value.c_str());
+				}
 			}
 		}
 	}
