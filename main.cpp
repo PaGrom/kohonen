@@ -102,6 +102,9 @@ bool load_from_config(char* config_file) {
 				else if (key == "num_of_commits") {
 					num_of_commits = atoi(value.c_str());
 				}
+				else if (key == "patterns") {
+					patterns = split(value, ',');
+				}
 			}
 		}
 	}
@@ -276,7 +279,6 @@ int main(int argc, char **argv) {
 
 	// проверка параметров
 	if (check_parameters()) {
-		printf("123\n");
 		CSOM som;
 		som.Load(path_to_git, num_of_commits, patterns);
 		som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize);
