@@ -216,6 +216,8 @@ void parse_commandline(int argc, char **argv) {
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (optopt == 'i')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				else if (optopt == 'p')
+					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (isprint (optopt))
 					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
 				else
