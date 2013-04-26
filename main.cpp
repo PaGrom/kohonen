@@ -120,12 +120,12 @@ void parse_commandline(int argc, char **argv) {
 
 	opterr = 0;
 
-	const char* short_options = "C:hn:p:btc:i:";
+	const char* short_options = "C:hn:P:btc:i:";
 
 	const struct option long_options[] = {
 		{"config", no_argument, NULL, 'C'},
 		{"help", no_argument, NULL, 'h'},
-		{"path", optional_argument, NULL, 'p'},
+		{"path", optional_argument, NULL, 'P'},
 		{"show_borders", no_argument, NULL, 'b'},
 		{"show_titles", no_argument, NULL, 't'},
 		{"cells_xy", required_argument, NULL, 'c'},
@@ -143,7 +143,7 @@ void parse_commandline(int argc, char **argv) {
 				printf("Options:\n");
 				printf("   -C,\t--config <file>\t\tLoad parameters from config file.\n");
 				printf("   -n\t<num>\t\t\tNumber of last commits.\n");
-				printf("   -p,\t--path <path>\t\tPath to git folder.\n");
+				printf("   -P,\t--path <path>\t\tPath to git folder.\n");
 				printf("   -b,\t--show_borders\t\tShow borders of hexagons.\n");
 				printf("   -t,\t--show_titles\t\tShow titles on images.\n");
 				printf("   -i,\t--image_xy <x>x<y>\tSetup size of images.\n");
@@ -168,7 +168,7 @@ void parse_commandline(int argc, char **argv) {
 				}
 				break;
 
-			case 'p':
+			case 'P':
 				pvalue = optarg;
 
 				path_to_git = (char*)pvalue;
@@ -201,7 +201,7 @@ void parse_commandline(int argc, char **argv) {
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (optopt == 'n')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
-				else if (optopt == 'p')
+				else if (optopt == 'P')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (optopt == 'c')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
