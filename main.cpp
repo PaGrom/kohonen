@@ -35,6 +35,8 @@ int ImageYSize;
 string path_to_git;
 // количество последних коммитов для обработки
 int num_of_commits;
+// список названий обучающих паттерно
+vector<string> patterns;
 
 vector<string> split(string s, char sym) {
 
@@ -109,10 +111,11 @@ bool load_from_config(char* config_file) {
 
 void parse_commandline(int argc, char **argv) {
 	char *nvalue = NULL;
-	char *pvalue = NULL;
+	char *Pvalue = NULL;
 	char *cvalue = NULL;
 	char *ivalue = NULL;
 	char *Cvalue = NULL;
+	char *pvalue = NULL;
 
 	int index;
 	int par;
@@ -120,7 +123,7 @@ void parse_commandline(int argc, char **argv) {
 
 	opterr = 0;
 
-	const char* short_options = "C:hn:P:btc:i:";
+	const char* short_options = "C:hn:P:btc:i:p:";
 
 	const struct option long_options[] = {
 		{"config", no_argument, NULL, 'C'},
@@ -130,6 +133,7 @@ void parse_commandline(int argc, char **argv) {
 		{"show_titles", no_argument, NULL, 't'},
 		{"cells_xy", required_argument, NULL, 'c'},
 		{"image_xy", required_argument, NULL, 'i'},
+		{"patterns", required_argument, NULL, 'p'},
 		{NULL,0,NULL,0}
 	};
 
@@ -149,6 +153,7 @@ void parse_commandline(int argc, char **argv) {
 				printf("   -i,\t--image_xy <x>x<y>\tSetup size of images.\n");
 				printf("   -c,\t--cells_xy <x>x<y>\tSetup number of cells.\n");
 				printf("   -h,\t--help\t\t\tPrint this message and exit.\n");
+				printf("   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns.\n");
 				exit(0);
 				break;
 
@@ -169,9 +174,9 @@ void parse_commandline(int argc, char **argv) {
 				break;
 
 			case 'P':
-				pvalue = optarg;
+				Pvalue = optarg;
 
-				path_to_git = (char*)pvalue;
+				path_to_git = (char*)Pvalue;
 				break;
 
 			case 'b':
@@ -194,6 +199,11 @@ void parse_commandline(int argc, char **argv) {
 				v = split(ivalue, 'x');
 				ImageXSize = atoi(v.at(0).c_str());
 				ImageYSize = atoi(v.at(1).c_str());
+				break;
+
+			case 'p':
+				pvalue = optarg;
+				patterns = split(ivalue, ',');
 				break;
 
 			case '?':
@@ -260,7 +270,7 @@ int main(int argc, char **argv) {
 	// проверка параметров
 	if (check_parameters()) {
 		CSOM som;
-		som.Load(path_to_git, num_of_commits);
+		som.Load(path_to_git, num_of_commits, patterns);
 		som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize);
 		som.Train();
 		som.Render();

@@ -33,7 +33,7 @@ private:
 	map<string, Maintainer*> maintainers;
 
 public:
-	GitParser(string path_to_git, int number);
+	GitParser(string path_to_git, int number, vector<string> pars);
 	~GitParser();
 
 	//--- Метод для разбиения строки по заданному символу

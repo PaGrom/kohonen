@@ -64,7 +64,7 @@ public:
 	string GetPalColor(int ind);
 	void Train();
 	int BestMatchingNode(vector<double> *vec);
-	void Load(string path_to_git, int num_of_commits);
+	void Load(string path_to_git, int num_of_commits, vector<string> parameters);
 	string ConvertRGBtoHex(int num);
 	string ConvertRGBtoHex(int r, int g, int b);
 	void Render();
