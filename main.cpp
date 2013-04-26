@@ -76,6 +76,14 @@ bool load_from_config(char* config_file) {
 					else
 						printf("Config error: wrong value of borders. Must be true or false\n");
 				}
+				else if (key == "titles") {
+					if (value == "true")
+						titles = true;
+					else if (value == "false")
+						titles = false;
+					else
+						printf("Config error: wrong value of titles. Must be true or false\n");
+				}
 			}
 		}
 	}
