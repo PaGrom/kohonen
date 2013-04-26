@@ -175,7 +175,6 @@ void parse_commandline(int argc, char **argv) {
 
 			case 'P':
 				Pvalue = optarg;
-
 				path_to_git = (char*)Pvalue;
 				break;
 
@@ -203,7 +202,7 @@ void parse_commandline(int argc, char **argv) {
 
 			case 'p':
 				pvalue = optarg;
-				patterns = split(ivalue, ',');
+				patterns = split(pvalue, ',');
 				break;
 
 			case '?':
@@ -248,6 +247,12 @@ bool check_parameters() {
 		i++;
 	}
 
+	// проверка паттернов
+	if (patterns.size() != 3) {
+		printf("Error: wrong number of patterns\n");
+		i++;
+	}
+
 	// проверка git-репозитория
 	char command[200];
 	sprintf(command, "cd %s/.git", path_to_git.c_str());
@@ -269,6 +274,7 @@ int main(int argc, char **argv) {
 
 	// проверка параметров
 	if (check_parameters()) {
+		printf("123\n");
 		CSOM som;
 		som.Load(path_to_git, num_of_commits, patterns);
 		som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize);
