@@ -253,7 +253,16 @@ bool check_parameters() {
 	}
 
 	// проверка паттернов
-	if (patterns.size() != 3) {
+	if (patterns.size() == 3) {
+		if (patterns.at(0) == patterns.at(1) ||
+			patterns.at(0) == patterns.at(2) ||
+			patterns.at(1) == patterns.at(2)) {
+
+			printf("Error: similar patterns\n");
+			i++;
+		}
+	}
+	else {
 		printf("Error: wrong number of patterns\n");
 		i++;
 	}
