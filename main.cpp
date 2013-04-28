@@ -261,6 +261,13 @@ bool check_parameters() {
 			printf("Error: similar patterns\n");
 			i++;
 		}
+		if (patterns.at(0).size() == 0 ||
+			patterns.at(1).size() == 0 ||
+			patterns.at(2).size() == 0) {
+			
+			printf("Error: zero pattern\n");
+			i++;
+		}
 	}
 	else {
 		printf("Error: wrong number of patterns\n");
