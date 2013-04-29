@@ -275,12 +275,12 @@ void CSOM::Render() {
 		images->at(m).strokeColor("black");
 
 		images->at(m).fillColor("black");
-		char min[4];
-		char max[4];
-		sprintf(min, "%d", m_min_values.at(m));
-		sprintf(max, "%d", m_max_values.at(m));
-		images->at(m).draw(DrawableText(2, m_ysize - 5, min));
-		images->at(m).draw(DrawableText(m_xsize - 20, m_ysize - 5, max));
+
+		ostringstream min, max;
+		min << m_min_values.at(m);
+		max << m_max_values.at(m);
+		images->at(m).draw(DrawableText(2, m_ysize - 5, min.str().c_str()));
+		images->at(m).draw(DrawableText(m_xsize - 20, m_ysize - 5, max.str().c_str()));
 
 		images->at(m).draw(DrawableText((m_xsize/2) - 5*(m_train_titles->at(m).size()/2), m_ysize - 5, m_train_titles->at(m)));
 	}

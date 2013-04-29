@@ -39,7 +39,7 @@ FILE* GitParser::create_source_file(string commit) {
 
 vector<string> GitParser::find_path(FILE* source_file) {
 	if (source_file == NULL) {
-		printf("Error opening soure_file\n");
+		cout << "Error opening soure_file" << endl;;
 		exit(EXIT_FAILURE);
 	}
 
@@ -63,7 +63,7 @@ vector<string> GitParser::find_path(FILE* source_file) {
 
 void GitParser::read_file(FILE* pFile) {
 	if (pFile == NULL) {
-		printf("Error opening file\n");
+		cout << "Error opening file" << endl;;
 		exit(EXIT_FAILURE);
 	}
 

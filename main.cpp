@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 #include <unistd.h>
 #include <string>
 #include <vector>
@@ -76,7 +77,7 @@ bool load_from_config(char* config_file) {
 					else if (value == "false")
 						borders = false;
 					else
-						printf("Config error: wrong value of borders. Must be true or false\n");
+						cout << "Config error: wrong value of borders. Must be true or false" << endl;
 				}
 				else if (key == "titles") {
 					if (value == "true")
@@ -84,7 +85,7 @@ bool load_from_config(char* config_file) {
 					else if (value == "false")
 						titles = false;
 					else
-						printf("Config error: wrong value of titles. Must be true or false\n");
+						cout << "Config error: wrong value of titles. Must be true or false" << endl;
 				}
 				else if (key == "cells_xy") {
 					vector<string> v = split(value, 'x');
@@ -146,24 +147,24 @@ void parse_commandline(int argc, char **argv) {
 		long_options,&option_index))!=-1)
 		switch (par) {
 			case 'h':
-				printf("Usage: %s [options] [target] ...\n", argv[0]);
-				printf("Options:\n");
-				printf("   -C,\t--config <file>\t\tLoad parameters from config file.\n");
-				printf("   -n\t<num>\t\t\tNumber of last commits.\n");
-				printf("   -P,\t--path <path>\t\tPath to git folder.\n");
-				printf("   -b,\t--show_borders\t\tShow borders of hexagons.\n");
-				printf("   -t,\t--show_titles\t\tShow titles on images.\n");
-				printf("   -i,\t--image_xy <x>x<y>\tSetup size of images.\n");
-				printf("   -c,\t--cells_xy <x>x<y>\tSetup number of cells.\n");
-				printf("   -h,\t--help\t\t\tPrint this message and exit.\n");
-				printf("   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns.\n");
+				cout << "Usage: " << argv[0] << "[options] [target] ..." << endl;
+				cout << "Options:" << endl;
+				cout << "   -C,\t--config <file>\t\tLoad parameters from config file." << endl;
+				cout << "   -n\t<num>\t\t\tNumber of last commits." << endl;
+				cout << "   -P,\t--path <path>\t\tPath to git folder." << endl;
+				cout << "   -b,\t--show_borders\t\tShow borders of hexagons." << endl;
+				cout << "   -t,\t--show_titles\t\tShow titles on images." << endl;
+				cout << "   -i,\t--image_xy <x>x<y>\tSetup size of images." << endl;
+				cout << "   -c,\t--cells_xy <x>x<y>\tSetup number of cells." << endl;
+				cout << "   -h,\t--help\t\t\tPrint this message and exit." << endl;
+				cout << "   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns." << endl;
 				exit(0);
 				break;
 
 			case 'C':
 				Cvalue = optarg;
 				if (!load_from_config(Cvalue))
-					printf("Error: wrong config file.\n");
+					cout << "Error: wrong config file." << endl;
 				break;
 
 			case 'n':
@@ -171,7 +172,7 @@ void parse_commandline(int argc, char **argv) {
 				num_of_commits = atoi(nvalue);
 
 				if (!num_of_commits) {
-					printf("Error: number-of-last-commits must be a number and greater than zero!\n");
+					cout << "Error: number-of-last-commits must be a number and greater than zero!" << endl;
 					exit(1); 
 				}
 				break;
@@ -235,20 +236,20 @@ bool check_parameters() {
 	int i = 0; // счетсик ошибок
 	// проверка количества узлов сети
 	if (CellsX <= 0 || CellsY <= 0) {
-		printf("Error: wrong number of cells\n");
+		cout << "Error: wrong number of cells" << endl;
 		i++;
 	}
 
 	// проверка размера изображения
 	if (ImageXSize <= 0 || ImageXSize > 1920 ||
 		ImageYSize <= 0 || ImageYSize > 1080) {
-		printf("Error: wrong image size\n");
+		cout << "Error: wrong image size" << endl;
 		i++;
 	}
 
 	// проверка количества последних коммитов
 	if (num_of_commits <= 0) {
-		printf("Error: wrong value of num_of_commits\n");
+		cout << "Error: wrong value of num_of_commits" << endl;
 		i++;
 	}
 
@@ -258,33 +259,33 @@ bool check_parameters() {
 			patterns.at(0) == patterns.at(2) ||
 			patterns.at(1) == patterns.at(2)) {
 
-			printf("Error: similar patterns\n");
+			cout << "Error: similar patterns" << endl;
 			i++;
 		}
 		if (patterns.at(0).size() == 0 ||
 			patterns.at(1).size() == 0 ||
 			patterns.at(2).size() == 0) {
 			
-			printf("Error: zero pattern\n");
+			cout << "Error: zero pattern" << endl;
 			i++;
 		}
 	}
 	else {
-		printf("Error: wrong number of patterns\n");
+		cout << "Error: wrong number of patterns" << endl;
 		i++;
 	}
 
 	// проверка git-репозитория
-	char command[200];
-	sprintf(command, "cd %s/.git", path_to_git.c_str());
+	ostringstream command;
+	command << "cd " << path_to_git << "/.git";
 
-	if (system(command)) {
-		printf("Error: %s is not path to git repository!\n", path_to_git.c_str());
+	if (system(command.str().c_str())) {
+		cout << "Error: " << path_to_git << " is not path to git repository!" << endl;
 		i++;
 	}
 
 	if (i) {
-		printf("Try to use --help\n");
+		cout << "Try to use --help" << endl;
 		return false;
 	}
 	else
