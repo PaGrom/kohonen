@@ -26,15 +26,15 @@ vector<string> GitParser::split_string(string source, char split_char) {
 }
 
 FILE* GitParser::create_commit_file() {
-	char command[200];
-	sprintf(command, "cd %s && git log -n %d %s", git_path.c_str(), num_of_commits, git_log.c_str());
-	return popen(command, "r");
+	ostringstream command;
+	command << "cd " << git_path << " && git log -n " << num_of_commits << " " << git_log << "\n";
+	return popen(command.str().c_str(), "r");
 }
 
 FILE* GitParser::create_source_file(string commit) {
-	char command[200];
-	sprintf(command, "cd %s && git show %s %s", git_path.c_str(), commit.c_str(), git_show.c_str());
-	return popen(command, "r");
+	ostringstream command;
+	command << "cd " << git_path << " && git show " << commit << " " << git_show << "\n";
+	return popen(command.str().c_str(), "r");
 }
 
 vector<string> GitParser::find_path(FILE* source_file) {
