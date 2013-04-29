@@ -5,8 +5,6 @@ GitParser::GitParser(string path_to_git, int number, vector<string> pars) {
 	git_log = "--pretty=tformat:'%cE %H'";
 	git_show = "--raw --name-only --pretty=tformat:''";
 	num_of_commits = number;
-	// const char *vinit[] = {"arm", "x86", "drivers"};
-	// parameters = vector<string>(vinit, vinit + sizeof(vinit)/sizeof(char*));
 	parameters = pars;
 }
 
