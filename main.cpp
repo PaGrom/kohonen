@@ -283,8 +283,10 @@ bool check_parameters() {
 		i++;
 	}
 
-	if (i)
+	if (i) {
+		printf("Try to use --help\n");
 		return false;
+	}
 	else
 		return true;
 }
