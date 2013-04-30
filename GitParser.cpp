@@ -12,19 +12,6 @@ GitParser::~GitParser() {
 
 }
 
-vector<string> GitParser::split_string(string source, char split_char) {    
-	vector<string> array;
-	istringstream is(source);
-	string str;
-
-	while (getline(is, str, split_char)) {
-		str.erase(remove(str.begin(), str.end(), '\n'), str.end()); // remove '\n' from strings
-		array.push_back(str);
-	}
-
-	return array;
-}
-
 FILE* GitParser::create_commit_file() {
 	ostringstream command;
 	command << "cd " << git_path << " && git log -n " << num_of_commits << " " << git_log << "\n";
@@ -71,7 +58,7 @@ void GitParser::read_file(FILE* pFile) {
 
 	while (!feof(pFile))
 		if (fgets(line, 200, pFile) != NULL ) {
-			vector<string> vec = split_string((char*)line, ' ');
+			vector<string> vec = split((char*)line, ' ');
 
 			if (!maintainers.count(vec.at(0))) { // Add new Maintainer if no item with current name
 				Maintainer* mnt = new Maintainer(vec.at(0));

@@ -13,6 +13,7 @@
 #include <cmath>
 #include <Magick++.h>
 
+#include "funcs.hpp"
 #include "Maintainer.hpp"
 
 using namespace std;
@@ -37,8 +38,6 @@ public:
 	GitParser(string path_to_git, int number, vector<string> pars);
 	~GitParser();
 
-	//--- Метод для разбиения строки по заданному символу
-	vector<string> split_string(string source, char split_char);
 	//--- Метод выполняет команду git log и возвращает файл с выводом
 	FILE* create_commit_file();
 	//--- Метод выполняет команду git show и возвращает файл с выводом
