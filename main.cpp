@@ -12,6 +12,7 @@
 #include <Magick++.h>
 #include <getopt.h>
 
+#include "funcs.hpp"
 #include "CSOM.hpp"
 
 using namespace std;
@@ -38,18 +39,6 @@ string path_to_git;
 int num_of_commits;
 // список названий обучающих паттерно
 vector<string> patterns;
-
-vector<string> split(string source, char split_char) {
-
-	stringstream sstr(source);
-	string segment;
-	vector<string> seglist;
-
-	while(getline(sstr, segment, split_char))
-		seglist.push_back(segment);
-
-	return seglist;
-}
 
 bool load_from_config(char* config_file) {
 

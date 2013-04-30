@@ -6,6 +6,8 @@ set(CMAKE_BUILD_TYPE Debug)
 
 set(SOURCE_EXE main.cpp)
 
+set(FUNCS funcs.cpp)
+
 set(CSOM CSOM.cpp)
 
 set(CSOMNODE CSOMNode.cpp)
@@ -13,6 +15,8 @@ set(CSOMNODE CSOMNode.cpp)
 set(GITPARSER GitParser.cpp)
 
 set(MAINTAINER Maintainer.cpp)
+
+add_library(funcs STATIC ${FUNCS})
 
 add_library(csom STATIC ${CSOM})
 
@@ -28,4 +32,4 @@ find_package(ImageMagick COMPONENTS Magick++)
 
 include_directories(${ImageMagick_INCLUDE_DIRS})
 
-target_link_libraries(kohonen csom csomnode gitparser maintainer ${ImageMagick_LIBRARIES})
+target_link_libraries(kohonen funcs csom csomnode gitparser maintainer ${ImageMagick_LIBRARIES})
