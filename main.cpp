@@ -131,6 +131,7 @@ void parse_commandline(int argc, char **argv) {
 
 	const struct option long_options[] = {
 		{"config", no_argument, NULL, 'C'},
+		{"num_of_commits", required_argument, NULL, 'n'},
 		{"help", no_argument, NULL, 'h'},
 		{"path", optional_argument, NULL, 'P'},
 		{"show_borders", no_argument, NULL, 'b'},
@@ -149,15 +150,15 @@ void parse_commandline(int argc, char **argv) {
 			case 'h':
 				cout << "Usage: " << argv[0] << "[options] [target] ..." << endl;
 				cout << "Options:" << endl;
-				cout << "   -C,\t--config <file>\t\tLoad parameters from config file." << endl;
-				cout << "   -n\t<num>\t\t\tNumber of last commits." << endl;
-				cout << "   -P,\t--path <path>\t\tPath to git folder." << endl;
-				cout << "   -b,\t--show_borders\t\tShow borders of hexagons." << endl;
-				cout << "   -t,\t--show_titles\t\tShow titles on images." << endl;
-				cout << "   -i,\t--image_xy <x>x<y>\tSetup size of images." << endl;
-				cout << "   -c,\t--cells_xy <x>x<y>\tSetup number of cells." << endl;
-				cout << "   -h,\t--help\t\t\tPrint this message and exit." << endl;
+				cout << "   -C,\t--config <file>\t\t\tLoad parameters from config file." << endl;
+				cout << "   -n,\t--num_of_commits <num>\t\tNumber of last commits." << endl;
+				cout << "   -P,\t--path <path>\t\t\tPath to git folder." << endl;
+				cout << "   -b,\t--show_borders\t\t\tShow borders of hexagons." << endl;
+				cout << "   -t,\t--show_titles\t\t\tShow titles on images." << endl;
+				cout << "   -i,\t--image_xy <x>x<y>\t\tSetup size of images." << endl;
+				cout << "   -c,\t--cells_xy <x>x<y>\t\tSetup number of cells." << endl;
 				cout << "   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns." << endl;
+				cout << "   -h,\t--help\t\t\t\tPrint this message and exit." << endl;
 				exit(0);
 				break;
 
