@@ -39,13 +39,13 @@ int num_of_commits;
 // список названий обучающих паттерно
 vector<string> patterns;
 
-vector<string> split(string s, char sym) {
+vector<string> split(string source, char split_char) {
 
-	stringstream sstr(s);
+	stringstream sstr(source);
 	string segment;
 	vector<string> seglist;
 
-	while(getline(sstr, segment, sym))
+	while(getline(sstr, segment, split_char))
 		seglist.push_back(segment);
 
 	return seglist;
