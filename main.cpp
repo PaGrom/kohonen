@@ -11,6 +11,8 @@
 #include <cmath>
 #include <Magick++.h>
 #include <getopt.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "funcs.hpp"
 #include "CSOM.hpp"
@@ -295,8 +297,8 @@ bool check_parameters() {
 	command << "cd " << image_dir;
 
 	if (system(command.str().c_str())) {
-		cout << "Error: " << image_dir << ": No such file or directory!" << endl;
-		i++;
+		cout << "Error: " << image_dir << ": No such directory! I'll create it..." << endl;
+		mkdir(image_dir.c_str(), 0755);
 	}
 
 	if (i) {
