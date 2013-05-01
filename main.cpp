@@ -33,6 +33,9 @@ int ImageXSize;
 // параметр, задает высоту картинки
 int ImageYSize;
 
+// параметр задает директорию для сохранения получившихся картинок
+string image_dir;
+
 // путь до git-репозитория
 string path_to_git;
 // количество последних коммитов для обработки
@@ -109,6 +112,7 @@ void parse_commandline(int argc, char **argv) {
 	char *ivalue = NULL;
 	char *Cvalue = NULL;
 	char *pvalue = NULL;
+	char *Ivalue = NULL;
 
 	int index;
 	int par;
@@ -116,7 +120,7 @@ void parse_commandline(int argc, char **argv) {
 
 	opterr = 0;
 
-	const char* short_options = "C:hn:P:btc:i:p:";
+	const char* short_options = "C:hn:P:btc:i:I:p:";
 
 	const struct option long_options[] = {
 		{"config", no_argument, NULL, 'C'},
@@ -127,6 +131,7 @@ void parse_commandline(int argc, char **argv) {
 		{"show_titles", no_argument, NULL, 't'},
 		{"cells_xy", required_argument, NULL, 'c'},
 		{"image_xy", required_argument, NULL, 'i'},
+		{"image_dir", required_argument, NULL, 'I'},
 		{"patterns", required_argument, NULL, 'p'},
 		{NULL,0,NULL,0}
 	};
@@ -146,6 +151,7 @@ void parse_commandline(int argc, char **argv) {
 				cout << "   -t,\t--show_titles\t\t\tShow titles on images." << endl;
 				cout << "   -i,\t--image_xy <x>x<y>\t\tSetup size of images." << endl;
 				cout << "   -c,\t--cells_xy <x>x<y>\t\tSetup number of cells." << endl;
+				cout << "   -I,\t--image_dir <path>\t\tSetup folder for saving images." << endl;
 				cout << "   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns." << endl;
 				cout << "   -h,\t--help\t\t\t\tPrint this message and exit." << endl;
 				exit(0);
@@ -192,6 +198,11 @@ void parse_commandline(int argc, char **argv) {
 				v = split(ivalue, 'x');
 				ImageXSize = atoi(v.at(0).c_str());
 				ImageYSize = atoi(v.at(1).c_str());
+				break;
+
+			case 'I':
+				Ivalue = optarg;
+				image_dir = (char*)Ivalue;
 				break;
 
 			case 'p':
@@ -290,7 +301,7 @@ int main(int argc, char **argv) {
 	if (check_parameters()) {
 		CSOM som;
 		som.Load(path_to_git, num_of_commits, patterns);
-		som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize);
+		som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize, image_dir);
 		som.Train();
 		som.Render();
 	}
