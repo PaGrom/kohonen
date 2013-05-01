@@ -2,6 +2,7 @@ borders=false
 titles=true
 cells_xy=100x100
 image_xy=750x750
+image_dir=../Images
 path_to_git=~/linux-stable/
 num_of_commits=200
 patterns=arm,x86,drivers

@@ -89,6 +89,9 @@ bool load_from_config(char* config_file) {
 					ImageXSize = atoi(v.at(0).c_str());
 					ImageYSize = atoi(v.at(1).c_str());
 				}
+				else if (key == "image_dir") {
+					image_dir = value;
+				}
 				else if (key == "path_to_git") {
 					path_to_git = value;
 				}
