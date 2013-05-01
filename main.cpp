@@ -285,6 +285,15 @@ bool check_parameters() {
 		i++;
 	}
 
+	// проверка существования директории для сохранения картинок
+	command.str("");
+	command << "cd " << image_dir;
+
+	if (system(command.str().c_str())) {
+		cout << "Error: " << image_dir << ": No such file or directory!" << endl;
+		i++;
+	}
+
 	if (i) {
 		cout << "Try to use --help" << endl;
 		return false;
