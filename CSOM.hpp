@@ -30,6 +30,8 @@ class CSOM
 	bool ShowBorders;
 	//--- параметр, задает показ наименований в координатных плоскостях
 	bool ShowTitles;
+	//--- параметр задает директорию для сохранения получившихся картинок
+	string image_dir;
 	//--- вектор узлов сети Кохонена
 	vector<CSOMNode*> *m_som_nodes;
 	//--- вектор с обучающими паттернами
@@ -59,7 +61,9 @@ public:
 	CSOM();
 	~CSOM();
 
-	void InitParameters(int iterations, bool borders, int titles, int xcells,int ycells,int bmpwidth,int bmpheight);
+	void InitParameters(int iterations, bool borders, int titles,
+						int xcells, int ycells, int bmpwidth,
+						int bmpheight, string dir);
 	void Blend(int c1, int c2, int r1, int g1, int b1, int r2, int g2, int b2);
 	string GetPalColor(int ind);
 	void Train();

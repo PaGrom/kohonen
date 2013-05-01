@@ -18,7 +18,9 @@ CSOM::~CSOM() {
 	delete m_dev_emails;
 }
 
-void CSOM::InitParameters(int iterations, bool borders, int titles, int xcells,int ycells,int bmpwidth,int bmpheight) {
+void CSOM::InitParameters(int iterations, bool borders, int titles,
+						int xcells, int ycells, int bmpwidth,
+						int bmpheight, string dir) {
 
 	ShowBorders = borders;
 	ShowTitles = titles;
@@ -28,6 +30,8 @@ void CSOM::InitParameters(int iterations, bool borders, int titles, int xcells,i
 
 	m_xcells=xcells;
 	m_ycells=ycells;
+
+	image_dir = dir;
 
 	//--- задаем количество итераций   
 	m_iterations=iterations;
@@ -292,9 +296,9 @@ void CSOM::Render() {
 		//images->at(k).display();
 		string title;
 		if (k < m_dimension)
-			title = m_train_titles->at(k) + ".png";
+			title = image_dir + "/" + m_train_titles->at(k) + ".png";
 		else
-			title = "main.png";
+			title = image_dir + "/" + "main.png";
 		images->at(k).write(title);
 	}
 
