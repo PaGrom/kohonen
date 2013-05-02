@@ -72,7 +72,9 @@ void GitParser::read_file(FILE* pFile) {
 
 	for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it)
 		while (it->second->commits_size()) {
-			FILE* source_file = create_source_file(it->second->pop_commit());
+			string str = it->second->pop_commit();
+			str.erase(remove(str.begin(), str.end(), '\n'), str.end()); // Удаляем знак новой строки
+			FILE* source_file = create_source_file(str);
 			it->second->add_files(find_path(source_file));
 			fclose(source_file);
 		}
