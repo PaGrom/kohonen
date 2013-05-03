@@ -154,7 +154,7 @@ void parse_commandline(int argc, char **argv) {
 				cout << "   -P,\t--path <path>\t\t\tPath to git folder." << endl;
 				cout << "   -b,\t--show_borders\t\t\tShow borders of hexagons." << endl;
 				cout << "   -t,\t--show_titles\t\t\tShow titles on images." << endl;
-				cout << "   -i,\t--image_xy <x>x<y>\t\tSetup size of images." << endl;
+				cout << "   -i,\t--image_xy <x>x<y>\t\tSetup size of images. Max of X is 1920. Max of Y is 1080." << endl;
 				cout << "   -c,\t--cells_xy <x>x<y>\t\tSetup number of cells." << endl;
 				cout << "   -I,\t--image_dir <path>\t\tSetup folder for saving images." << endl;
 				cout << "   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns." << endl;
