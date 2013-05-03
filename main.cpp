@@ -263,13 +263,19 @@ bool check_parameters() {
 
 	// проверка паттернов
 	if (patterns.size() == 3) {
-		if (patterns.at(0) == patterns.at(1) ||
-			patterns.at(0) == patterns.at(2) ||
-			patterns.at(1) == patterns.at(2)) {
 
-			cout << "Error: similar patterns" << endl;
-			count++;
+		// проверка паттернов на одинаковые имена
+		vector<string> temp_patterns = patterns; // копируем вектор паттернов
+		sort(temp_patterns.begin(), temp_patterns.end()); // сортируем вектор по возрастанию
+		for (int i = 0; i < temp_patterns.size() - 1; ++i) {
+			// ищем два одинаковых паттерна рядом
+			if (temp_patterns.at(i) == temp_patterns.at(i + 1)) { 
+				cout << "Error: similar patterns" << endl;
+				count++;
+				break;
+			}
 		}
+		
 		if (patterns.at(0).size() == 0 ||
 			patterns.at(1).size() == 0 ||
 			patterns.at(2).size() == 0) {
