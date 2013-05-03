@@ -241,24 +241,24 @@ void parse_commandline(int argc, char **argv) {
 }
 
 bool check_parameters() {
-	int i = 0; // счетсик ошибок
+	int count = 0; // счетсик ошибок
 	// проверка количества узлов сети
 	if (CellsX <= 0 || CellsY <= 0) {
 		cout << "Error: wrong number of cells" << endl;
-		i++;
+		count++;
 	}
 
 	// проверка размера изображения
 	if (ImageXSize <= 0 || ImageXSize > 1920 ||
 		ImageYSize <= 0 || ImageYSize > 1080) {
 		cout << "Error: wrong image size" << endl;
-		i++;
+		count++;
 	}
 
 	// проверка количества последних коммитов
 	if (num_of_commits <= 0) {
 		cout << "Error: wrong value of num_of_commits" << endl;
-		i++;
+		count++;
 	}
 
 	// проверка паттернов
@@ -268,19 +268,19 @@ bool check_parameters() {
 			patterns.at(1) == patterns.at(2)) {
 
 			cout << "Error: similar patterns" << endl;
-			i++;
+			count++;
 		}
 		if (patterns.at(0).size() == 0 ||
 			patterns.at(1).size() == 0 ||
 			patterns.at(2).size() == 0) {
 			
 			cout << "Error: zero pattern" << endl;
-			i++;
+			count++;
 		}
 	}
 	else {
 		cout << "Error: wrong number of patterns" << endl;
-		i++;
+		count++;
 	}
 
 	// проверка git-репозитория
@@ -289,7 +289,7 @@ bool check_parameters() {
 
 	if (system(command.str().c_str())) {
 		cout << "Error: " << path_to_git << " is not path to git repository!" << endl;
-		i++;
+		count++;
 	}
 
 	// проверка существования директории для сохранения картинок
@@ -301,7 +301,7 @@ bool check_parameters() {
 		mkdir(image_dir.c_str(), 0755);
 	}
 
-	if (i) {
+	if (count) {
 		cout << "Try to use --help" << endl;
 		return false;
 	}
