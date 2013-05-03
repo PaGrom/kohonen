@@ -276,13 +276,13 @@ bool check_parameters() {
 			}
 		}
 		
-		if (patterns.at(0).size() == 0 ||
-			patterns.at(1).size() == 0 ||
-			patterns.at(2).size() == 0) {
-			
-			cout << "Error: zero pattern" << endl;
-			count++;
-		}
+		// поиск нулевых паттернов
+		for (vector<string>::iterator i = patterns.begin(); i != patterns.end(); ++i)
+			if ((*i).size() == 0) {
+				cout << "Error: zero pattern" << endl;
+				count++;
+				break;
+			}
 	}
 	else {
 		cout << "Error: wrong number of patterns" << endl;
