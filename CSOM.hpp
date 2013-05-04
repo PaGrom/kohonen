@@ -18,6 +18,14 @@
 using namespace std;
 using namespace Magick;
 
+// Данные для потока
+struct p_data {
+	Image* image;
+	string title;
+};
+
+void* p_render_image(void* par);
+
 class CSOM
 {
 	//--- размеры BMP-картинки

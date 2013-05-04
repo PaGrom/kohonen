@@ -1,5 +1,12 @@
 #include "CSOM.hpp"
 
+void* p_render_image(void* par) {
+	p_data* data = (p_data*)par;
+	cout << "Start render " << data->title << "..." << endl;
+	data->image->write(data->title);
+	cout << "Render " << data->title << " done!" << endl;
+}
+
 CSOM::CSOM() {
 	srand(time(NULL));
 	m_initial_learning_rate = 0.1;
@@ -289,20 +296,32 @@ void CSOM::Render() {
 		images->at(m).draw(DrawableText((m_xsize/2) - 5*(m_train_titles->at(m).size()/2), m_ysize - 5, m_train_titles->at(m)));
 	}
 
+	// Создаем столько потоков, сколько требуется нарисовать картинок
+	pthread_t thread[m_dimension + 1];
+
 	for(int k=0; k < m_dimension + 1; k++) {
 		if (ShowTitles)
 			ShowPattern(&(images->at(k)));
 
-		//images->at(k).display();
+		// Задаем имя картинки
 		string title;
 		if (k < m_dimension)
 			title = image_dir + "/" + m_train_titles->at(k) + ".png";
 		else
 			title = image_dir + "/" + "main.png";
-		images->at(k).write(title);
+
+		// Собираем информацию для передачи в поток
+		p_data* data = new p_data;
+		data->image = &(images->at(k));
+		data->title = title;
+
+		// Запускаем поток
+		pthread_create(&thread[k], NULL, &p_render_image, (void*)data);
 	}
 
-	    
+	// дожидаемся завершения всех потоков
+	for(int k=0; k < m_dimension + 1; k++)
+		pthread_join(thread[k], NULL);
 }
 
 void CSOM::RenderCell(int img, string col, int ind, bool cell_even) {
