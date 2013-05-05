@@ -322,10 +322,14 @@ int main(int argc, char **argv) {
 	// проверка параметров
 	if (check_parameters()) {
 		CSOM som;
+		cout << "Loading parameters from " << path_to_git << "..." << endl;
 		som.Load(path_to_git, num_of_commits, patterns);
 		som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize, image_dir);
+		cout << "Training neural network..." << endl;
 		som.Train();
+		cout << "Rendering images..." << endl;
 		som.Render();
+		cout << "Done!" << endl;
 	}
 
 	return 0;
