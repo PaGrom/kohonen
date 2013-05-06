@@ -262,28 +262,33 @@ bool check_parameters() {
 	}
 
 	// проверка паттернов
-	if (patterns.size() != 3)
-		cout << "There aren't 3 patterns. Can't render main image in RGB." << endl;
-
-	// проверка паттернов на одинаковые имена
-	vector<string> temp_patterns = patterns; // копируем вектор паттернов
-	sort(temp_patterns.begin(), temp_patterns.end()); // сортируем вектор по возрастанию
-	for (int i = 0; i < temp_patterns.size() - 1; ++i) {
-		// ищем два одинаковых паттерна рядом
-		if (temp_patterns.at(i) == temp_patterns.at(i + 1)) { 
-			cout << "Error: similar patterns" << endl;
-			count++;
-			break;
+	if (patterns.size() != 0) {
+		if (patterns.size() != 3)
+			cout << "There aren't 3 patterns. Can't render main image in RGB." << endl;
+		// проверка паттернов на одинаковые имена
+		vector<string> temp_patterns = patterns; // копируем вектор паттернов
+		sort(temp_patterns.begin(), temp_patterns.end()); // сортируем вектор по возрастанию
+		for (int i = 0; i < temp_patterns.size() - 1; ++i) {
+			// ищем два одинаковых паттерна рядом
+			if (temp_patterns.at(i) == temp_patterns.at(i + 1)) { 
+				cout << "Error: similar patterns" << endl;
+				count++;
+				break;
+			}
 		}
+		
+		// поиск нулевых паттернов
+		for (vector<string>::iterator i = patterns.begin(); i != patterns.end(); ++i)
+			if ((*i).size() == 0) {
+				cout << "Error: zero pattern" << endl;
+				count++;
+				break;
+			}
 	}
-	
-	// поиск нулевых паттернов
-	for (vector<string>::iterator i = patterns.begin(); i != patterns.end(); ++i)
-		if ((*i).size() == 0) {
-			cout << "Error: zero pattern" << endl;
-			count++;
-			break;
-		}
+	else {
+		cout << "There are no patterns!" << endl;
+		count++;
+	}
 
 	// проверка git-репозитория
 	ostringstream command;
