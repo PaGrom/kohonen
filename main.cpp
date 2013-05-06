@@ -306,12 +306,18 @@ bool check_parameters() {
 	}
 
 	// проверка существования директории для сохранения картинок
-	command.str("");
-	command << "cd " << image_dir;
+	if (image_dir.size() != 0) {
+		ostringstream command;
+		command << "cd " << image_dir;
 
-	if (system(command.str().c_str())) {
-		cout << "Error: " << image_dir << ": No such directory! I'll create it..." << endl;
-		mkdir(image_dir.c_str(), 0755);
+		if (system(command.str().c_str())) {
+			cout << "Error: " << image_dir << ": No such directory! I'll create it..." << endl;
+			mkdir(image_dir.c_str(), 0755);
+		}
+	}
+	else {
+		cout << "There is no image_dir!" << endl;
+		count++;
 	}
 
 	if (count) {
