@@ -244,20 +244,20 @@ bool check_parameters() {
 	int count = 0; // счетсик ошибок
 	// проверка количества узлов сети
 	if (CellsX <= 0 || CellsY <= 0) {
-		cout << "Error: wrong number of cells" << endl;
+		cout << "Error: wrong number of cells!" << endl;
 		count++;
 	}
 
 	// проверка размера изображения
 	if (ImageXSize <= 0 || ImageXSize > 1920 ||
 		ImageYSize <= 0 || ImageYSize > 1080) {
-		cout << "Error: wrong image size" << endl;
+		cout << "Error: wrong image size!" << endl;
 		count++;
 	}
 
 	// проверка количества последних коммитов
 	if (num_of_commits <= 0) {
-		cout << "Error: wrong value of num_of_commits" << endl;
+		cout << "Error: wrong value of num_of_commits!" << endl;
 		count++;
 	}
 
@@ -271,7 +271,7 @@ bool check_parameters() {
 		for (int i = 0; i < temp_patterns.size() - 1; ++i) {
 			// ищем два одинаковых паттерна рядом
 			if (temp_patterns.at(i) == temp_patterns.at(i + 1)) { 
-				cout << "Error: similar patterns" << endl;
+				cout << "Error: similar patterns!" << endl;
 				count++;
 				break;
 			}
@@ -280,13 +280,13 @@ bool check_parameters() {
 		// поиск нулевых паттернов
 		for (vector<string>::iterator i = patterns.begin(); i != patterns.end(); ++i)
 			if ((*i).size() == 0) {
-				cout << "Error: zero pattern" << endl;
+				cout << "Error: zero pattern!" << endl;
 				count++;
 				break;
 			}
 	}
 	else {
-		cout << "There are no patterns!" << endl;
+		cout << "Error: there are no patterns!" << endl;
 		count++;
 	}
 
@@ -301,7 +301,7 @@ bool check_parameters() {
 		}
 	}
 	else {
-		cout << "There is no path_to_git!" << endl;
+		cout << "Error: there is no path_to_git!" << endl;
 		count++;
 	}
 
@@ -316,7 +316,7 @@ bool check_parameters() {
 		}
 	}
 	else {
-		cout << "There is no image_dir!" << endl;
+		cout << "Error: there is no image_dir!" << endl;
 		count++;
 	}
 
