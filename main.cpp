@@ -291,11 +291,17 @@ bool check_parameters() {
 	}
 
 	// проверка git-репозитория
-	ostringstream command;
-	command << "cd " << path_to_git << "/.git";
+	if (path_to_git.size() != 0) {
+		ostringstream command;
+		command << "cd " << path_to_git << "/.git";
 
-	if (system(command.str().c_str())) {
-		cout << "Error: " << path_to_git << " is not path to git repository!" << endl;
+		if (system(command.str().c_str())) {
+			cout << "Error: " << path_to_git << " is not path to git repository!" << endl;
+			count++;
+		}
+	}
+	else {
+		cout << "There is no path_to_git!" << endl;
 		count++;
 	}
 
