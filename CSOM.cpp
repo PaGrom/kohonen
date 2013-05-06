@@ -218,53 +218,55 @@ string CSOM::ConvertRGBtoHex(int r, int g, int b) {
 
 void CSOM::Render() {
 
-	int ind=0;
-	for(int i=0; i<m_xcells; i++) {
-		for(int j=0; j<m_ycells; j++) {
-			for(int k=0; k < m_dimension; k++) {
-				//m_som_nodes[ind].GetCoordinates(x1,y1,x2,y2);
-				//printf("i = %d j = %d k = %d\n", i, j, k);
-				double range = m_max_values[k] - m_min_values[k];
-				double avg = 255*(m_som_nodes->at(ind)->GetWeight(k)-m_min_values[k])/range; 
-				string col = GetPalColor(avg); 
-				RenderCell(k,col,ind,(j%2==0));
+	if (m_dimension == 3) {
+		int ind=0;
+		for(int i=0; i<m_xcells; i++) {
+			for(int j=0; j<m_ycells; j++) {
+				for(int k=0; k < m_dimension; k++) {
+					//m_som_nodes[ind].GetCoordinates(x1,y1,x2,y2);
+					//printf("i = %d j = %d k = %d\n", i, j, k);
+					double range = m_max_values[k] - m_min_values[k];
+					double avg = 255*(m_som_nodes->at(ind)->GetWeight(k)-m_min_values[k])/range; 
+					string col = GetPalColor(avg); 
+					RenderCell(k,col,ind,(j%2==0));
+				}
+
+				int r = (255*m_som_nodes->at(ind)->GetWeight(0)/(m_max_values[0]-m_min_values[0]));
+				int g = (255*m_som_nodes->at(ind)->GetWeight(1)/(m_max_values[1]-m_min_values[1]));
+				int b = (255*m_som_nodes->at(ind)->GetWeight(2)/(m_max_values[2]-m_min_values[2]));
+				string col=ConvertRGBtoHex(r,g,b);
+				RenderCell(3, col, ind, (j%2==0));
+				
+				ind++;
 			}
-
-			int r = (255*m_som_nodes->at(ind)->GetWeight(0)/(m_max_values[0]-m_min_values[0]));
-			int g = (255*m_som_nodes->at(ind)->GetWeight(1)/(m_max_values[1]-m_min_values[1]));
-			int b = (255*m_som_nodes->at(ind)->GetWeight(2)/(m_max_values[2]-m_min_values[2]));
-			string col=ConvertRGBtoHex(r,g,b);
-			RenderCell(3, col, ind, (j%2==0));
-			
-			ind++;
 		}
+
+		//--- рисуем обозначения RGB компонент на главной картинке
+		images->at(m_dimension).strokeWidth(0.005);
+		images->at(m_dimension).strokeLineJoin(RoundJoin);
+		images->at(m_dimension).strokeLineCap(RoundCap);
+		images->at(m_dimension).strokeAntiAlias(true);
+
+		images->at(m_dimension).strokeColor("red");
+		images->at(m_dimension).fillColor("red");
+		images->at(m_dimension).draw(DrawableText(10 + 0 * m_xsize/4, m_ysize - 20, "R"));	
+
+		images->at(m_dimension).strokeColor("green");
+		images->at(m_dimension).fillColor("green");
+		images->at(m_dimension).draw(DrawableText(10 + 1 * m_xsize/4, m_ysize - 20, "G"));	
+
+		images->at(m_dimension).strokeColor("blue");
+		images->at(m_dimension).fillColor("blue");
+		images->at(m_dimension).draw(DrawableText(10 + 2 * m_xsize/4, m_ysize - 20, "B"));
+
+		images->at(m_dimension).strokeColor("white");
+		images->at(m_dimension).fillColor("white");
+
+		images->at(m_dimension).draw(DrawableText(25 + 0 * m_xsize/4, m_ysize - 20, "= " + m_train_titles->at(0)));
+		images->at(m_dimension).draw(DrawableText(25 + 1 * m_xsize/4, m_ysize - 20, "= " + m_train_titles->at(1)));
+		images->at(m_dimension).draw(DrawableText(25 + 2 * m_xsize/4, m_ysize - 20, "= " + m_train_titles->at(2)));
 	}
-
-	//--- рисуем обозначения RGB компонент на главной картинке
-	images->at(m_dimension).strokeWidth(0.005);
-	images->at(m_dimension).strokeLineJoin(RoundJoin);
-	images->at(m_dimension).strokeLineCap(RoundCap);
-	images->at(m_dimension).strokeAntiAlias(true);
-
-	images->at(m_dimension).strokeColor("red");
-	images->at(m_dimension).fillColor("red");
-	images->at(m_dimension).draw(DrawableText(10 + 0 * m_xsize/4, m_ysize - 20, "R"));	
-
-	images->at(m_dimension).strokeColor("green");
-	images->at(m_dimension).fillColor("green");
-	images->at(m_dimension).draw(DrawableText(10 + 1 * m_xsize/4, m_ysize - 20, "G"));	
-
-	images->at(m_dimension).strokeColor("blue");
-	images->at(m_dimension).fillColor("blue");
-	images->at(m_dimension).draw(DrawableText(10 + 2 * m_xsize/4, m_ysize - 20, "B"));
-
-	images->at(m_dimension).strokeColor("white");
-	images->at(m_dimension).fillColor("white");
-
-	images->at(m_dimension).draw(DrawableText(25 + 0 * m_xsize/4, m_ysize - 20, "= " + m_train_titles->at(0)));
-	images->at(m_dimension).draw(DrawableText(25 + 1 * m_xsize/4, m_ysize - 20, "= " + m_train_titles->at(1)));
-	images->at(m_dimension).draw(DrawableText(25 + 2 * m_xsize/4, m_ysize - 20, "= " + m_train_titles->at(2)));
-
+	
 	//--- рисуем градиентную полосу для каждой из компонентных плоскостей
 	for(int m=0; m<m_dimension; m++) {
 		for(int k=m_ysize - 15; k<m_ysize; k++) {
