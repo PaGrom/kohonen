@@ -262,7 +262,7 @@ bool check_parameters() {
 	}
 
 	// проверка паттернов
-	if (patterns.size() == 3)
+	if (patterns.size() != 3)
 		cout << "There aren't 3 patterns. Can't render main image in RGB." << endl;
 
 	// проверка паттернов на одинаковые имена
