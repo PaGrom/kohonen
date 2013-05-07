@@ -128,7 +128,7 @@ void CSOM::Train() {
 
 	int total_nodes = m_som_nodes->size();
 
-	int frame=0;
+	cout << "Iterations: " << iter << "/" << m_iterations;
 	do {
 		//--- выбираем случайным образом индекс вектора из обучающего множества
 		int ind = rand() % m_total_training_sets;
@@ -164,9 +164,12 @@ void CSOM::Train() {
 
 		//--- увеличиваем счетчик итераций
 		iter++;
+
+		cout << "\rIterations: " << iter << "/" << m_iterations;
 	}
 	//--- продолжаем цикл до тех пор, пока не будет выполнено заданное число итераций
 	while(iter<m_iterations);
+	cout << endl;
 }
 
 int CSOM::BestMatchingNode(vector<double> *vec) {
