@@ -20,6 +20,9 @@
 using namespace std;
 using namespace Magick;
 
+//количество итераций обучения
+int iterations;
+
 // печатать контур ячеек
 bool borders = false;
 // печатать подписи
@@ -118,6 +121,7 @@ void parse_commandline(int argc, char **argv) {
 	char *Cvalue = NULL;
 	char *pvalue = NULL;
 	char *Ivalue = NULL;
+	char *Dvalue = NULL;
 
 	int index;
 	int par;
@@ -125,7 +129,7 @@ void parse_commandline(int argc, char **argv) {
 
 	opterr = 0;
 
-	const char* short_options = "C:hn:P:btc:i:D:p:";
+	const char* short_options = "C:hn:P:btc:i:D:p:I:";
 
 	const struct option long_options[] = {
 		{"config", no_argument, NULL, 'C'},
@@ -138,6 +142,7 @@ void parse_commandline(int argc, char **argv) {
 		{"image_xy", required_argument, NULL, 'i'},
 		{"image_dir", required_argument, NULL, 'D'},
 		{"patterns", required_argument, NULL, 'p'},
+		{"iterations", required_argument, NULL, 'I'},
 		{NULL,0,NULL,0}
 	};
 
@@ -150,6 +155,7 @@ void parse_commandline(int argc, char **argv) {
 				cout << "Usage: " << argv[0] << "[options] [target] ..." << endl;
 				cout << "Options:" << endl;
 				cout << "   -C,\t--config <file>\t\t\tLoad parameters from config file." << endl;
+				cout << "   -I,\t--iterations <num>\t\t\tNumber of iterations for network train." << endl;
 				cout << "   -n,\t--num_of_commits <num>\t\tNumber of last commits." << endl;
 				cout << "   -P,\t--path <path>\t\t\tPath to git folder." << endl;
 				cout << "   -b,\t--show_borders\t\t\tShow borders of hexagons." << endl;
@@ -166,6 +172,11 @@ void parse_commandline(int argc, char **argv) {
 				Cvalue = optarg;
 				if (!load_from_config(Cvalue))
 					cout << "Error: wrong config file." << endl;
+				break;
+
+			case 'I':
+				Ivalue = optarg;
+				iterations = atoi(Ivalue);
 				break;
 
 			case 'n':
@@ -206,8 +217,8 @@ void parse_commandline(int argc, char **argv) {
 				break;
 
 			case 'D':
-				Ivalue = optarg;
-				image_dir = (char*)Ivalue;
+				Dvalue = optarg;
+				image_dir = (char*)Dvalue;
 				break;
 
 			case 'p':
@@ -337,7 +348,7 @@ int main(int argc, char **argv) {
 		CSOM som;
 		cout << "Loading parameters from " << path_to_git << "..." << endl;
 		som.Load(path_to_git, num_of_commits, patterns);
-		som.InitParameters(10000, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize, image_dir);
+		som.InitParameters(iterations, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize, image_dir);
 		cout << "Training neural network..." << endl;
 		som.Train();
 		cout << "Rendering images..." << endl;
