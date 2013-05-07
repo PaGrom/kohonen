@@ -125,7 +125,7 @@ void parse_commandline(int argc, char **argv) {
 
 	opterr = 0;
 
-	const char* short_options = "C:hn:P:btc:i:I:p:";
+	const char* short_options = "C:hn:P:btc:i:D:p:";
 
 	const struct option long_options[] = {
 		{"config", no_argument, NULL, 'C'},
@@ -136,7 +136,7 @@ void parse_commandline(int argc, char **argv) {
 		{"show_titles", no_argument, NULL, 't'},
 		{"cells_xy", required_argument, NULL, 'c'},
 		{"image_xy", required_argument, NULL, 'i'},
-		{"image_dir", required_argument, NULL, 'I'},
+		{"image_dir", required_argument, NULL, 'D'},
 		{"patterns", required_argument, NULL, 'p'},
 		{NULL,0,NULL,0}
 	};
@@ -156,7 +156,7 @@ void parse_commandline(int argc, char **argv) {
 				cout << "   -t,\t--show_titles\t\t\tShow titles on images." << endl;
 				cout << "   -i,\t--image_xy <x>x<y>\t\tSetup size of images. Max of X is 1920. Max of Y is 1080." << endl;
 				cout << "   -c,\t--cells_xy <x>x<y>\t\tSetup number of cells." << endl;
-				cout << "   -I,\t--image_dir <path>\t\tSetup folder for saving images." << endl;
+				cout << "   -D,\t--image_dir <path>\t\tSetup folder for saving images." << endl;
 				cout << "   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns." << endl;
 				cout << "   -h,\t--help\t\t\t\tPrint this message and exit." << endl;
 				exit(0);
@@ -205,7 +205,7 @@ void parse_commandline(int argc, char **argv) {
 				ImageYSize = atoi(v.at(1).c_str());
 				break;
 
-			case 'I':
+			case 'D':
 				Ivalue = optarg;
 				image_dir = (char*)Ivalue;
 				break;
@@ -228,7 +228,7 @@ void parse_commandline(int argc, char **argv) {
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (optopt == 'p')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
-				else if (optopt == 'I')
+				else if (optopt == 'D')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (isprint (optopt))
 					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
