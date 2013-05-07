@@ -103,6 +103,9 @@ bool load_from_config(char* config_file) {
 				else if (key == "num_of_commits") {
 					num_of_commits = atoi(value.c_str());
 				}
+				else if (key == "iterations") {
+					iterations = atoi(value.c_str());
+				}
 				else if (key == "patterns") {
 					patterns = split(value, ',');
 				}
