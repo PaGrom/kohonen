@@ -272,6 +272,12 @@ bool check_parameters() {
 		count++;
 	}
 
+	// проверка количества итераций обучения сети
+	if (iterations <= 0) {
+		cout << "Error: wrong value of iterations!" << endl;
+		count++;
+	}
+
 	// проверка паттернов
 	if (patterns.size() != 0) {
 		if (patterns.size() != 3)
