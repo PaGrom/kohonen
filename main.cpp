@@ -182,11 +182,6 @@ void parse_commandline(int argc, char **argv) {
 			case 'n':
 				nvalue = optarg;
 				num_of_commits = atoi(nvalue);
-
-				if (!num_of_commits) {
-					cout << "Error: number-of-last-commits must be a number and greater than zero!" << endl;
-					exit(1); 
-				}
 				break;
 
 			case 'P':
