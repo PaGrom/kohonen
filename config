@@ -5,4 +5,5 @@ image_xy=750x750
 image_dir=../Images
 path_to_git=~/linux-stable/
 num_of_commits=200
+iterations=10000
 patterns=arm,x86,drivers
