@@ -50,6 +50,8 @@ vector<string> patterns;
 
 // имя xml-файла для сохранения/загрузки данных
 string xml_file;
+// сохранять данные в xmk-файл
+bool save_xml = false;
 
 bool load_from_config(char* config_file) {
 
@@ -233,6 +235,7 @@ void parse_commandline(int argc, char **argv) {
 			case 'S':
 				Svalue = optarg;
 				xml_file = (char*)Svalue;
+				save_xml = true;
 				break;
 
 			case '?':
@@ -365,6 +368,11 @@ int main(int argc, char **argv) {
 		CSOM som;
 		cout << "Loading parameters from " << path_to_git << "..." << endl;
 		som.Load(path_to_git, num_of_commits, patterns);
+		if (save_xml) {
+			cout << "Saving data to " << xml_file << "..." << endl;
+			som.SaveXML(xml_file);
+		}
+		cout << "Initialisation parameters..." << endl;
 		som.InitParameters(iterations, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize, image_dir);
 		cout << "Training neural network..." << endl;
 		som.Train();
