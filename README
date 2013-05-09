@@ -1,5 +1,8 @@
 Dependencies:
-	sudo apt-get install imagemagick libmagick++-dev
+	Ubuntu:
+		sudo apt-get install imagemagick libmagick++-dev libtinyxml-dev
+	Mac OSX:
+		sudo port install tinyxml
 
 Compile:
 	1. mkdir build
