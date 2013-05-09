@@ -80,6 +80,8 @@ public:
 	void Load(string path_to_git, int num_of_commits, vector<string> parameters);
 	//--- загрузка данных для обучения из xml-файла
 	bool LoadXML(string xml_file);
+	//--- сохранение данных обучения в xml-файл
+	void SaveXML(string file);
 	string ConvertRGBtoHex(int num);
 	string ConvertRGBtoHex(int r, int g, int b);
 	void Render();

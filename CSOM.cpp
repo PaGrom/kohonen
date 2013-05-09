@@ -238,6 +238,34 @@ bool CSOM::LoadXML(string file) {
 	return true;
 }
 
+void CSOM::SaveXML(string file) {
+	TiXmlDocument xml_file;
+
+ 	TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");  
+	xml_file.LinkEndChild(decl);  
+ 
+	TiXmlElement* root = new TiXmlElement("GitLinux");  
+	xml_file.LinkEndChild(root);  
+
+	// сохранение параметров
+	for (vector<string>::iterator it = m_train_titles->begin(); it < m_train_titles->end(); it++) {
+		TiXmlElement* parameters = new TiXmlElement("Parameter");  
+		root->LinkEndChild(parameters);  
+		parameters->SetAttribute("par", it->c_str());
+	}
+
+	// сохренение собранных данных
+	for (int i = 0; i < m_dev_emails->size(); ++i) {
+		TiXmlElement* developer= new TiXmlElement("Developer");
+		root->LinkEndChild(developer);
+		developer->SetAttribute("Email", m_dev_emails->at(i));
+		for (int j = 0; j < m_train_titles->size(); ++j)
+			developer->SetAttribute(m_train_titles->at(j), m_training_sets_array->at(i * m_train_titles->size() + j));
+	}
+
+	xml_file.SaveFile(file);  
+}
+
 string CSOM::ConvertRGBtoHex(int num) {
 	static string hexDigits = "0123456789ABCDEF";
 	string rgb;
