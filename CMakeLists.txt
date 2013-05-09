@@ -38,7 +38,7 @@ SET( CMAKE_MODULE_PATH
 
 find_package(TINYXML)
 
-include_directories(${TINYXML_INCLUDE_DIRS})
+include_directories(${TINYXML_INCLUDE_DIR})
 
 SET( TINYXML_USE_STL ON
      CACHE BOOL "tinyxml will use native STL." )
