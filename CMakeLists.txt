@@ -44,11 +44,4 @@ SET( TINYXML_USE_STL ON
      CACHE BOOL "tinyxml will use native STL." )
 MARK_AS_ADVANCED( TINYXML_USE_STL )
 
-IF( NOT TINYXML_FOUND )
-    ADD_SUBDIRECTORY( "lib/tinyxml" )
-    SET( TINYXML_FOUND       TRUE )
-    SET( TINYXML_INCLUDE_DIR "${tinyxml_INCLUDE_DIR}" )
-    SET( TINYXML_LIBRARIES   "tinyxml" )
-ENDIF( NOT TINYXML_FOUND )
-
 target_link_libraries(kohonen funcs csom csomnode gitparser maintainer ${ImageMagick_LIBRARIES} ${TINYXML_LIBRARIES})
