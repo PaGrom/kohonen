@@ -48,6 +48,9 @@ int num_of_commits;
 // список названий обучающих паттерно
 vector<string> patterns;
 
+// имя xml-файла для сохранения/загрузки данных
+string xml_file;
+
 bool load_from_config(char* config_file) {
 
 	ifstream file(config_file);
@@ -125,6 +128,7 @@ void parse_commandline(int argc, char **argv) {
 	char *pvalue = NULL;
 	char *Ivalue = NULL;
 	char *Dvalue = NULL;
+	char *Svalue = NULL;
 
 	int index;
 	int par;
@@ -132,7 +136,7 @@ void parse_commandline(int argc, char **argv) {
 
 	opterr = 0;
 
-	const char* short_options = "C:hn:P:btc:i:D:p:I:";
+	const char* short_options = "C:hn:P:btc:i:D:p:I:S:";
 
 	const struct option long_options[] = {
 		{"config", no_argument, NULL, 'C'},
@@ -146,6 +150,7 @@ void parse_commandline(int argc, char **argv) {
 		{"image_dir", required_argument, NULL, 'D'},
 		{"patterns", required_argument, NULL, 'p'},
 		{"iterations", required_argument, NULL, 'I'},
+		{"save_xml", required_argument, NULL, 'S'},
 		{NULL,0,NULL,0}
 	};
 
@@ -167,6 +172,7 @@ void parse_commandline(int argc, char **argv) {
 				cout << "   -c,\t--cells_xy <x>x<y>\t\tSetup number of cells." << endl;
 				cout << "   -D,\t--image_dir <path>\t\tSetup folder for saving images." << endl;
 				cout << "   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns." << endl;
+				cout << "   -S,\t--save_xml <file_name>\tSave data to xml." << endl;
 				cout << "   -h,\t--help\t\t\t\tPrint this message and exit." << endl;
 				exit(0);
 				break;
@@ -224,6 +230,11 @@ void parse_commandline(int argc, char **argv) {
 				patterns = split(pvalue, ',');
 				break;
 
+			case 'S':
+				Svalue = optarg;
+				xml_file = (char*)Svalue;
+				break;
+
 			case '?':
 				if (optopt == 'C')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
@@ -238,6 +249,8 @@ void parse_commandline(int argc, char **argv) {
 				else if (optopt == 'p')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (optopt == 'D')
+					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				else if (optopt == 'S')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (isprint (optopt))
 					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
