@@ -11,6 +11,7 @@
 #include <sstream>
 #include <cmath>
 #include <Magick++.h>
+#include <tinyxml.h>
 
 #include "GitParser.hpp"
 #include "CSOMNode.hpp"
@@ -77,6 +78,8 @@ public:
 	void Train();
 	int BestMatchingNode(vector<double> *vec);
 	void Load(string path_to_git, int num_of_commits, vector<string> parameters);
+	//--- загрузка данных для обучения из xml-файла
+	bool LoadXML(string xml_file);
 	string ConvertRGBtoHex(int num);
 	string ConvertRGBtoHex(int r, int g, int b);
 	void Render();

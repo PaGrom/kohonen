@@ -204,6 +204,40 @@ void CSOM::Load(string path_to_git, int num_of_commits, vector<string> parameter
 	m_total_training_sets = m_training_sets_array->size() / m_dimension;
 }
 
+bool CSOM::LoadXML(string file) {
+
+	TiXmlDocument *xml_file = new TiXmlDocument(file);
+
+	if(!xml_file->LoadFile()) {
+		printf("Проблема с XML-файлом\n");
+		return false;
+	}
+
+	TiXmlElement *root = xml_file->FirstChildElement("GitLinux");
+
+	TiXmlElement *parameters = root->FirstChildElement("Parameter");
+
+	while (parameters != NULL) {
+		m_train_titles->push_back(parameters->Attribute("par"));
+		parameters = parameters->NextSiblingElement("Parameter");
+	}
+
+	TiXmlElement *developer = root->FirstChildElement("Developer");
+
+	while(developer != NULL) {
+		for (vector<string>::iterator it = m_train_titles->begin(); it < m_train_titles->end(); it++)
+			m_training_sets_array->push_back(atoi(developer->Attribute(it->c_str())));
+
+		m_dev_emails->push_back(developer->Attribute("Email"));
+		developer = developer->NextSiblingElement("Developer");
+	}
+
+	m_dimension = m_train_titles->size();
+	m_total_training_sets = m_training_sets_array->size() / m_dimension;
+
+	return true;
+}
+
 string CSOM::ConvertRGBtoHex(int num) {
 	static string hexDigits = "0123456789ABCDEF";
 	string rgb;
