@@ -118,6 +118,10 @@ bool load_from_config(char* config_file) {
 				else if (key == "patterns") {
 					patterns = split(value, ',');
 				}
+				else if (key == "save_xml") {
+					save_xml_file = value;
+					save_xml = true;
+				}
 			}
 		}
 	}
