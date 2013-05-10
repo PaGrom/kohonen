@@ -122,6 +122,10 @@ bool load_from_config(char* config_file) {
 					save_xml_file = value;
 					save_xml = true;
 				}
+				else if (key == "load_xml") {
+					load_xml_file = value;
+					load_xml = true;
+				}
 			}
 		}
 	}
