@@ -391,7 +391,10 @@ int main(int argc, char **argv) {
 		CSOM som;
 		if (load_xml) {
 			cout << "Loading parameters from " << load_xml_file << "..." << endl;
-			som.LoadXML(load_xml_file);
+			if(!som.LoadXML(load_xml_file))	{
+				cout << "Wrong " << load_xml_file << "!" << endl;
+				exit(0);
+			}
 		}
 		else {
 			cout << "Loading parameters from " << path_to_git << "..." << endl;
