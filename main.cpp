@@ -48,10 +48,14 @@ int num_of_commits;
 // список названий обучающих паттерно
 vector<string> patterns;
 
-// имя xml-файла для сохранения/загрузки данных
-string xml_file;
-// сохранять данные в xmk-файл
+// имя xml-файла для сохранения данных
+string save_xml_file;
+// имя xml-файла для загрузки данных
+string load_xml_file;
+// сохранять данные в xml-файл
 bool save_xml = false;
+// загрузить данные из xml-файла
+bool load_xml = false;
 
 bool load_from_config(char* config_file) {
 
@@ -131,6 +135,7 @@ void parse_commandline(int argc, char **argv) {
 	char *Ivalue = NULL;
 	char *Dvalue = NULL;
 	char *Svalue = NULL;
+	char *Lvalue = NULL;
 
 	int index;
 	int par;
@@ -138,7 +143,7 @@ void parse_commandline(int argc, char **argv) {
 
 	opterr = 0;
 
-	const char* short_options = "C:hn:P:btc:i:D:p:I:S:";
+	const char* short_options = "C:hn:P:btc:i:D:p:I:S:L:";
 
 	const struct option long_options[] = {
 		{"config", no_argument, NULL, 'C'},
@@ -153,6 +158,7 @@ void parse_commandline(int argc, char **argv) {
 		{"patterns", required_argument, NULL, 'p'},
 		{"iterations", required_argument, NULL, 'I'},
 		{"save_xml", required_argument, NULL, 'S'},
+		{"load_xml", required_argument, NULL, 'L'},
 		{NULL,0,NULL,0}
 	};
 
@@ -175,6 +181,7 @@ void parse_commandline(int argc, char **argv) {
 				cout << "   -D,\t--image_dir <path>\t\tSetup folder for saving images." << endl;
 				cout << "   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns." << endl;
 				cout << "   -S,\t--save_xml <file_name>\tSave data to xml." << endl;
+				cout << "   -L,\t--load_xml <file_name>\tLoad data from xml." << endl;
 				cout << "   -h,\t--help\t\t\t\tPrint this message and exit." << endl;
 				exit(0);
 				break;
@@ -234,8 +241,14 @@ void parse_commandline(int argc, char **argv) {
 
 			case 'S':
 				Svalue = optarg;
-				xml_file = (char*)Svalue;
+				save_xml_file = (char*)Svalue;
 				save_xml = true;
+				break;
+
+			case 'L':
+				Lvalue = optarg;
+				load_xml_file = (char*)Lvalue;
+				load_xml = true;
 				break;
 
 			case '?':
@@ -254,6 +267,8 @@ void parse_commandline(int argc, char **argv) {
 				else if (optopt == 'D')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (optopt == 'S')
+					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				else if (optopt == 'L')
 					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 				else if (isprint (optopt))
 					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
@@ -366,11 +381,17 @@ int main(int argc, char **argv) {
 	// проверка параметров
 	if (check_parameters()) {
 		CSOM som;
-		cout << "Loading parameters from " << path_to_git << "..." << endl;
-		som.Load(path_to_git, num_of_commits, patterns);
-		if (save_xml) {
-			cout << "Saving data to " << xml_file << "..." << endl;
-			som.SaveXML(xml_file);
+		if (load_xml) {
+			cout << "Loading parameters from " << load_xml_file << "..." << endl;
+			som.LoadXML(load_xml_file);
+		}
+		else {
+			cout << "Loading parameters from " << path_to_git << "..." << endl;
+			som.Load(path_to_git, num_of_commits, patterns);
+			if (save_xml) {
+				cout << "Saving data to " << save_xml_file << "..." << endl;
+				som.SaveXML(save_xml_file);
+			}
 		}
 		cout << "Initialisation parameters..." << endl;
 		som.InitParameters(iterations, borders, titles, CellsX, CellsY, ImageXSize, ImageYSize, image_dir);
