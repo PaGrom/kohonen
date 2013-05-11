@@ -283,29 +283,29 @@ string CSOM::ConvertRGBtoHex(int r, int g, int b) {
 
 void CSOM::Render() {
 
-	if (m_dimension == 3) {
-		int ind=0;
-		for(int i=0; i<m_xcells; i++) {
-			for(int j=0; j<m_ycells; j++) {
-				for(int k=0; k < m_dimension; k++) {
-					//m_som_nodes[ind].GetCoordinates(x1,y1,x2,y2);
-					//printf("i = %d j = %d k = %d\n", i, j, k);
-					double range = m_max_values[k] - m_min_values[k];
-					double avg = 255*(m_som_nodes->at(ind)->GetWeight(k)-m_min_values[k])/range; 
-					string col = GetPalColor(avg); 
-					RenderCell(k,col,ind,(j%2==0));
-				}
-
+	int ind=0;
+	for(int i=0; i<m_xcells; i++) {
+		for(int j=0; j<m_ycells; j++) {
+			for(int k=0; k < m_dimension; k++) {
+				//m_som_nodes[ind].GetCoordinates(x1,y1,x2,y2);
+				//printf("i = %d j = %d k = %d\n", i, j, k);
+				double range = m_max_values[k] - m_min_values[k];
+				double avg = 255*(m_som_nodes->at(ind)->GetWeight(k)-m_min_values[k])/range; 
+				string col = GetPalColor(avg); 
+				RenderCell(k,col,ind,(j%2==0));
+			}
+			if (m_dimension == 3) {
 				int r = (255*m_som_nodes->at(ind)->GetWeight(0)/(m_max_values[0]-m_min_values[0]));
 				int g = (255*m_som_nodes->at(ind)->GetWeight(1)/(m_max_values[1]-m_min_values[1]));
 				int b = (255*m_som_nodes->at(ind)->GetWeight(2)/(m_max_values[2]-m_min_values[2]));
 				string col=ConvertRGBtoHex(r,g,b);
 				RenderCell(3, col, ind, (j%2==0));
-				
-				ind++;
 			}
+			ind++;
 		}
-
+	}
+	
+	if (m_dimension == 3) {
 		//--- рисуем обозначения RGB компонент на главной картинке
 		images->at(m_dimension).strokeWidth(0.005);
 		images->at(m_dimension).strokeLineJoin(RoundJoin);
@@ -366,16 +366,12 @@ void CSOM::Render() {
 	// Создаем столько потоков, сколько требуется нарисовать картинок
 	pthread_t thread[m_dimension + 1];
 
-	for(int k=0; k < m_dimension + 1; k++) {
+	for(int k=0; k < m_dimension; k++) {
 		if (ShowTitles)
 			ShowPattern(&(images->at(k)));
 
 		// Задаем имя картинки
-		string title;
-		if (k < m_dimension)
-			title = image_dir + "/" + m_train_titles->at(k) + ".png";
-		else
-			title = image_dir + "/" + "main.png";
+		string title = image_dir + "/" + m_train_titles->at(k) + ".png";
 
 		// Собираем информацию для передачи в поток
 		p_data* data = new p_data;
@@ -386,9 +382,28 @@ void CSOM::Render() {
 		pthread_create(&thread[k], NULL, &p_render_image, (void*)data);
 	}
 
+	if (m_dimension == 3) {
+		if (ShowTitles)
+			ShowPattern(&(images->at(3)));
+
+		// Задаем имя картинки
+		string title = image_dir + "/" + "main.png";
+
+		// Собираем информацию для передачи в поток
+		p_data* data = new p_data;
+		data->image = &(images->at(3));
+		data->title = title;
+
+		// Запускаем поток
+		pthread_create(&thread[3], NULL, &p_render_image, (void*)data);
+	}
+
 	// дожидаемся завершения всех потоков
-	for(int k=0; k < m_dimension + 1; k++)
+	for(int k = 0; k < m_dimension; k++)
 		pthread_join(thread[k], NULL);
+
+	if (m_dimension == 3)
+		pthread_join(thread[3], NULL);
 }
 
 void CSOM::RenderCell(int img, string col, int ind, bool cell_even) {
