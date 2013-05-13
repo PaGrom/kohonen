@@ -176,10 +176,10 @@ void parse_commandline(int argc, char **argv) {
 		long_options,&option_index))!=-1)
 		switch (par) {
 			case 'h':
-				cout << "Usage: " << argv[0] << "[options] [target] ..." << endl;
+				cout << "Usage: " << argv[0] << " [options] [target] ..." << endl;
 				cout << "Options:" << endl;
 				cout << "   -C,\t--config <file>\t\t\tLoad parameters from config file." << endl;
-				cout << "   -I,\t--iterations <num>\t\t\tNumber of iterations for network train." << endl;
+				cout << "   -I,\t--iterations <num>\t\tNumber of iterations for network train." << endl;
 				cout << "   -n,\t--num_of_commits <num>\t\tNumber of last commits." << endl;
 				cout << "   -P,\t--path <path>\t\t\tPath to git folder." << endl;
 				cout << "   -b,\t--show_borders\t\t\tShow borders of hexagons." << endl;
@@ -187,9 +187,9 @@ void parse_commandline(int argc, char **argv) {
 				cout << "   -i,\t--image_xy <x>x<y>\t\tSetup size of images. Max of X is 1920. Max of Y is 1080." << endl;
 				cout << "   -c,\t--cells_xy <x>x<y>\t\tSetup number of cells." << endl;
 				cout << "   -D,\t--image_dir <path>\t\tSetup folder for saving images." << endl;
-				cout << "   -p,\t--patterns <pat1,pat2,pat3>\tSetup patterns." << endl;
-				cout << "   -S,\t--save_xml <file_name>\tSave data to xml." << endl;
-				cout << "   -L,\t--load_xml <file_name>\tLoad data from xml." << endl;
+				cout << "   -p,\t--patterns <pattern_1,...>\tSetup patterns." << endl;
+				cout << "   -S,\t--save_xml <file_name>\t\tSave data to xml." << endl;
+				cout << "   -L,\t--load_xml <file_name>\t\tLoad data from xml." << endl;
 				cout << "   -h,\t--help\t\t\t\tPrint this message and exit." << endl;
 				exit(0);
 				break;
