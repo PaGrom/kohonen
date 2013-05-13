@@ -32,30 +32,30 @@ void CSOM::InitParameters(int iterations, bool borders, int titles,
 	ShowBorders = borders;
 	ShowTitles = titles;
 
-	m_xsize=bmpwidth;
-	m_ysize=bmpheight;
+	m_xsize = bmpwidth;
+	m_ysize = bmpheight;
 
-	m_xcells=xcells;
-	m_ycells=ycells;
+	m_xcells = xcells;
+	m_ycells = ycells;
 
 	image_dir = dir;
 
 	//--- задаем количество итераций   
-	m_iterations=iterations;
-	int cellwidth=m_xsize/m_xcells;
-	int cellheight=m_ysize/m_ycells;
+	m_iterations = iterations;
+	int cellwidth = m_xsize/m_xcells;
+	int cellheight = m_ysize/m_ycells;
 
 	//--- находим максимальные и минимальные значения компонент обучающего набора
-	for(int j=0; j<m_dimension; j++) {
+	for (int j = 0; j < m_dimension; j++) {
 		int maxv = m_training_sets_array->at(j);
 		int minv = m_training_sets_array->at(j);
 
-		for(int i=1; i<m_total_training_sets; i++) {
-			int v = m_training_sets_array->at(m_dimension*i+j);
-			if (v>maxv)
-				maxv=v;
-			if(v<minv)
-				minv=v;
+		for (int i = 1; i < m_total_training_sets; i++) {
+			int v = m_training_sets_array->at(m_dimension * i + j);
+			if (v > maxv)
+				maxv = v;
+			if(v < minv)
+				minv = v;
 		}
 
 		m_max_values.push_back(maxv);
@@ -72,18 +72,18 @@ void CSOM::InitParameters(int iterations, bool borders, int titles,
 	}
 
 	//--- инициализируем узлы
-	for(int i=0; i<m_xcells; i++) {
-		for(int j=0; j<m_ycells; j++) {
+	for (int i = 0; i < m_xcells; i++) {
+		for (int j = 0; j < m_ycells; j++) {
 			CSOMNode *node = new CSOMNode(m_dimension);
-			node->InitNode(i*cellwidth,j*cellheight,(i+1)*cellwidth,(j+1)*cellheight, maximum);
+			node->InitNode(i * cellwidth, j * cellheight, (i + 1) * cellwidth, (j + 1) * cellheight, maximum);
 			m_som_nodes->push_back(node);
 		}
 	}
 	//--- вычисляем начальный радиус окрестности
-	if(m_xsize>m_ysize)
-		m_map_radius=m_xsize/2.0;
+	if (m_xsize > m_ysize)
+		m_map_radius = m_xsize / 2.0;
 	else
-		m_map_radius=m_ysize/2.0;
+		m_map_radius = m_ysize / 2.0;
 
 	m_time_constant=1.0*m_iterations/log(m_map_radius);
 
@@ -91,39 +91,39 @@ void CSOM::InitParameters(int iterations, bool borders, int titles,
 		images->push_back(Image(Geometry(m_xsize, m_ysize), Color("black")));
 	}
 
-	Blend(0,255,0,0,0,255,0,0);
+	Blend(0, 255, 0, 0, 0, 255, 0, 0);
 
-	Blend(0,1*64-1,98,98,255,98,255,255);
-	Blend(1*64,2*64-1,98,255,255,98,255,98);
-	Blend(2*64,3*64-1,98,255,98,255,255,98);
-	Blend(3*64,4*64-1,255,255,98,255,98,98);
+	Blend(0, 1 * 64 - 1, 98, 98, 255, 98, 255, 255);
+	Blend(1 * 64, 2 * 64 - 1, 98, 255, 255, 98, 255, 98);
+	Blend(2 * 64, 3 * 64 - 1, 98, 255, 98, 255, 255, 98);
+	Blend(3 * 64, 4 * 64 - 1, 255, 255, 98, 255, 98, 98);
 }
 
 void CSOM::Blend(int c1, int c2, int r1, int g1, int b1, int r2, int g2, int b2) {
-	int n = (c2-c1);
-	for(int i=0; i<=n; i++) {
-		if((c1+i+2) < 768) {
-			Palette[3*(c1+i)+0] = round(1*(r1*(n-i) + r2*i) * 1.0 / n);
-			Palette[3*(c1+i)+1] = round(1*(g1*(n-i) + g2*i) * 1.0 / n);
-			Palette[3*(c1+i)+2] = round(1*(b1*(n-i) + b2*i) * 1.0 / n);
+	int n = (c2 - c1);
+	for (int i = 0; i <= n; i++) {
+		if ((c1 + i + 2) < 768) {
+			Palette[3 * (c1 + i) + 0] = round(1 * (r1 * (n - i) + r2 * i) * 1.0 / n);
+			Palette[3 * (c1 + i) + 1] = round(1 * (g1 * (n - i) + g2 * i) * 1.0 / n);
+			Palette[3 * (c1 + i) + 2] = round(1 * (b1 * (n - i) + b2 * i) * 1.0 / n);
 		}
 	}
 }
 
 string CSOM::GetPalColor(int ind) {
 
-	if(ind<=0)
-		ind=0;
-	int r=Palette[3*(ind)];
-	int g=Palette[3*(ind)+1];
-	int b=Palette[3*(ind)+2];
+	if (ind <= 0)
+		ind = 0;
+	int r = Palette[3 * ind];
+	int g = Palette[3 * ind + 1];
+	int b = Palette[3 * ind + 2];
 
-	return(ConvertRGBtoHex(r,g,b));
+	return ConvertRGBtoHex(r, g, b);
 }
 
 void CSOM::Train() {
 	double learning_rate = m_initial_learning_rate;
-	int iter=0;
+	int iter = 0;
 	vector<double> datavector(m_dimension);
 
 	int total_nodes = m_som_nodes->size();
@@ -134,17 +134,17 @@ void CSOM::Train() {
 		int ind = rand() % m_total_training_sets;
 
 		//--- устанавливаем datavector его значениями
-		for(int k=0; k<m_dimension; k++)
-			datavector.at(k) = m_training_sets_array->at(m_dimension*(ind)+k);
+		for (int k = 0; k < m_dimension; k++)
+			datavector.at(k) = m_training_sets_array->at(m_dimension * ind + k);
 
 		//--- находим индекс узла сети, наиболее близкого к datavector
 		int winningnode = BestMatchingNode(&datavector);
 
 		//--- определяем текущий радиус окрестности
-		double neighbourhood_radius = m_map_radius*exp(-1.0*iter/m_time_constant);
+		double neighbourhood_radius = m_map_radius * exp(-1.0 * iter / m_time_constant);
 
 		//--- цикл по всем узлам сети
-		for(int i=0; i<total_nodes; i++) {
+		for (int i = 0; i < total_nodes; i++) {
 			//--- расчет квадрата расстояния до узла с индексом m_WinningNodeIndex
 			double DistToNodeSqr = (m_som_nodes->at(winningnode)->X() - m_som_nodes->at(i)->X()) * (m_som_nodes->at(winningnode)->X() - m_som_nodes->at(i)->X())
 			                	 + (m_som_nodes->at(winningnode)->Y() - m_som_nodes->at(i)->Y()) * (m_som_nodes->at(winningnode)->Y() - m_som_nodes->at(i)->Y());
@@ -153,14 +153,14 @@ void CSOM::Train() {
 			//--- если узел внутри окрестности, то пересчитываем веса
 			if(DistToNodeSqr < WS) {
 				//--- расчет степени влияния на узел
-				double influence = exp(-DistToNodeSqr/(2 * WS));
+				double influence = exp(-DistToNodeSqr / (2 * WS));
 
 				//--- корректировка узлов в направлении выбранного обучающего вектора
-				m_som_nodes->at(i)->AdjustWeights(&datavector,learning_rate,influence);
+				m_som_nodes->at(i)->AdjustWeights(&datavector, learning_rate, influence);
 			}
 	    }
 		//--- экспоненциальное (по iter) уменьшение коэффициента обучения
-		learning_rate = m_initial_learning_rate * exp(-1.0 * iter/m_iterations);
+		learning_rate = m_initial_learning_rate * exp(-1.0 * iter / m_iterations);
 
 		//--- увеличиваем счетчик итераций
 		iter++;
@@ -168,26 +168,27 @@ void CSOM::Train() {
 		cout << "\rIterations: " << iter << "/" << m_iterations;
 	}
 	//--- продолжаем цикл до тех пор, пока не будет выполнено заданное число итераций
-	while(iter<m_iterations);
+	while (iter < m_iterations);
 	cout << endl;
 }
 
 int CSOM::BestMatchingNode(vector<double> *vec) {
 
-	int min_ind=0;
+	int min_ind = 0;
 	double min_dist = m_som_nodes->at(min_ind)->CalculateDistance(vec);
 
 	int total_nodes = m_som_nodes->size();
-	for(int i=0; i<total_nodes; i++) {
-		if(m_som_nodes->at(i)->CalculateDistance(vec)<min_dist) {
-			min_dist=m_som_nodes->at(i)->CalculateDistance(vec);
-			min_ind=i;
+	for(int i = 0; i < total_nodes; i++)
+		if(m_som_nodes->at(i)->CalculateDistance(vec) < min_dist) {
+			min_dist = m_som_nodes->at(i)->CalculateDistance(vec);
+			min_ind = i;
 		};
-	}
+
 	return min_ind;
 }
 
 void CSOM::Load(string path_to_git, int num_of_commits, vector<string> parameters) {
+	
 	GitParser git(path_to_git, num_of_commits, parameters);
 
 	FILE* pFile = git.create_commit_file();
@@ -209,7 +210,7 @@ bool CSOM::LoadXML(string file) {
 	TiXmlDocument *xml_file = new TiXmlDocument(file);
 
 	if(!xml_file->LoadFile()) {
-		printf("Проблема с XML-файлом\n");
+		cout << "Bad XML file!" << endl;
 		return false;
 	}
 
@@ -269,9 +270,9 @@ void CSOM::SaveXML(string file) {
 string CSOM::ConvertRGBtoHex(int num) {
 	static string hexDigits = "0123456789ABCDEF";
 	string rgb;
-	for (int i=(3*2) - 1; i>=0; i--) {
+	for (int i = 5; i >= 0; i--)
 		rgb += hexDigits[((num >> i*4) & 0xF)];
-	}
+
 	return rgb;
 }
 
@@ -283,23 +284,23 @@ string CSOM::ConvertRGBtoHex(int r, int g, int b) {
 
 void CSOM::Render() {
 
-	int ind=0;
-	for(int i=0; i<m_xcells; i++) {
-		for(int j=0; j<m_ycells; j++) {
-			for(int k=0; k < m_dimension; k++) {
+	int ind = 0;
+	for (int i = 0; i < m_xcells; i++) {
+		for (int j = 0; j < m_ycells; j++) {
+			for (int k = 0; k < m_dimension; k++) {
 				//m_som_nodes[ind].GetCoordinates(x1,y1,x2,y2);
 				//printf("i = %d j = %d k = %d\n", i, j, k);
 				double range = m_max_values[k] - m_min_values[k];
-				double avg = 255*(m_som_nodes->at(ind)->GetWeight(k)-m_min_values[k])/range; 
-				string col = GetPalColor(avg); 
-				RenderCell(k,col,ind,(j%2==0));
+				double avg = 255 * (m_som_nodes->at(ind)->GetWeight(k) - m_min_values[k]) / range; 
+				string col = GetPalColor(avg);
+				RenderCell(k, col, ind, (j % 2 == 0));
 			}
 			if (m_dimension == 3) {
-				int r = (255*m_som_nodes->at(ind)->GetWeight(0)/(m_max_values[0]-m_min_values[0]));
-				int g = (255*m_som_nodes->at(ind)->GetWeight(1)/(m_max_values[1]-m_min_values[1]));
-				int b = (255*m_som_nodes->at(ind)->GetWeight(2)/(m_max_values[2]-m_min_values[2]));
-				string col=ConvertRGBtoHex(r,g,b);
-				RenderCell(3, col, ind, (j%2==0));
+				int r = (255 * m_som_nodes->at(ind)->GetWeight(0) / (m_max_values[0] - m_min_values[0]));
+				int g = (255 * m_som_nodes->at(ind)->GetWeight(1) / (m_max_values[1] - m_min_values[1]));
+				int b = (255 * m_som_nodes->at(ind)->GetWeight(2) / (m_max_values[2] - m_min_values[2]));
+				string col=ConvertRGBtoHex(r, g, b);
+				RenderCell(3, col, ind, (j % 2 == 0));
 			}
 			ind++;
 		}
@@ -333,13 +334,13 @@ void CSOM::Render() {
 	}
 	
 	//--- рисуем градиентную полосу для каждой из компонентных плоскостей
-	for(int m=0; m<m_dimension; m++) {
-		for(int k=m_ysize - 15; k<m_ysize; k++) {
-			for(int l=0; l<m_xsize; l++) {
-				int colind=round(l*255.0/m_xsize);
-				string col=GetPalColor(colind);
+	for (int m = 0; m < m_dimension; m++) {
+		for (int k = m_ysize - 15; k < m_ysize; k++) {
+			for (int l = 0; l < m_xsize; l++) {
+				int colind = round(l * 255.0 / m_xsize);
+				string col = GetPalColor(colind);
 				images->at(m).fillColor(col);
-				images->at(m).draw(DrawablePoint(l,k));
+				images->at(m).draw(DrawablePoint(l, k));
 			}
 		}
         
@@ -360,13 +361,13 @@ void CSOM::Render() {
 		images->at(m).draw(DrawableText(2, m_ysize - 5, min.str().c_str()));
 		images->at(m).draw(DrawableText(m_xsize - 20, m_ysize - 5, max.str().c_str()));
 
-		images->at(m).draw(DrawableText((m_xsize/2) - 5*(m_train_titles->at(m).size()/2), m_ysize - 5, m_train_titles->at(m)));
+		images->at(m).draw(DrawableText((m_xsize / 2) - 5 * (m_train_titles->at(m).size() / 2), m_ysize - 5, m_train_titles->at(m)));
 	}
 
 	// Создаем столько потоков, сколько требуется нарисовать картинок
 	pthread_t thread[m_dimension + 1];
 
-	for(int k=0; k < m_dimension; k++) {
+	for (int k = 0; k < m_dimension; k++) {
 		if (ShowTitles)
 			ShowPattern(&(images->at(k)));
 
@@ -399,7 +400,7 @@ void CSOM::Render() {
 	}
 
 	// дожидаемся завершения всех потоков
-	for(int k = 0; k < m_dimension; k++)
+	for (int k = 0; k < m_dimension; k++)
 		pthread_join(thread[k], NULL);
 
 	if (m_dimension == 3)
@@ -408,19 +409,19 @@ void CSOM::Render() {
 
 void CSOM::RenderCell(int img, string col, int ind, bool cell_even) {
 
-	int x1,y1,x2,y2;
-	m_som_nodes->at(ind)->GetCoordinates(x1,y1,x2,y2);
+	int x1, y1, x2, y2;
+	m_som_nodes->at(ind)->GetCoordinates(x1, y1, x2, y2);
 	
-	int x_size=abs(x2-x1);
-	int y_size=abs(y2-y1);
+	int x_size = abs(x2 - x1);
+	int y_size = abs(y2 - y1);
 	
 	if(cell_even) {
-		x1=x1+x_size/2;
-		x2=x2+x_size/2;
+		x1 = x1 + x_size / 2;
+		x2 = x2 + x_size / 2;
 	}
 
-	y1=y1+y_size/4;
-	y2=y2+y_size/4;
+	y1 = y1 + y_size / 4;
+	y2 = y2 + y_size / 4;
 
 	images->at(img).fillColor(col);
 	if (!ShowBorders)
@@ -435,12 +436,12 @@ void CSOM::RenderCell(int img, string col, int ind, bool cell_even) {
 
 	list<Coordinate> coords_of_hexagon;
 
-	coords_of_hexagon.push_back(Coordinate(x1,y1+y_size/4));
-	coords_of_hexagon.push_back(Coordinate(x1+x_size/2,y1-y_size/4));
-	coords_of_hexagon.push_back(Coordinate(x2,y1+y_size/4));
-	coords_of_hexagon.push_back(Coordinate(x2,y2-y_size/4));
-	coords_of_hexagon.push_back(Coordinate(x1+x_size/2,y2+y_size/4));
-	coords_of_hexagon.push_back(Coordinate(x1,y2-y_size/4));
+	coords_of_hexagon.push_back(Coordinate(x1, y1 + y_size / 4));
+	coords_of_hexagon.push_back(Coordinate(x1 + x_size / 2, y1 - y_size / 4));
+	coords_of_hexagon.push_back(Coordinate(x2, y1 + y_size / 4));
+	coords_of_hexagon.push_back(Coordinate(x2, y2 - y_size / 4));
+	coords_of_hexagon.push_back(Coordinate(x1 + x_size / 2, y2 + y_size / 4));
+	coords_of_hexagon.push_back(Coordinate(x1, y2 - y_size / 4));
 
 	images->at(img).draw(DrawablePolygon(coords_of_hexagon));
 }
@@ -451,8 +452,8 @@ void CSOM::ShowPattern(Image *image) {
 
 	for (int i = 0; i < m_total_training_sets; i++) {
 
-			for(int j = 0; j < m_dimension; j++) 
-				datavector.at(j) = m_training_sets_array->at(m_dimension*(i)+j);
+			for (int j = 0; j < m_dimension; j++) 
+				datavector.at(j) = m_training_sets_array->at(m_dimension*(i) + j);
 
 			int ind = BestMatchingNode(&datavector);
 
@@ -464,6 +465,6 @@ void CSOM::ShowPattern(Image *image) {
 			image->strokeAntiAlias(true);
 
 			image->fillColor("white");
-			image->draw(DrawableText(m_som_nodes->at(ind)->X(),m_som_nodes->at(ind)->Y(), m_dev_emails->at(i)) );
+			image->draw(DrawableText(m_som_nodes->at(ind)->X(), m_som_nodes->at(ind)->Y(), m_dev_emails->at(i)) );
 	}
 }
