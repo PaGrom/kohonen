@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<GitLinux>
+    <Parameter par="arm" />
+    <Parameter par="x86" />
+    <Parameter par="drivers" />
+    <Developer Email="agk@redhat.com" arm="0" x86="0" drivers="2" />
+    <Developer Email="airlied@redhat.com" arm="0" x86="0" drivers="1" />
+    <Developer Email="anton@enomsg.org" arm="2" x86="0" drivers="0" />
+    <Developer Email="axboe@kernel.dk" arm="0" x86="0" drivers="1" />
+    <Developer Email="bhelgaas@google.com" arm="0" x86="0" drivers="8" />
+    <Developer Email="broonie@opensource.wolfsonmicro.com" arm="0" x86="0" drivers="5" />
+    <Developer Email="bskeggs@redhat.com" arm="0" x86="0" drivers="3" />
+    <Developer Email="davem@davemloft.net" arm="0" x86="0" drivers="23" />
+    <Developer Email="gleb@redhat.com" arm="0" x86="2" drivers="0" />
+    <Developer Email="gregkh@linuxfoundation.org" arm="0" x86="0" drivers="2" />
+    <Developer Email="hpa@linux.intel.com" arm="0" x86="2" drivers="0" />
+    <Developer Email="jason@lakedaemon.net" arm="9" x86="0" drivers="0" />
+    <Developer Email="jkosina@suse.cz" arm="0" x86="0" drivers="5" />
+    <Developer Email="johannes.berg@intel.com" arm="0" x86="0" drivers="2" />
+    <Developer Email="linville@tuxdriver.com" arm="0" x86="0" drivers="1" />
+    <Developer Email="mturquette@linaro.org" arm="0" x86="0" drivers="1" />
+    <Developer Email="nab@linux-iscsi.org" arm="0" x86="0" drivers="2" />
+    <Developer Email="rafael.j.wysocki@intel.com" arm="0" x86="0" drivers="10" />
+    <Developer Email="rmk+kernel@arm.linux.org.uk" arm="14" x86="0" drivers="0" />
+    <Developer Email="rusty@rustcorp.com.au" arm="0" x86="0" drivers="2" />
+    <Developer Email="sage@inktank.com" arm="0" x86="0" drivers="1" />
+    <Developer Email="sameo@linux.intel.com" arm="0" x86="0" drivers="1" />
+    <Developer Email="tomi.valkeinen@ti.com" arm="0" x86="0" drivers="2" />
+    <Developer Email="torvalds@linux-foundation.org" arm="0" x86="0" drivers="6" />
+    <Developer Email="vinod.koul@intel.com" arm="0" x86="0" drivers="3" />
+</GitLinux>
