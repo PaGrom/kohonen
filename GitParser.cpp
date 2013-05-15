@@ -24,7 +24,7 @@ FILE* GitParser::create_source_file(string commit) {
 	return popen(command.str().c_str(), "r");
 }
 
-vector<string> GitParser::find_path(FILE* source_file) {
+vector<string> GitParser::find_path(FILE *source_file) {
 	if (source_file == NULL) {
 		cout << "Error opening soure_file" << endl;;
 		exit(EXIT_FAILURE);
@@ -35,7 +35,7 @@ vector<string> GitParser::find_path(FILE* source_file) {
 
 	while (!feof(source_file)) {
 		if (fgets(line, 200, source_file) != NULL ) {
-			string str = (char*) line;
+			string str = (char*)line;
 			str.erase(remove(str.begin(), str.end(), '\n'), str.end());
 
 			if (str.length())
@@ -70,16 +70,16 @@ void GitParser::read_file(FILE* pFile) {
 
 	fclose(pFile);
 
-	for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it)
+	for (map<string, Maintainer*>::iterator it = maintainers.begin(); it != maintainers.end(); ++it)
 		while (it->second->commits_size()) {
 			string str = it->second->pop_commit();
 			str.erase(remove(str.begin(), str.end(), '\n'), str.end()); // Удаляем знак новой строки
-			FILE* source_file = create_source_file(str);
+			FILE *source_file = create_source_file(str);
 			it->second->add_files(find_path(source_file));
 			fclose(source_file);
 		}
 
-	for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it)
+	for (map<string, Maintainer*>::iterator it = maintainers.begin(); it != maintainers.end(); ++it)
 		it->second->calculate(parameters);
 }
 
@@ -101,7 +101,7 @@ vector<string> GitParser::get_emails() {
 
 vector<int> GitParser::calc_training_array() {
 	vector<int> training_array;
-	for (map<string, Maintainer*>::iterator it=maintainers.begin(); it!=maintainers.end(); ++it) {
+	for (map<string, Maintainer*>::iterator it = maintainers.begin(); it != maintainers.end(); ++it) {
 		if ((*it).second->get_sum() == 0) // If maintainer doesn't have commits with our parametres, we skip him
 			continue;
 		vector<int> nums = (*it).second->get_nums();
