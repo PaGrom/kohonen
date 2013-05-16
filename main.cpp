@@ -400,7 +400,7 @@ int main(int argc, char **argv) {
 		}
 		else {
 			cout << "Loading parameters from " << path_to_git << "..." << endl;
-			som.Load(path_to_git, num_of_commits, patterns);
+			som.LoadGIT(path_to_git, num_of_commits, patterns);
 			if (save_xml) {
 				cout << "Saving data to " << save_xml_file << "..." << endl;
 				som.SaveXML(save_xml_file);
