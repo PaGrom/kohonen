@@ -376,6 +376,13 @@ bool check_parameters() {
 		count++;
 	}
 
+	if (load_xml) {
+		if (load_xml_file.compare(load_xml_file.length() - 4, 4, ".xml") != 0) {
+			cout << "Error: wrong load_xml name!" << endl;
+			count++;
+		}
+	}
+
 	if (count) {
 		cout << "Try to use --help" << endl;
 		return false;
