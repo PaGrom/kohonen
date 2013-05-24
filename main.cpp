@@ -154,7 +154,7 @@ void parse_commandline(int argc, char **argv) {
 
 	opterr = 0;
 
-	const char* short_options = "C:hn:P:btc:i:D:p:I:S:L:";
+	const char* short_options = "C:hn:P:btc:i:D:p:I:S:L:o";
 
 	const struct option long_options[] = {
 		{"config", no_argument, NULL, 'C'},
@@ -170,6 +170,7 @@ void parse_commandline(int argc, char **argv) {
 		{"iterations", required_argument, NULL, 'I'},
 		{"save_xml", required_argument, NULL, 'S'},
 		{"load_xml", required_argument, NULL, 'L'},
+		{"organisations", no_argument, NULL, 'o'},
 		{NULL,0,NULL,0}
 	};
 
@@ -193,6 +194,7 @@ void parse_commandline(int argc, char **argv) {
 				cout << "   -p,\t--patterns <pattern_1,...>\tSetup patterns." << endl;
 				cout << "   -S,\t--save_xml <file_name>\t\tSave data to xml." << endl;
 				cout << "   -L,\t--load_xml <file_name>\t\tLoad data from xml." << endl;
+				cout << "   -o,\t--organisations\t\t\tParse organisations domains" << endl;
 				cout << "   -h,\t--help\t\t\t\tPrint this message and exit." << endl;
 				exit(0);
 				break;
@@ -260,6 +262,10 @@ void parse_commandline(int argc, char **argv) {
 				Lvalue = optarg;
 				load_xml_file = (char*)Lvalue;
 				load_xml = true;
+				break;
+
+			case 'o':
+				organisations = true;
 				break;
 
 			case '?':
