@@ -48,6 +48,9 @@ int num_of_commits;
 // список названий обучающих паттерно
 vector<string> patterns;
 
+// парсинг только по доменам организвций, в не по всему email-адресу
+bool organisations = false;
+
 // имя xml-файла для сохранения данных
 string save_xml_file;
 // имя xml-файла для загрузки данных
@@ -376,7 +379,7 @@ bool check_parameters() {
 		count++;
 	}
 
-	// проверка на корректность именен xml-файлов
+	// проверка на корректность имен xml-файлов
 	if (load_xml) {
 		if (load_xml_file.compare(load_xml_file.length() - 4, 4, ".xml") != 0) {
 			cout << "Error: wrong load_xml name!" << endl;
@@ -414,7 +417,7 @@ int main(int argc, char **argv) {
 		}
 		else {
 			cout << "Loading parameters from " << path_to_git << "..." << endl;
-			som.LoadGIT(path_to_git, num_of_commits, patterns);
+			som.LoadGIT(path_to_git, num_of_commits, patterns, organisations);
 			if (save_xml) {
 				cout << "Saving data to " << save_xml_file << "..." << endl;
 				som.SaveXML(save_xml_file);

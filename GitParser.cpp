@@ -1,11 +1,12 @@
 #include "GitParser.hpp"
 
-GitParser::GitParser(string path_to_git, int number, vector<string> pars) {
+GitParser::GitParser(string path_to_git, int number, vector<string> pars, bool org) {
 	git_path = path_to_git;
 	git_log = "--pretty=tformat:'%cE %H'";
 	git_show = "--raw --name-only --pretty=tformat:''";
 	num_of_commits = number;
 	parameters = pars;
+	organisations = org;
 }
 
 GitParser::~GitParser() {
@@ -59,13 +60,19 @@ void GitParser::read_file(FILE* pFile) {
 	while (!feof(pFile))
 		if (fgets(line, 200, pFile) != NULL ) {
 			vector<string> vec = split((char*)line, ' ');
+			
+			string name;
+			if (organisations)
+				name = split(vec.at(0), '@').at(1);
+			else
+				name = vec.at(0);
 
-			if (!maintainers.count(vec.at(0))) { // Add new Maintainer if no item with current name
-				Maintainer* mnt = new Maintainer(vec.at(0));
-				maintainers[vec.at(0)] = mnt;
+			if (!maintainers.count(name)) { // Add new Maintainer if no item with current name
+				Maintainer* mnt = new Maintainer(name);
+				maintainers[name] = mnt;
 			}
 
-			maintainers[vec.at(0)]->add_commit(vec.at(1));
+			maintainers[name]->add_commit(vec.at(1));
 		}
 
 	fclose(pFile);

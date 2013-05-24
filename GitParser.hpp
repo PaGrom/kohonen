@@ -33,9 +33,11 @@ private:
 	vector<string> parameters;
 	//--- Информация о разработчиках
 	map<string, Maintainer*> maintainers;
+	// парсинг только по доменам организвций, в не по всему email-адресу
+	bool organisations;
 
 public:
-	GitParser(string path_to_git, int number, vector<string> pars);
+	GitParser(string path_to_git, int number, vector<string> pars, bool org);
 	~GitParser();
 
 	//--- Метод выполняет команду git log и возвращает файл с выводом

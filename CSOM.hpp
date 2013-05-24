@@ -77,7 +77,8 @@ public:
 	string GetPalColor(int ind);
 	void Train();
 	int BestMatchingNode(vector<double> *vec);
-	void LoadGIT(string path_to_git, int num_of_commits, vector<string> parameters);
+	void LoadGIT(string path_to_git, int num_of_commits, vector<string> parameters, 
+					bool organisations);
 	//--- загрузка данных для обучения из xml-файла
 	bool LoadXML(string xml_file);
 	//--- сохранение данных обучения в xml-файл

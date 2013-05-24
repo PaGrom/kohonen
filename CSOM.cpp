@@ -187,9 +187,10 @@ int CSOM::BestMatchingNode(vector<double> *vec) {
 	return min_ind;
 }
 
-void CSOM::LoadGIT(string path_to_git, int num_of_commits, vector<string> parameters) {
+void CSOM::LoadGIT(string path_to_git, int num_of_commits, vector<string> parameters, 
+					bool organisations) {
 	
-	GitParser git(path_to_git, num_of_commits, parameters);
+	GitParser git(path_to_git, num_of_commits, parameters, organisations);
 
 	FILE* pFile = git.create_commit_file();
 
