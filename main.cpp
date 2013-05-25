@@ -96,6 +96,14 @@ bool load_from_config(char* config_file) {
 					else
 						cout << "Config error: wrong value of titles. Must be true or false" << endl;
 				}
+				else if (key == "organisations") {
+					if (value == "true")
+						titles = true;
+					else if (value == "false")
+						titles = false;
+					else
+						cout << "Config error: wrong value of organisations. Must be true or false" << endl;
+				}
 				else if (key == "cells_xy") {
 					vector<string> v = split(value, 'x');
 					CellsX = atoi(v.at(0).c_str());
