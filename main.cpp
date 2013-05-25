@@ -393,10 +393,11 @@ bool check_parameters() {
 		}
 	}
 	else {
-		if (save_xml_file.compare(save_xml_file.length() - 4, 4, ".xml") != 0) {
-			cout << "Error: wrong save_xml name!" << endl;
-			count++;
-		}
+		if (save_xml)
+			if (save_xml_file.compare(save_xml_file.length() - 4, 4, ".xml") != 0) {
+				cout << "Error: wrong save_xml name!" << endl;
+				count++;
+			}
 	}
 
 	if (count) {
