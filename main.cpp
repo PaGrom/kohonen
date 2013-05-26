@@ -427,7 +427,7 @@ int main(int argc, char **argv) {
 			cout << "Loading parameters from " << load_xml_file << "..." << endl;
 			if(!som.LoadXML(load_xml_file))	{
 				cout << "Wrong " << load_xml_file << "!" << endl;
-				exit(0);
+				return 0;
 			}
 		}
 		else {
